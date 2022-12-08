@@ -2,7 +2,7 @@
 
 PopRT is a high-performance inference framework specifically for Graphcore IPU. It is responsible for deeply optimizing the trained models, generating executable program that can run on the Graphcore IPUs, and performing low-latency, high-throughput inference.
 
-## license
+## License
 
 Copyright (c) 2022 Graphcore Ltd
 
