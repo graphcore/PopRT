@@ -4,7 +4,7 @@ PopRT is a high-performance inference framework specifically for Graphcore IPU. 
 
 ## License
 
-Copyright (c) 2022 Graphcore Ltd
+Copyright (c) 2023 Graphcore Ltd
 
 Licensed under the Graphcore End User License Agreement.
 You can view the Graphcore EULA at https://docs.graphcore.ai/projects/eula
