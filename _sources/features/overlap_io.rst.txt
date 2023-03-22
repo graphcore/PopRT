@@ -1,0 +1,81 @@
+.. _features_overlap_io:
+
+使用 Overlap IO
+===============
+
+IPU 在执行推理模型时, 一般分成 3 个阶段:
+
+1. Load: 从 Host 拷贝输入数据到 IPU
+
+2. Compute: 模型计算
+
+3. Store: 从 IPU 拷贝结果数据到 Host
+
+这三个阶段是串行执行的, 也就是说在 Load/Store 阶段传输数据时, IPU 的计算资源是闲置状态. 这在一些输入输出数据比较大的模型中, 整个模型的性能是受 IO 限制的. 对于这种模型, 开启 Overlap IO 能够使计算阶段和 IO 阶段重叠起来, 提高 IPU 的计算资源利用率.
+
+原理
+----
+
+Overlap IO 的原理是通过把 IPU 的片上所有 Tile 划分成两组, 即 Compute Tiles 和 IO Tiles, Compute Tiles 专门处理计算, 而 IO Tiles 专门负责与 Host 之间进行数据拷贝. 这样, 对于一个计算流来说, Load, Compute, Store 三个阶段组成了一个三级的 pipeline, 从而使计算和 IO 重叠起来, 提高 IPU 计算资源的利用率.
+
+.. figure:: ../../images/overlap_io_pipeline.png
+    :align: center
+    :width: 90%
+
+    Load/Compute/Store 组成的 pipeline
+
+配置 IO Tiles
+-------------
+
+Overlap IO 的开启只需要设置一个参数, 即 IO Tiles 的数量. 可以调整 IO Tiles 的数量来优化传输的吞吐量. 要计算 IO Tiles 的数量, 可以用所有输入输出的 Tensor 大小之和除以每个 Tile 可用的 SRAM 大小, 然后四舍五入到下一个 2 的幂次方.
+
+* 通过 PopRT CLI 中 ``--num_io_tiles`` 来配置 IO Tiles:
+
+.. code-block:: console
+
+  python -m poprt.cli \
+      --input_model model.onnx \
+      --export_popef \
+      --output_dir model \
+      --num_io_tiles 128
+
+* 通过 ``poprt.compiler.CompilerOptions`` API 来配置 IO Tiles:
+
+.. code-block:: python
+
+  opts = poprt.compiler.CompilerOptions()
+  opts.num_io_tiles = 128
+
+
+调试
+----
+
+通过 `PopVision Graph Analyser <https://docs.graphcore.ai/projects/graph-analyser-userguide/en/latest/index.html>`_ 工具, 可以观察 IO 和 Compute 是否重叠, 从而来判断 OverlapIO 是否生效, 以及通过调整 IO Tiles 的数量来优化模型的性能.
+
+.. figure:: ../../images/overlap_io.png
+    :align: center
+    :width: 90%
+
+    Overlap IO 使得 IO 和 Compute 互相掩盖
+
+
+并发请求
+--------
+
+由于通过 Overlap IO 把推理的 3 个阶段组成了一个三段式的流水线, 因此, 为了能维持流水线运行下去, 必须要有足够的并发数据喂给 IPU. 通过多线程的方式给 IPU 并发的喂数据, 至少需要启动 3 个线程.
+
+示例
+----
+
+下面是一个简单的 OverlapIO 的 example code:
+
+.. literalinclude:: ../../../examples/simple_overlapio.py
+  :name: simple_overlapio.py
+  :caption: simple_overlapio.py
+  :language: python
+  :linenos:
+  :emphasize-lines: 45, 81
+
+.. only:: html
+
+    :download:`Download simple_overlapio.py <../../../examples/simple_overlapio.py>`

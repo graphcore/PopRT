@@ -1,0 +1,151 @@
+.. _features_packing:
+
+使用 Packing
+============
+
+背景
+----
+
+当前 IPU 只支持静态图, 模型的输入 shape 需要是固定的, 动态 shape 会导致模型重新编译. 但在实际应用中, 尤其是自然语言处理类型的应用, 模型输入 sequence length 往往是动态的.
+这种情况下, 常规的处理方法是将这些变长数据都先 pad 到 max sequence length, 然后再输入到模型. 然而这种方法会带来很多无效计算, 导致算力的实际利用率低下. 在 IPU 上, 可以使用
+Packing 来支持 dynamic sequence length, 提高算力利用率.
+
+Packing 及 Unpacking
+--------------------
+
+这里通过例子来说明什么是 Packing 及 Unpacking. 假设模型输入长度最大是 8, batch size 是 4, 当前有 7 个不同长度的 batch size 为 1 的 request, 长度从 1 到 7, 0 表示 pad 的无效数据,
+则 Packing 及 Unpacking 如下图所示:
+
+.. figure:: ../../images/packing_unpacking.png
+    :align: center
+    :width: 70%
+
+    Packing 及 Unpacking
+
+Transformer-based NLP Models
+----------------------------
+
+自 2017 年被提出以来, Transformer 结构应用领域不断扩展, 从最初的 NLP 扩展到今天的 ASR/CV/DLRM 等领域. Transformer 包含 Encoder 和 Decoder 部分,
+本文只关注 Encoder 部分. Transformer Encoder 结构如下图所示:
+
+.. figure:: ../../images/transformer_encoder.png
+    :align: center
+    :width: 30%
+
+    Transformer Encoder
+
+以 Bert 为例, Transformer Encoder 的输入 shape 通常为 (batch_size, seq_len, hidden_size). 在 Encoder 中, 除 Multi-Head Attention 模块外,
+其它模块的计算都只在最后一个维度进行, 因此针对这些模块, 可以通过 Packing 减少无效计算; 而 Multi-Head Attention 模块因为需要计算 token 之间的相关性,
+在不修改 mask 的情况下, 必须在 Unpacking 之后进行计算, 在 Multi-Head Attention 计算完成之后重新 Packing. 计算流程可以用如下伪代码表示:
+
+.. code-block:: console
+
+    packed_input from host
+    activation = packed_input
+    for encoer in encoders:
+        Unpacking
+        Attention
+        Packing
+        Add & LayerNorm
+        Feed-Forward
+        Add & LayerNorm
+        Update activation
+    Unpacking
+    unpacked_output to host
+
+
+如何使用 Packing
+----------------
+
+本节以 Bert-Base-Squad 为例进行说明, 本文使用的 OS 为 Ubuntu 20.04, Python 3.8.15. 本文完整示例参考 examples/packed_bert_example.
+
+下载模型
+^^^^^^^^
+
+在下载模型之前需要先安装依赖包, 命令如下:
+
+.. code-block:: console
+
+    pip install torch==1.10.0
+    pip install transformers[onnx]==4.25.1
+
+
+下载模型的命令如下:
+
+.. code-block:: console
+
+    python -m transformers.onnx --model=csarron/bert-base-uncased-squad-v1 . --feature question-answering
+
+
+转换模型
+^^^^^^^^
+
+通过上面命令下载的模型, 输入中不包含 position_ids, 而在 IPU 上使用 Packing 的时候, 需要首先在 host 端将输入进行 Pack,
+因此需要将 position_ids 加到模型的输入上. 代码如下:
+
+.. literalinclude::  ../../../examples/packed_bert_example/add_position_ids.py
+  :name: add_position_ids.py
+  :caption: add_position_ids.py
+  :language: python
+  :linenos:
+
+.. only:: html
+
+  :download:`Download add_position_ids.py <../../../examples/packed_bert_example/add_position_ids.py>`
+
+生成不使用 packing 模型:
+
+.. code-block:: console
+
+    python -m poprt.cli \
+        --input_model squad_bert_base_pos.onnx \
+        --output_model squad_bert_base_bs16_sl256.onnx \
+        --precision fp16 \
+        --input_shape input_ids=16,256 attention_mask=16,256 token_type_ids=16,256 position_ids=16,256
+
+生成 packing 模型:
+
+.. code-block:: console
+
+    python -m poprt.cli \
+        --input_model squad_bert_base_pos.onnx \
+        --output_model squad_bert_base_bs16_sl256_pack.onnx \
+        --precision fp16 \
+        --input_shape input_ids=16,256 attention_mask=16,256 token_type_ids=16,256 position_ids=16,256 \
+        --pack_args max_valid_num=40 segment_max_size=256
+
+其中, max_valid_num 用于指定 Unpacking 之后的最大 batch size, segment_max_size 表示最大的长度.
+
+运行模型
+^^^^^^^^
+
+运行模型的命令如下:
+
+.. code-block:: console
+
+    python packed_bert_example.py \
+        --model_with_packing squad_bert_base_bs16_sl256_pack.onnx \
+        --model_without_packing squad_bert_base_bs16_sl256.onnx
+
+完整的代码如下:
+
+.. literalinclude::  ../../../examples/packed_bert_example/packed_bert_example.py
+  :name: packed_bert_example.py
+  :caption: packed_bert_example.py
+  :language: python
+  :linenos:
+
+.. only:: html
+
+  :download:`Download add_position_ids.py <../../../examples/packed_bert_example/packed_bert_example.py>`
+
+运行完成后, 将输出类似如下信息:
+
+.. code-block:: console
+
+    [Original] Throughput: 1860.9792005501781 samples/s, Latency: 0.5373515188694 ms
+    ....
+    [Pack Offline] Throughput: 2830.8140869025283 samples/s, Latency: 0.3532552719116211 ms
+    ....
+    [Pack Online] Throughput: 2782.587696947809 samples/s, Latency : 0.3593777120113373 ms
+    ....

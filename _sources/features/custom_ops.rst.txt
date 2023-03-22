@@ -1,0 +1,80 @@
+.. _features_custom_ops:
+
+开发 Custom Operation
+=====================
+
+PopRT 支持用户开发自定义算子, 用于对 PopRT 做扩展.
+
+典型的应用场景是: 用户有一个 ONNX 模型, 其中某个算子在 PopRT 中不支持, 此时用户就可以编写一个自定义算子, 并编译成动态链接库, PopRT 支持通过命令行的方式把这个自定义算子动态链接进 PopRT.
+
+下面通过一个例子来描述为 PopRT 开发自定义算子的流程.
+
+编写自定义算子
+--------------
+
+由于 PopRT 是用 PopART 作为 backend, 因此为 PopRT 开发自定义算子的流程和 PopART 一致, 请参考 `Creating Custom OP in PopART <https://docs.graphcore.ai/projects/popart-user-guide/en/latest/custom_ops.html>`_.
+
+以名为 ``LeakyRelu`` 的自定义算子为例, 首先需要编写一个自定义算子的 C++ 代码:
+
+.. literalinclude:: ../../../examples/custom_op_example/leaky_relu_custom_op.cpp
+  :name: leaky_relu_custom_op.cpp
+  :caption: leaky_relu_custom_op.cpp
+  :language: cpp
+  :linenos:
+
+.. only:: html
+
+    :download:`Download leaky_relu_custom_op.cpp <../../../examples/custom_op_example/leaky_relu_custom_op.cpp>`
+
+编写 Makefile 并通过 ``make`` 命令生成 ``custom_ops.so``:
+
+.. literalinclude:: ../../../examples/custom_op_example/Makefile
+  :name: Makefile
+  :caption: Makefile
+  :linenos:
+
+.. only:: html
+
+    :download:`Download Makefile <../../../examples/custom_op_example/Makefile>`
+
+编写自定义算子的 Shape-Inference 文件:
+
+.. literalinclude:: ../../../examples/custom_op_example/custom_shape_inference.py
+  :name: custom_shape_inference.py
+  :caption: custom_shape_inference.py
+  :language: python
+  :linenos:
+
+.. only:: html
+
+    :download:`Download custom_shape_inference.py <../../../examples/custom_op_example/custom_shape_inference.py>`
+
+创建一个带有 ``LeakyRelu`` OP 的 ONNX 模型文件
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+通过 Python3 运行以下测试代码生成用于测试的 ONNX 模型文件 ``custom_op_test.onnx``:
+
+.. literalinclude:: ../../../examples/custom_op_example/create_onnx_with_custom_op.py
+  :name: create_onnx_with_custom_op.py
+  :caption: create_onnx_with_custom_op.py
+  :language: python
+  :linenos:
+
+.. only:: html
+
+    :download:`Download create_onnx_with_custom_op.py <../../../examples/custom_op_example/create_onnx_with_custom_op.py>`
+
+在 PopRT 中使用自定义算子
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+可以通过 PopRT 的命令行 ``--custom_library_so_paths`` 来动态链接自定义算子的库文件, 并通过 ``--custom_shape_inference`` 来注册自定义算子的 Shape-Inference.
+
+可以通过如下命令来执行上述生成的 ONNX 模型文件:
+
+.. code-block:: console
+
+  python -m poprt.cli \
+      --input_model custom_op_test.onnx \
+      --custom_library_so_paths custom_ops.so \
+      --custom_shape_inference custom_shape_inference.py \
+      --run

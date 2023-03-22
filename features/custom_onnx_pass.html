@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5.7. 开发 Custom ONNX Passes &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.8. 开发 Custom Patterns" href="custom_pattern.html" />
+    <link rel="prev" title="5.6. 开发 Custom Operation" href="custom_ops.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.0.2
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.1. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#wheel">2.2. 从 Wheel 包开始安装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.2.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#host">从 Host 开始</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#poplar-docker">从 Poplar Docker 镜像开始</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="using_fp8.html">5.1. 使用 FP8 数据类型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#ipu-fp8">5.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id1">5.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#fp32-fp8">5.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id2">5.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id3">5.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.2. 使用 Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id1">5.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#io-tiles">5.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id2">5.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id3">5.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id4">5.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.3. 使用 Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">5.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">5.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">5.4. 使用 Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">5.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">5.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">5.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">5.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.5. 多模型融合</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">5.5.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id2">5.5.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">5.6. 开发 Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#id1">5.6.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.7. 开发 Custom ONNX Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#custom-onnx-pass">5.7.1. 实现 Custom ONNX Pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#poprt-custom-onnx-pass">5.7.2. 在 PopRT 中使用 Custom ONNX Pass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#custom-pass-config">方法一: 通过 <code class="docutils literal notranslate"><span class="pre">--custom_pass_config</span></code> 指定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#python-poprt">方法二: 通过将 Python 文件放在 PopRT 安装目录下</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.8. 开发 Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">5.8.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">5.8.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.9. 开发 Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">5.9.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">5.9.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backend-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.backend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">7.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#modelrunner">7.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#packrunner">7.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#device">7.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">8. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="custom-onnx-passes">
+<span id="features-custom-onnx-pass"></span><h1><span class="section-number">5.7. </span>开发 Custom ONNX Passes<a class="headerlink" href="#custom-onnx-passes" title="Permalink to this headline"></a></h1>
+<p>Pass 是 PopRT 相对核心的一个模块, 目前模型转换和优化都是以 Pass 的形式实现的, Pass 需要按照正确的顺序才能实现预期的功能.
+目前 Pass 支持以 C++ 或者 Python 实现, 本教程将讲解如何以 Python 实现一个 Pass 并在 PopRT 使用.</p>
+<p>在阅读本教程之前, 用户需要对以下内容有一定的了解:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://onnx.ai/">ONNX</a></p></li>
+<li><p><a class="reference external" href="https://onnx.ai/onnx/api/">ONNX Python API</a></p></li>
+<li><p>所有 Custom ONNX Pass 均在 PopRT 内置转换流程之后运行. 换句话说, Custom ONNX Pass 针对的是 PopRT 使用默认或自选参数转换后得到的 ONNX 模型, 而非原模型.</p></li>
+<li><p>建议在编写 Custom ONNX Pass 使用 PopRT 转换得到 Custom ONNX Pass 的目标 ONNX 模型, 针对目标模型编写 Custom ONNX Pass.</p></li>
+<li><p>多个 Custom ONNX Pass 要注意相互之间的顺序依赖.</p></li>
+</ul>
+</div>
+<section id="custom-onnx-pass">
+<h2><span class="section-number">5.7.1. </span>实现 Custom ONNX Pass<a class="headerlink" href="#custom-onnx-pass" title="Permalink to this headline"></a></h2>
+<p>要在 PopRT 中实现一个 Custom ONNX Pass, 需要编写至少一个 Python 文件. 示例代码如下:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="kn">from</span> <span class="nn">poprt.base_pass</span> <span class="kn">import</span> <span class="n">Pass</span><span class="p">,</span> <span class="n">register</span>
+
+
+<span class="nd">@register</span><span class="p">(</span><span class="s1">&#39;replace_add_with_sub&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ReplaceAddwithSub</span><span class="p">(</span><span class="n">Pass</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Replace Add with Sub.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="c1"># must implement __call__ method, onnx in onnx out</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_model</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">onnx_model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op_type</span> <span class="o">==</span> <span class="s1">&#39;Add&#39;</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">op_type</span> <span class="o">=</span> <span class="s1">&#39;Sub&#39;</span>
+
+        <span class="k">return</span> <span class="n">onnx_model</span>
+
+
+<span class="c1"># optional implement, return instance of ReplaceAddwithSub</span>
+<span class="k">def</span> <span class="nf">get_pass</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">ReplaceAddwithSub</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>实现 Custom ONNX Pass, 通常需要实现以下三部分:</p>
+<ul class="simple">
+<li><p>继承 <code class="docutils literal notranslate"><span class="pre">Pass</span></code> 并实现其 <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 方法. <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 方法遵循 <code class="docutils literal notranslate"><span class="pre">ONNX</span> <span class="pre">in</span> <span class="pre">ONNX</span> <span class="pre">out</span></code> 的原则. 在 <code class="docutils literal notranslate"><span class="pre">__call__</span></code> 方法里, 可以实现想要的功能.</p></li>
+<li><p>注册 <code class="docutils literal notranslate"><span class="pre">Pass</span></code> 到 <code class="docutils literal notranslate"><span class="pre">PassManager</span></code>.</p></li>
+<li><p>实现 <code class="docutils literal notranslate"><span class="pre">get_pass</span></code> 方法, 这部分是可选的, 取决于使用哪种方法在 PopRT 里执行 Custom ONNX Pass. 后面会介绍使能 Custom ONNX Pass 的方法.</p></li>
+</ul>
+</section>
+<section id="poprt-custom-onnx-pass">
+<h2><span class="section-number">5.7.2. </span>在 PopRT 中使用 Custom ONNX Pass<a class="headerlink" href="#poprt-custom-onnx-pass" title="Permalink to this headline"></a></h2>
+<p>目前有两种方法可以在 PopRT 中使用 Custom ONNX Pass.</p>
+<section id="custom-pass-config">
+<h3>方法一: 通过 <code class="docutils literal notranslate"><span class="pre">--custom_pass_config</span></code> 指定<a class="headerlink" href="#custom-pass-config" title="Permalink to this headline"></a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m poprt.cli \</span>
+<span class="go">    --input_model single_add.onnx \</span>
+<span class="go">    --input_shape input_ids=4,384 \</span>
+<span class="go">    --custom_pass_config examples/custom_pass/replace_add_with_sub.py</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li><p>以这种方法执行的 Custom ONNX Pass 必须实现 <code class="docutils literal notranslate"><span class="pre">get_pass</span></code> 这个方法.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--custom_pass_config</span></code> 可指定多个 Python 文件, <code class="docutils literal notranslate"><span class="pre">Pass</span></code> 的调用顺序和文件顺序相同. 例如:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">--custom_pass_config test_pass.py,test_pass_2.py,test_pass_3.py</span>
+</pre></div>
+</div>
+</li>
+<li><p>每个 Python 文件仅支持包含一个 <code class="docutils literal notranslate"><span class="pre">Pass</span></code>.</p></li>
+</ul>
+</div>
+</section>
+<section id="python-poprt">
+<h3>方法二: 通过将 Python 文件放在 PopRT 安装目录下<a class="headerlink" href="#python-poprt" title="Permalink to this headline"></a></h3>
+<p>这种方法不需要实现 <code class="docutils literal notranslate"><span class="pre">get_pass</span></code> 方法, 但是还需要执行以下步骤:</p>
+<ol class="arabic simple">
+<li><p>将 Python 文件放置到 <code class="docutils literal notranslate"><span class="pre">poprt/passes</span></code> 目录下, 可以通过以下方法获取目录:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">poprt</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">poprt</span><span class="o">.</span><span class="n">passes</span><span class="o">.</span><span class="n">__path__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">poprt/passes/__init__.py</span></code> 文件中 <code class="docutils literal notranslate"><span class="pre">import</span></code> 自己实现的 <code class="docutils literal notranslate"><span class="pre">Pass</span></code>, 示例代码如下:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.replace_add_with_sub</span> <span class="kn">import</span> <span class="n">ReplaceAddwithSub</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>在执行完以上步骤后, 可以通过 <code class="docutils literal notranslate"><span class="pre">--passes</span></code> 来执行刚加入的 <code class="docutils literal notranslate"><span class="pre">Pass</span></code>, 示例如下:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m poprt.cli \</span>
+<span class="go">    --input_model single_add.onnx \</span>
+<span class="go">    --passes replace_add_with_sub</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Pass</span></code> 的调用顺序和 <code class="docutils literal notranslate"><span class="pre">--passes</span></code> 指定的顺序相同.</p></li>
+<li><p>Python 文件支持放入多个 <code class="docutils literal notranslate"><span class="pre">Pass</span></code>, 每个 <code class="docutils literal notranslate"><span class="pre">Pass</span></code> 均需要加入 <code class="docutils literal notranslate"><span class="pre">poprt/passes/__init__.py</span></code>.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom_ops.html" class="btn btn-neutral float-left" title="5.6. 开发 Custom Operation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="custom_pattern.html" class="btn btn-neutral float-right" title="5.8. 开发 Custom Patterns" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

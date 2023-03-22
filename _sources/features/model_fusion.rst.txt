@@ -1,0 +1,91 @@
+.. _features_model_fusion:
+
+多模型融合
+==========
+
+对于 Poplar 来说, 模型会先编译成在 IPU 上可执行的二进制 executable, 然后加载到 IPU 中执行.
+由于 Poplar 目前只支持同一时刻加载一个 executable, 如果在一颗 IPU 上执行多个模型, 会造成反复加载不同的 executable, 从而导致性能急剧下降.
+
+模型融合功能, 是在编译阶段, 将多个用户模型融合成一个模型, 每个模型作为融合后模型的一个子图, 子图和子图之间通过分支算子隔离.
+在运行时, 通过输入模型索引来控制运行哪个子图, 可以大幅减少模型切换的延时.
+
+.. figure:: ../../images/model_fusion.png
+    :align: center
+    :width: 70%
+
+本教程将展示如何在 PopRT 中实现模型融合并运行. 在阅读本教程之前, 假设读者已经了解以下主题:
+
+- `PopRT Runtime 用户指南 <https://docs.graphcore.ai/projects/ipu-inference-toolkit-user-guide/zh_CN/latest/model_running.html#poprt-runtime>`_
+- `PopEF 用户指南 <https://docs.graphcore.ai/projects/popef/en/latest/index.html>`_
+
+实现 PopRT 模型融合
+-------------------
+
+目前该特性只支持通过 yaml 配置文件的方式来启动, 用户需要提供 yaml 格式的配置文件, 文件内定义有需要融合的 onnx 模型以及相关参数.
+
+yaml 文件示例如下:
+
+  .. literalinclude::  ../../../examples/model_fusion/config.yaml
+    :name: config.yaml
+    :caption: config.yaml
+    :language: yaml
+    :linenos:
+
+可以在 ``model_fusion`` 中为各模型配置独立的参数, 但请注意目前模型融合只支持两个模型. ``model_fusion`` 之外的参数是全局参数，它们会对每个待融合模型生效.
+
+例如, 示例中的 ``max_tensor_size = -1``, 因为它定义在全局参数中, 所以会作用于所有模型.
+
+融合后的模型需要通过 PopRT Runtime 来运行, 因此, 必须设置 ``export_popef`` 为 ``True`` 以生成 PopEF.
+
+此外, 为了保证后续推理代码的运行, 需要根据运行的设备, 正确设置 ``ipu_version``, 如 C600 平台, 需要设置  ``ipu21``.
+
+模型融合代码示例如下:
+
+  .. literalinclude::  ../../../examples/model_fusion/compile.py
+    :name: compile.py
+    :caption: compile.py
+    :language: python
+    :linenos:
+
+  .. only:: html
+
+    :download:`Download compile.py <../../../examples/model_fusion/compile.py>`
+
+此示例会创建上示 yaml 文件需要的 onnx 模型, 并调用 PopRT 读取上述 yaml 进行模型融合, 生成 yaml 中设置的 executable.popef.
+编译完成后, 可以通过 ``popef_dump`` 来查看融合模型的元数据, 它是后续运行时所需的必要信息.
+
+命令行示例如下:
+
+.. code-block:: console
+
+  popef_dump executable.popef
+
+成功运行上述命令后, 终端将会显示此 PopEF 文件的相关信息, 在 ``Anchors`` 关键字下, 可以看到编译后静态图的输入/输出名, 类型, 形状等信息,
+其中将会有名为 ``index`` 的输入, 用于控制子图的选择. 在 ``Opaques`` 关键字下, 可以看到更全面的模型融合信息,
+包含了各输入/输出的子图归属, 以及子图的索引, 以帮助用户正确指定要运行的子图.
+
+实现 PopRT Runtime 融合模型推理
+-------------------------------
+
+要运行 PopRT 模型融合编译得到的 PopEF 文件, 需要编写程序, 通过 PopRT Runtime 进行推理.
+
+程序示例如下:
+
+  .. literalinclude::  ../../../examples/model_fusion/run.py
+    :name: run.py
+    :caption: run.py
+    :language: python
+    :linenos:
+
+  .. only:: html
+
+    :download:`Download run.py <../../../examples/model_fusion/run.py>`
+
+此示例展示了如何运行前述生成的 PopEF 文件.
+
+第一步, 需要创建 ``RuntimeConfig`` 实例, 配置 ``ModelRunner`` 的运行参数.
+注意请务必设置 ``validate_io_params`` 为 ``False``, 由于融合图不需要为每个输入/输出处理数据, 如设置为 ``True``, 将会引发错误.
+
+第二步, 创建 ``ModelRunner`` 实例, 加载 PopEF 文件, 即可将模型加载到 IPU.
+
+第三步, 设置子图的输入/输出, 以及通过 ``index`` 指定子图, 如设置为 ``0`` 即可指定子图 0.

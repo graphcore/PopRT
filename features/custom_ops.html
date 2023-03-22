@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5.6. 开发 Custom Operation &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.7. 开发 Custom ONNX Passes" href="custom_onnx_pass.html" />
+    <link rel="prev" title="5.5. 多模型融合" href="model_fusion.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.0.2
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.1. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#wheel">2.2. 从 Wheel 包开始安装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.2.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#host">从 Host 开始</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#poplar-docker">从 Poplar Docker 镜像开始</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="using_fp8.html">5.1. 使用 FP8 数据类型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#ipu-fp8">5.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id1">5.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#fp32-fp8">5.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id2">5.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id3">5.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.2. 使用 Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id1">5.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#io-tiles">5.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id2">5.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id3">5.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id4">5.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.3. 使用 Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">5.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">5.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">5.4. 使用 Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">5.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">5.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">5.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">5.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.5. 多模型融合</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">5.5.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id2">5.5.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.6. 开发 Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">5.6.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">5.7. 开发 Custom ONNX Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#custom-onnx-pass">5.7.1. 实现 Custom ONNX Pass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#poprt-custom-onnx-pass">5.7.2. 在 PopRT 中使用 Custom ONNX Pass</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#custom-pass-config">方法一: 通过 <code class="docutils literal notranslate"><span class="pre">--custom_pass_config</span></code> 指定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#python-poprt">方法二: 通过将 Python 文件放在 PopRT 安装目录下</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.8. 开发 Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">5.8.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">5.8.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.9. 开发 Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">5.9.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">5.9.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backend-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.backend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">7.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#modelrunner">7.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#packrunner">7.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#device">7.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">8. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="custom-operation">
+<span id="features-custom-ops"></span><h1><span class="section-number">5.6. </span>开发 Custom Operation<a class="headerlink" href="#custom-operation" title="Permalink to this headline"></a></h1>
+<p>PopRT 支持用户开发自定义算子, 用于对 PopRT 做扩展.</p>
+<p>典型的应用场景是: 用户有一个 ONNX 模型, 其中某个算子在 PopRT 中不支持, 此时用户就可以编写一个自定义算子, 并编译成动态链接库, PopRT 支持通过命令行的方式把这个自定义算子动态链接进 PopRT.</p>
+<p>下面通过一个例子来描述为 PopRT 开发自定义算子的流程.</p>
+<section id="id1">
+<h2><span class="section-number">5.6.1. </span>编写自定义算子<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<p>由于 PopRT 是用 PopART 作为 backend, 因此为 PopRT 开发自定义算子的流程和 PopART 一致, 请参考 <a class="reference external" href="https://docs.graphcore.ai/projects/popart-user-guide/en/latest/custom_ops.html">Creating Custom OP in PopART</a>.</p>
+<p>以名为 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> 的自定义算子为例, 首先需要编写一个自定义算子的 C++ 代码:</p>
+<div class="literal-block-wrapper docutils container" id="leaky-relu-custom-op-cpp">
+<div class="code-block-caption"><span class="caption-number">Listing 5.8 </span><span class="caption-text">leaky_relu_custom_op.cpp</span><a class="headerlink" href="#leaky-relu-custom-op-cpp" title="Permalink to this code"></a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Copyright (c) 2020 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="c1">// This example demonstrates how to create a custom operator for PopART, in this</span>
+<span class="linenos">  4</span><span class="c1">// case a Leaky ReLU op that returns `x` for any element `x &gt;= 0` and `x *</span>
+<span class="linenos">  5</span><span class="c1">// alpha` for any element `x &lt; 0`, where `alpha` is provided as a scalar</span>
+<span class="linenos">  6</span><span class="c1">// attribute to the operator.</span>
+<span class="linenos">  7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;popart/operatoridentifier.hpp&gt;</span>
+<span class="linenos">  8</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;popart/opmanager.hpp&gt;</span>
+<span class="linenos">  9</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;popart/opserialiser.hpp&gt;</span>
+<span class="linenos"> 10</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;popart/popx/opxmanager.hpp&gt;</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;popops/ElementWise.hpp&gt;</span>
+<span class="linenos"> 13</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;popart/popx/opx.hpp&gt;</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="k">namespace</span><span class="w"> </span><span class="nn">CustomOperators</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 16</span><span class="k">const</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">OperatorIdentifier</span><span class="w"> </span><span class="n">LeakyReluId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">popart</span><span class="o">::</span><span class="n">Domain</span><span class="o">::</span><span class="n">ai_graphcore</span><span class="p">,</span>
+<span class="linenos"> 17</span><span class="w">                                                </span><span class="s">&quot;LeakyRelu&quot;</span><span class="p">,</span>
+<span class="linenos"> 18</span><span class="w">                                                </span><span class="mi">1</span><span class="p">};</span>
+<span class="linenos"> 19</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace CustomOperators</span>
+<span class="linenos"> 20</span>
+<span class="linenos"> 21</span><span class="k">class</span><span class="w"> </span><span class="nc">LeakyReluOp</span><span class="p">;</span>
+<span class="linenos"> 22</span><span class="k">class</span><span class="w"> </span><span class="nc">LeakyReluOpx</span><span class="p">;</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span><span class="k">class</span><span class="w"> </span><span class="nc">LeakyReluOp</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">Op</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 25</span><span class="k">public</span><span class="o">:</span>
+<span class="linenos"> 26</span><span class="w">  </span><span class="n">LeakyReluOp</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">OperatorIdentifier</span><span class="w"> </span><span class="o">&amp;</span><span class="n">_opid</span><span class="p">,</span>
+<span class="linenos"> 27</span><span class="w">              </span><span class="kt">float</span><span class="w"> </span><span class="n">_alpha</span><span class="p">,</span>
+<span class="linenos"> 28</span><span class="w">              </span><span class="k">const</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">Op</span><span class="o">::</span><span class="n">Settings</span><span class="w"> </span><span class="o">&amp;</span><span class="n">settings_</span><span class="p">)</span>
+<span class="linenos"> 29</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">Op</span><span class="p">(</span><span class="n">_opid</span><span class="p">,</span><span class="w"> </span><span class="n">settings_</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="p">(</span><span class="n">_alpha</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Op</span><span class="o">&gt;</span><span class="w"> </span><span class="n">clone</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 32</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">LeakyReluOp</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+<span class="linenos"> 33</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 34</span>
+<span class="linenos"> 35</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">setup</span><span class="p">()</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">outInfo</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inInfo</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">appendAttributes</span><span class="p">(</span><span class="n">popart</span><span class="o">::</span><span class="n">OpSerialiserBase</span><span class="w"> </span><span class="o">&amp;</span><span class="n">os</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 38</span><span class="w">    </span><span class="n">Op</span><span class="o">::</span><span class="n">appendAttributes</span><span class="p">(</span><span class="n">os</span><span class="p">);</span>
+<span class="linenos"> 39</span><span class="w">    </span><span class="n">os</span><span class="p">.</span><span class="n">appendAttribute</span><span class="p">(</span><span class="s">&quot;alpha&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getAlpha</span><span class="p">());</span>
+<span class="linenos"> 40</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">appendOutlineAttributes</span><span class="p">(</span><span class="n">popart</span><span class="o">::</span><span class="n">OpSerialiserBase</span><span class="w"> </span><span class="o">&amp;</span><span class="n">os</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="n">Op</span><span class="o">::</span><span class="n">appendOutlineAttributes</span><span class="p">(</span><span class="n">os</span><span class="p">);</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="n">os</span><span class="p">.</span><span class="n">appendAttribute</span><span class="p">(</span><span class="s">&quot;alpha&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getAlpha</span><span class="p">());</span>
+<span class="linenos"> 45</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">getSubgraphValue</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">getHighSubgraphValue</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">requiresRandomSeed</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="w">  </span><span class="c1">// Attributes</span>
+<span class="linenos"> 52</span><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">getAlpha</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">alpha</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos"> 53</span>
+<span class="linenos"> 54</span><span class="k">private</span><span class="o">:</span>
+<span class="linenos"> 55</span><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">alpha</span><span class="p">;</span>
+<span class="linenos"> 56</span><span class="p">};</span>
+<span class="linenos"> 57</span>
+<span class="linenos"> 58</span><span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 59</span><span class="k">using</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">DataType</span><span class="p">;</span>
+<span class="linenos"> 60</span><span class="k">using</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">OpDefinition</span><span class="p">;</span>
+<span class="linenos"> 61</span>
+<span class="linenos"> 62</span><span class="k">static</span><span class="w"> </span><span class="n">OpDefinition</span><span class="o">::</span><span class="n">DataTypes</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">DataType</span><span class="o">::</span><span class="n">FLOAT16</span><span class="p">,</span><span class="w"> </span><span class="n">DataType</span><span class="o">::</span><span class="n">FLOAT</span><span class="p">};</span>
+<span class="linenos"> 63</span>
+<span class="linenos"> 64</span><span class="k">static</span><span class="w"> </span><span class="n">OpDefinition</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="n">leakyReluOpDef</span><span class="p">({</span><span class="n">OpDefinition</span><span class="o">::</span><span class="n">Inputs</span><span class="p">({{</span><span class="s">&quot;input&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">}}),</span>
+<span class="linenos"> 66</span><span class="w">                    </span><span class="n">OpDefinition</span><span class="o">::</span><span class="n">Outputs</span><span class="p">({{</span><span class="s">&quot;output&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">}}),</span>
+<span class="linenos"> 67</span><span class="w">                    </span><span class="n">OpDefinition</span><span class="o">::</span><span class="n">Attributes</span><span class="p">({{</span><span class="s">&quot;alpha&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;*&quot;</span><span class="p">}}})});</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="k">static</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">OpCreator</span><span class="o">&lt;</span><span class="n">LeakyReluOp</span><span class="o">&gt;</span><span class="w"> </span><span class="n">leakyReluOpCreator</span><span class="p">(</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="n">popart</span><span class="o">::</span><span class="n">OpDefinitions</span><span class="p">({{</span><span class="n">CustomOperators</span><span class="o">::</span><span class="n">LeakyReluId</span><span class="p">,</span><span class="w"> </span><span class="n">leakyReluOpDef</span><span class="p">}}),</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">OpCreatorInfo</span><span class="w"> </span><span class="o">&amp;</span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 72</span><span class="w">      </span><span class="c1">// default alpha is 10**(-2)</span>
+<span class="linenos"> 73</span><span class="w">      </span><span class="kt">float</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">getAttribute</span><span class="o">&lt;</span><span class="n">popart</span><span class="o">::</span><span class="n">Attributes</span><span class="o">::</span><span class="n">Float</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="linenos"> 74</span><span class="w">          </span><span class="s">&quot;alpha&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-2f</span><span class="p">);</span>
+<span class="linenos"> 75</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">LeakyReluOp</span><span class="o">&gt;</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">opid</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">.</span><span class="n">settings</span><span class="p">);</span>
+<span class="linenos"> 76</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos"> 77</span><span class="w">    </span><span class="nb">true</span><span class="p">);</span>
+<span class="linenos"> 78</span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+<span class="linenos"> 79</span>
+<span class="linenos"> 80</span><span class="k">namespace</span><span class="w"> </span><span class="nn">pe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">popops</span><span class="o">::</span><span class="nn">expr</span><span class="p">;</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span><span class="k">class</span><span class="w"> </span><span class="nc">LeakyReluOpx</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">popx</span><span class="o">::</span><span class="n">Opx</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 83</span><span class="k">public</span><span class="o">:</span>
+<span class="linenos"> 84</span><span class="w">  </span><span class="n">LeakyReluOpx</span><span class="p">(</span><span class="n">popart</span><span class="o">::</span><span class="n">Op</span><span class="w"> </span><span class="o">*</span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">popx</span><span class="o">::</span><span class="n">Devicex</span><span class="w"> </span><span class="o">*</span><span class="n">devicex</span><span class="p">)</span>
+<span class="linenos"> 85</span><span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">popx</span><span class="o">::</span><span class="n">Opx</span><span class="p">(</span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="n">devicex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 86</span><span class="w">    </span><span class="n">verifyOp</span><span class="o">&lt;</span><span class="n">LeakyReluOp</span><span class="o">&gt;</span><span class="p">(</span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">CustomOperators</span><span class="o">::</span><span class="n">LeakyReluId</span><span class="p">});</span>
+<span class="linenos"> 87</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">grow</span><span class="p">(</span><span class="n">poplar</span><span class="o">::</span><span class="n">program</span><span class="o">::</span><span class="n">Sequence</span><span class="w"> </span><span class="o">&amp;</span><span class="n">prog</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getOp</span><span class="o">&lt;</span><span class="n">LeakyReluOp</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="n">poplar</span><span class="o">::</span><span class="n">Tensor</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getInTensor</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos"> 94</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">op</span><span class="p">.</span><span class="n">getAlpha</span><span class="p">();</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="c1">// x &lt; 0.0f ? alpha * x : x</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pe</span><span class="o">::</span><span class="n">Select</span><span class="p">(</span><span class="n">pe</span><span class="o">::</span><span class="n">Mul</span><span class="p">(</span><span class="n">pe</span><span class="o">::</span><span class="n">Const</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span><span class="w"> </span><span class="n">pe</span><span class="o">::</span><span class="n">_1</span><span class="p">),</span>
+<span class="linenos"> 99</span><span class="w">                                 </span><span class="n">pe</span><span class="o">::</span><span class="n">_1</span><span class="p">,</span>
+<span class="linenos">100</span><span class="w">                                 </span><span class="n">pe</span><span class="o">::</span><span class="n">Lt</span><span class="p">(</span><span class="n">pe</span><span class="o">::</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">pe</span><span class="o">::</span><span class="n">Const</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">)));</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span><span class="w">    </span><span class="n">popops</span><span class="o">::</span><span class="n">mapInPlace</span><span class="p">(</span><span class="n">graph</span><span class="p">(),</span>
+<span class="linenos">103</span><span class="w">                       </span><span class="n">expression</span><span class="p">,</span>
+<span class="linenos">104</span><span class="w">                       </span><span class="p">{</span><span class="n">input</span><span class="p">},</span>
+<span class="linenos">105</span><span class="w">                       </span><span class="n">prog</span><span class="p">,</span>
+<span class="linenos">106</span><span class="w">                       </span><span class="n">debugContext</span><span class="p">(</span><span class="s">&quot;LeakyRelu&quot;</span><span class="p">),</span>
+<span class="linenos">107</span><span class="w">                       </span><span class="n">poplar</span><span class="o">::</span><span class="n">OptionFlags</span><span class="p">());</span>
+<span class="linenos">108</span>
+<span class="linenos">109</span><span class="w">    </span><span class="n">setOutTensor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span>
+<span class="linenos">110</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">111</span><span class="p">};</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span><span class="k">static</span><span class="w"> </span><span class="n">popart</span><span class="o">::</span><span class="n">popx</span><span class="o">::</span><span class="n">OpxCreator</span><span class="o">&lt;</span><span class="n">LeakyReluOpx</span><span class="o">&gt;</span>
+<span class="linenos">114</span><span class="w">    </span><span class="n">LeakyReluOpxCreator</span><span class="p">({</span><span class="n">CustomOperators</span><span class="o">::</span><span class="n">LeakyReluId</span><span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/5b83f74de987bbea1e40297fbcabc34a/leaky_relu_custom_op.cpp"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">leaky_relu_custom_op.cpp</span></code></a></p>
+<p>编写 Makefile 并通过 <code class="docutils literal notranslate"><span class="pre">make</span></code> 命令生成 <code class="docutils literal notranslate"><span class="pre">custom_ops.so</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="makefile">
+<div class="code-block-caption"><span class="caption-number">Listing 5.9 </span><span class="caption-text">Makefile</span><a class="headerlink" href="#makefile" title="Permalink to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>CXX ?= g++
+<span class="linenos"> 2</span>CXXFLAGS = -std=c++14 -fPIC -g
+<span class="linenos"> 3</span>LDLIBS = -shared -lpopart
+<span class="linenos"> 4</span>ONNX_NAMESPACE = -DONNX_NAMESPACE=onnx
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>BUILD_DIR = build
+<span class="linenos"> 7</span>SOURCES = leaky_relu_custom_op.cpp
+<span class="linenos"> 8</span>TARGET = $(BUILD_DIR)/custom_ops.so
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>all: create_build_dir leaky_relu_custom_op
+<span class="linenos">11</span>
+<span class="linenos">12</span>.PHONY: create_build_dir
+<span class="linenos">13</span>create_build_dir:
+<span class="linenos">14</span>	mkdir -p $(BUILD_DIR)
+<span class="linenos">15</span>
+<span class="linenos">16</span>leaky_relu_custom_op: leaky_relu_custom_op.cpp
+<span class="linenos">17</span>	$(CXX) $(SOURCES)  $(LDLIBS) $(CXXFLAGS) $(ONNX_NAMESPACE) -o $(TARGET)
+<span class="linenos">18</span>
+<span class="linenos">19</span>.PHONY: clean
+<span class="linenos">20</span>clean:
+<span class="linenos">21</span>	rm -rf  $(BUILD_DIR)
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/8f6b42dc65984e312d8337b50f511ed4/Makefile"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Makefile</span></code></a></p>
+<p>编写自定义算子的 Shape-Inference 文件:</p>
+<div class="literal-block-wrapper docutils container" id="custom-shape-inference-py">
+<div class="code-block-caption"><span class="caption-number">Listing 5.10 </span><span class="caption-text">custom_shape_inference.py</span><a class="headerlink" href="#custom-shape-inference-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Copyright (c) 2022 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="kn">from</span> <span class="nn">poprt.passes.onnx_helper</span> <span class="kn">import</span> <span class="n">get_dtype</span><span class="p">,</span> <span class="n">get_shape</span>
+<span class="linenos"> 7</span><span class="kn">from</span> <span class="nn">poprt.passes.shape_inference</span> <span class="kn">import</span> <span class="n">ShapeInference</span><span class="p">,</span> <span class="n">register</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="nd">@register</span><span class="p">([</span><span class="s1">&#39;LeakyRelu&#39;</span><span class="p">])</span>
+<span class="linenos">11</span><span class="k">class</span> <span class="nc">LeakyRelu</span><span class="p">(</span><span class="n">ShapeInference</span><span class="p">):</span>
+<span class="linenos">12</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Function based on ONNX to infer the shape and dtype of Custom Op.&quot;&quot;&quot;</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">15</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+<span class="linenos">18</span>        <span class="bp">self</span><span class="p">,</span>
+<span class="linenos">19</span>        <span class="n">model</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">,</span>
+<span class="linenos">20</span>        <span class="n">node</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">NodeProto</span><span class="p">,</span>
+<span class="linenos">21</span>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="linenos">22</span>        <span class="n">graph</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span>
+<span class="linenos">23</span>        <span class="n">input_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">24</span>        <span class="n">output_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">25</span>        <span class="c1"># If the Op already has known shape and dtype of output, return True</span>
+<span class="linenos">26</span>        <span class="k">if</span> <span class="n">get_shape</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">output_name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">get_dtype</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">output_name</span><span class="p">):</span>
+<span class="linenos">27</span>            <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="kc">True</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span>        <span class="n">input_dtype</span> <span class="o">=</span> <span class="n">get_dtype</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">input_name</span><span class="p">)</span>
+<span class="linenos">30</span>        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">get_shape</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">input_name</span><span class="p">)</span>
+<span class="linenos">31</span>        <span class="c1"># If the Op is able to be inferred shape and dtype, return True</span>
+<span class="linenos">32</span>        <span class="k">if</span> <span class="n">input_dtype</span> <span class="ow">and</span> <span class="n">input_shape</span> <span class="ow">and</span> <span class="mi">0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_shape</span><span class="p">:</span>
+<span class="linenos">33</span>            <span class="c1"># ![Shape-Inference Function begin]</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span>            <span class="c1"># Step.1: Write the method following ONNX-Protobuf standard,</span>
+<span class="linenos">36</span>            <span class="c1">#         to calc shape and dtype of output in terms of shape and dtype of input</span>
+<span class="linenos">37</span>            <span class="c1"># The LeakyRelu Op has same shape and dtype with input and output</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span>            <span class="c1"># Step.2: Create new TensorProto with inferred shape and dtype of output</span>
+<span class="linenos">40</span>            <span class="n">output_tensor</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span>
+<span class="linenos">41</span>                <span class="n">output_name</span><span class="p">,</span> <span class="n">input_dtype</span><span class="p">,</span> <span class="n">input_shape</span>
+<span class="linenos">42</span>            <span class="p">)</span>
+<span class="linenos">43</span>            <span class="c1"># Step.3: Call update_value_info to update</span>
+<span class="linenos">44</span>            <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_value_info</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">output_tensor</span><span class="p">)</span>
+<span class="linenos">45</span>            <span class="c1"># Step.4: Call infer_shapes function</span>
+<span class="linenos">46</span>            <span class="n">model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">shape_inference</span><span class="o">.</span><span class="n">infer_shapes</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="linenos">47</span>            <span class="c1"># ![Shape-Inference Function end]</span>
+<span class="linenos">48</span>            <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="kc">True</span>
+<span class="linenos">49</span>        <span class="c1"># If the Op is not able to be inferred, return False</span>
+<span class="linenos">50</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">51</span>            <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/054c40502ad2c786e6c5f455efcae0a1/custom_shape_inference.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">custom_shape_inference.py</span></code></a></p>
+<section id="leakyrelu-op-onnx">
+<h3>创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件<a class="headerlink" href="#leakyrelu-op-onnx" title="Permalink to this headline"></a></h3>
+<p>通过 Python3 运行以下测试代码生成用于测试的 ONNX 模型文件 <code class="docutils literal notranslate"><span class="pre">custom_op_test.onnx</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="create-onnx-with-custom-op-py">
+<div class="code-block-caption"><span class="caption-number">Listing 5.11 </span><span class="caption-text">create_onnx_with_custom_op.py</span><a class="headerlink" href="#create-onnx-with-custom-op-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Copyright (c) 2022 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="kn">from</span> <span class="nn">onnx</span> <span class="kn">import</span> <span class="n">helper</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">def</span> <span class="nf">create_onnx_model_with_custom_op</span><span class="p">():</span>
+<span class="linenos">11</span>    <span class="n">TensorProto</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">TensorProto</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>    <span class="n">attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">}</span>
+<span class="linenos">14</span>    <span class="n">leaky_relu</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span>
+<span class="linenos">15</span>        <span class="s2">&quot;LeakyRelu&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;ai.graphcore&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">attributes</span>
+<span class="linenos">16</span>    <span class="p">)</span>
+<span class="linenos">17</span>    <span class="n">relu</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="s2">&quot;Relu&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">])</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span>    <span class="n">graph</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_graph</span><span class="p">(</span>
+<span class="linenos">20</span>        <span class="p">[</span><span class="n">leaky_relu</span><span class="p">,</span> <span class="n">relu</span><span class="p">],</span>
+<span class="linenos">21</span>        <span class="s2">&quot;custom_op_test&quot;</span><span class="p">,</span>
+<span class="linenos">22</span>        <span class="p">[</span>
+<span class="linenos">23</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)),</span>
+<span class="linenos">24</span>        <span class="p">],</span>
+<span class="linenos">25</span>        <span class="p">[</span>
+<span class="linenos">26</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)),</span>
+<span class="linenos">27</span>        <span class="p">],</span>
+<span class="linenos">28</span>    <span class="p">)</span>
+<span class="linenos">29</span>    <span class="n">opset_imports</span> <span class="o">=</span> <span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">make_opsetid</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+<span class="linenos">30</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_model</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">opset_imports</span><span class="o">=</span><span class="n">opset_imports</span><span class="p">)</span>
+<span class="linenos">31</span>    <span class="n">model</span><span class="o">.</span><span class="n">opset_import</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">onnx</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">make_opsetid</span><span class="p">(</span><span class="s2">&quot;ai.graphcore&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="linenos">32</span>    <span class="k">return</span> <span class="n">model</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">36</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+<span class="linenos">37</span>        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Convert onnx model and run it on IPU.&#39;</span>
+<span class="linenos">38</span>    <span class="p">)</span>
+<span class="linenos">39</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">40</span>        <span class="s1">&#39;--output_dir&#39;</span><span class="p">,</span>
+<span class="linenos">41</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+<span class="linenos">42</span>        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span>
+<span class="linenos">43</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path of the onnx model will be saved to.&quot;</span><span class="p">,</span>
+<span class="linenos">44</span>    <span class="p">)</span>
+<span class="linenos">45</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos">46</span>
+<span class="linenos">47</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">):</span>
+<span class="linenos">48</span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;--output_dir should be an exist folder&quot;</span><span class="p">)</span>
+<span class="linenos">49</span>
+<span class="linenos">50</span>    <span class="n">model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">,</span> <span class="s1">&#39;custom_op_test.onnx&#39;</span><span class="p">)</span>
+<span class="linenos">51</span>
+<span class="linenos">52</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">create_onnx_model_with_custom_op</span><span class="p">()</span>
+<span class="linenos">53</span>    <span class="n">onnx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model_path</span><span class="p">)</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span>    <span class="c1"># Convert and Run</span>
+<span class="linenos">56</span>    <span class="n">compile_cmd</span> <span class="o">=</span> <span class="s2">&quot;bash build.sh&quot;</span>
+<span class="linenos">57</span>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">compile_cmd</span><span class="p">)</span>
+<span class="linenos">58</span>    <span class="n">abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="linenos">59</span>    <span class="n">run_cmd</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;&quot;&quot;python -m poprt.cli \</span>
+<span class="linenos">60</span><span class="s2">--input_model </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2"> \</span>
+<span class="linenos">61</span><span class="s2">--custom_shape_inference </span><span class="si">{</span><span class="n">abs_path</span><span class="si">}</span><span class="s2">/custom_shape_inference.py \</span>
+<span class="linenos">62</span><span class="s2">--custom_library_so_paths </span><span class="si">{</span><span class="n">abs_path</span><span class="si">}</span><span class="s2">/custom_ops.so \</span>
+<span class="linenos">63</span><span class="s2">--run&quot;&quot;&quot;</span>
+<span class="linenos">64</span>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">run_cmd</span><span class="p">)</span>
+<span class="linenos">65</span>    <span class="c1"># 2022-12-30 07:01:54,408 INFO cli.py:446] Bs: 8</span>
+<span class="linenos">66</span>    <span class="c1"># 2022-12-30 07:01:54,408 INFO cli.py:449] Latency: 0.23ms</span>
+<span class="linenos">67</span>    <span class="c1"># 2022-12-30 07:01:54,408 INFO cli.py:450] Tput: 35469</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/1c8c5c7916b5530e57ca2b299c3eb611/create_onnx_with_custom_op.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">create_onnx_with_custom_op.py</span></code></a></p>
+</section>
+<section id="poprt">
+<h3>在 PopRT 中使用自定义算子<a class="headerlink" href="#poprt" title="Permalink to this headline"></a></h3>
+<p>可以通过 PopRT 的命令行 <code class="docutils literal notranslate"><span class="pre">--custom_library_so_paths</span></code> 来动态链接自定义算子的库文件, 并通过 <code class="docutils literal notranslate"><span class="pre">--custom_shape_inference</span></code> 来注册自定义算子的 Shape-Inference.</p>
+<p>可以通过如下命令来执行上述生成的 ONNX 模型文件:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m poprt.cli \</span>
+<span class="go">    --input_model custom_op_test.onnx \</span>
+<span class="go">    --custom_library_so_paths custom_ops.so \</span>
+<span class="go">    --custom_shape_inference custom_shape_inference.py \</span>
+<span class="go">    --run</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model_fusion.html" class="btn btn-neutral float-left" title="5.5. 多模型融合" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="custom_onnx_pass.html" class="btn btn-neutral float-right" title="5.7. 开发 Custom ONNX Passes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+.. _features_custom_pattern:
+
+开发 Custom Patterns
+====================
+
+Pattern 的概念来源于 PopART 框架, Pattern 的作用是在 PopART IR 上对 OP 做匹配, 并对匹配到的 OP 进行修改或替换, 是图优化的一种手段.
+对于 Custom PopART Pattern, 典型的应用场景是, 用户实现了某个高性能 OP, 并通过 Custom PopART Pattern 把某些有性能瓶颈的 OP 替换成这个高性能 OP, 从而提高整个模型的性能.
+
+本章帮助用户了解如何实现 Custom PopART Patterns 并在 PopRT 中使用.
+
+在阅读本教程之前, 需要首先了解以下主题:
+
+- `PopART 用户指南 <https://docs.graphcore.ai/projects/popart-user-guide/en/latest/index.html>`_
+
+实现 Custom PopART Patterns
+---------------------------
+
+要在 PopRT 中实现一个 Custom PopART Pattern, 需要编写至少一个 C++ 文件.
+
+示例代码如下, 这个例子将图中的 Relu Op 替换为 Negtive Op, 可以将它编译成独立的动态库并在使用 PopRT 的时候链接:
+
+.. literalinclude::  ../../../examples/custom_pattern_example/replace_relu_with_neg_pattern.cpp
+  :name: replace_relu_with_neg_pattern.cpp
+  :caption: replace_relu_with_neg_pattern.cpp
+  :language: cpp
+  :linenos:
+
+
+实现 Custom PopART Patterns, 通常需要实现以下两个部分:
+
+- 继承 ``PreAliasPattern`` 并实现其 ``apply`` 方法.
+- 通过 ``PatternCreator`` 注册该 Pattern.
+
+在 PopRT 中使用 Custom PopART Patterns
+--------------------------------------
+
+首先需要把 Pattern 的源码编译成动态链接库, 编译的命令示例如下:
+
+.. literalinclude::  ../../../examples/custom_pattern_example/build.sh
+  :language: console
+
+然后可以通过 PopRT CLI 的 ``--custom_library_so_paths`` 参数来链接包含 Custom Patterns 的动态库:
+
+.. code-block:: console
+
+  python -m poprt.cli  --custom_library_so_paths path/to/shared/library
+
+目前有两种方法可以在 PopRT 中使用 Custom PopART Patterns.
+
+方法一: 在 ``PatternCreator`` 设置 Pattern 默认使能
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+  static PatternCreator<ReplaceReluWithNeg>
+      ReplaceReluWithNegPatternCreator("ReplaceReluWithNeg",
+                                      /* default enabled = */ true);
+
+这种方法在编译期就确定 Pattern 的使用, 在链接这个 Pattern 的动态库之后会默认执行, 无法在运行时动态控制关闭.
+
+方法二: 通过 CLI 命令行参数启用指定的 Pattern
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+实例如下, 多个 Pattern 可以使用逗号 ``,`` 隔开
+
+.. code-block:: console
+
+  python -m poprt.cli \
+      --input_model model.onnx \
+      --output_model model_export.onnx \
+      --export_popef \
+      --output_dir model \
+      --custom_library_so_paths build/custom_patterns.so \
+      --compiler_options custom_patterns=ReplaceReluWithNeg
