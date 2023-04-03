@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPU 端 PACK &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.1.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">5. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using_fp8.html">5.1. 使用 FP8 数据类型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#ipu-fp8">5.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id1">5.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#fp32-fp8">5.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id2">5.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using_fp8.html#id3">5.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.2. 使用 Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id1">5.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#io-tiles">5.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id2">5.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id3">5.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id4">5.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.3. 使用 Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">5.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">5.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">5.4. 使用 Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">5.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">5.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">5.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">5.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.5. 多模型融合</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">5.5.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id2">5.5.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">5.6. 开发 Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#id1">5.6.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">5.7. 开发 Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id1">5.7.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id2">5.7.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.8. 开发 Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">5.8.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">5.8.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.9. 开发 Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">5.9.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">5.9.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual_sharding.html">5.10. 使用 Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#sharding">5.10.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#pipelining">5.10.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id3">5.10.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id4">5.10.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id5">5.10.5. 示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../passes.html">7. Passes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../passes.html#pass">7.1. Pass 抽象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../passes.html#poprt-pass">7.2. PopRT 中注册的 Pass</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">8. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">8.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">8.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#modelrunner">8.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#packrunner">8.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#device">8.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">9. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">10. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cpu-pack">
+<span id="features-cpu-pack"></span><h1>CPU 端 PACK<a class="headerlink" href="#cpu-pack" title="Permalink to this headline"></a></h1>
+<section id="id1">
+<h2>背景<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<p>IPU 运行的是静态图, 每次处理固定大小的输入数据. 如果输入长度是不固定的, 就需要进行额外的补0操作, 无法有效发挥 IPU 的数据处理能力.
+CPU pack 是通过 PackRunner 实现的, 专门为动态 sequence length 设计, 用户请求被 Pack 之后极大的减少了补0的数量, 再配合模型修改实现等价变换, 能够有效发挥IPU数据处理效率.</p>
+</section>
+<section id="id2">
+<h2>功能模块介绍<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<p>Pack 实质上是在固定时间内积攒用户不固定长度的请求, 然后把数据打包在一起, 一次性发给 IPU.</p>
+<section id="id3">
+<h3>1. 超时处理<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<p>为了能够一次性发给 IPU 更多的有效数据, 需要在一定时间段积攒 batch. 另外, 超时的设置是为了不让用户请求等待时间超过设定值.</p>
+</section>
+<section id="id4">
+<h3>2. 用户数据预处理<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<p>如果用户数据中已经进行了补0填充, 在预处理时会根据请求中的 mask 数据将用户填充的0数据去除.</p>
+</section>
+<section id="id5">
+<h3>3. 数据累积<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h3>
+<p>Pack 内部维护了一个队列, 用户请求将被入队列, 在超时模块发出请求或者 Pack 内数据达到最大值(达到最大条数或者即将超过模型输入大小)时 PackRunner 会把积攒的请求发往 IPU(出队列).</p>
+</section>
+<section id="pack">
+<h3>4. Pack 后处理<a class="headerlink" href="#pack" title="Permalink to this headline"></a></h3>
+<p>IPU 运算完成后会通知 pack 程序取数据, 将输出重新拷贝回用户地址, 用户程序得到的即是与输入相对应的结果, 无需做特殊的处理.
+pack 在做拷贝数据的时候分两种情况</p>
+<ol class="arabic simple">
+<li><p>网络中插入了 unpack 算子, 这个时候输出长度固定, 按照固定长度拷贝回来即可.</p></li>
+<li><p>网络中没有 unpack 算子, 这里默认拷回的输出长度等于输入数据的有效长度(输入去除了用户 pad 的长度).</p></li>
+</ol>
+<p>Pack功能模块示意图</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/pack_dataflow.png"><img alt="../_images/pack_dataflow.png" src="../_images/pack_dataflow.png" style="width: 60%;" /></a>
+</figure>
+</section>
+</section>
+<section id="id6">
+<h2>Pack 算法<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h2>
+<p>当前 cpu pack 支持首尾相连的 pack 方法, FirstFit pack 方法, NextFit pack 方法.</p>
+<p>Pack 内置了下面三种限制</p>
+<ul class="simple">
+<li><p>Pack 的数据总条数不能超过设置的 maxValidNum</p></li>
+<li><p>Pack 的总数据长度不能超过编译时模型输入的最大长度</p></li>
+<li><p>Pack 的第一条数据与最后一条数据到来的时间间隔不能超过用户设置的最大的值</p></li>
+</ul>
+<section id="id7">
+<h3>1. 首尾相连的 pack 方法<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
+<p>本方法是将数据首尾相连的拼接在一起, 直到达到设定的最大条数或者即将超出了输入的最大值(编译模型时输入大小),
+首尾相连的 pack 数据可以跨行, 需要在网络中插入 unpack repack 算子.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/head2tail.gif"><img alt="../_images/head2tail.gif" src="../_images/head2tail.gif" style="width: 45%;" /></a>
+</figure>
+</section>
+<section id="firstfit-pack">
+<h3>2. FirstFit pack 方法<a class="headerlink" href="#firstfit-pack" title="Permalink to this headline"></a></h3>
+<p>FirstFit pack 属于行内 pack, 也就是数据不可以跨行, 用户请求到来的时候会从第一行开始扫描, 直到找到一行可以放置下本条数据,
+如果无法找到则另起一行. 根据网络要求可能会需要在两条数据之间插入若干个0作为分隔符, 行内第一条数据之前不需要分割符号.
+FirstFit 虽然改变了用户请求在 pack 内的相对顺序, 因内置程序对结果顺序进行了调整, 对用户而言结果顺序与输入顺序是一致的.
+与 NextFit 相比 FirstFit 提升了空间利用率.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/firstfit.gif"><img alt="../_images/firstfit.gif" src="../_images/firstfit.gif" style="width: 45%;" /></a>
+</figure>
+</section>
+<section id="nextfit-pack">
+<h3>3. NextFit pack 方法<a class="headerlink" href="#nextfit-pack" title="Permalink to this headline"></a></h3>
+<p>NextFit pack 也是一种行内 pack, 数据不可以跨行. 用户请求到来的时候, 从上一条数据的末尾开始扫描直到找到一行可以放得下本条数据, 如果找不到则另起一行.
+同样的, pack 的总数据长度不可以超过编译时输入的的最大长度. 与 FirstFit 一样, 可能需要在两条数据之间插入分隔符.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/nextfit.gif"><img alt="../_images/nextfit.gif" src="../_images/nextfit.gif" style="width: 45%;" /></a>
+</figure>
+</section>
+</section>
+<section id="id8">
+<h2>示例<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h2>
+<p>PopRT 总共提供了两个端到端例子用以阐释如何在 IPU 上使用 pack, 每个例子都包含了上面介绍的三种 pack 算法以及相应的性能数据.</p>
+<ol class="arabic simple">
+<li><p>bert 的 pack 示例目录 <code class="code docutils literal notranslate"><span class="pre">examples/packed_bert_example</span></code></p></li>
+<li><p>deberta 的 pack 示例目录 <code class="code docutils literal notranslate"><span class="pre">examples/packed_deberta_example</span></code></p></li>
+</ol>
+<p>使用方法详见相应目录内README.md</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>
