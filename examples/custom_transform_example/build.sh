@@ -1,0 +1,9 @@
+g++ \
+    -std=c++14 \
+    -fPIC \
+    -O3 \
+    -DONNX_NAMESPACE=onnx \
+    ir_serialise_transform.cpp \
+    -shared \
+    -lpopart \
+    -o custom_transform.so
