@@ -1,0 +1,13 @@
+output_dir: './'
+output_model: 'executable'
+export_popef: True
+max_tensor_size: -1
+ipu_version: 'ipu21'
+model_fusion:
+  - input_model: 'model0.onnx'
+    input_shape: ['X=1,2', 'Y=1,2']
+    precision: 'fp32'
+
+  - input_model: 'model1.onnx'
+    input_shape: ['X=1,1']
+    precision: 'fp16'

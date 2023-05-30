@@ -1,0 +1,9 @@
+g++ \
+    -std=c++14 \
+    -fPIC \
+    -O3 \
+    -DONNX_NAMESPACE=onnx \
+    leaky_relu_custom_op.cpp \
+    -shared \
+    -lpopart \
+    -o custom_ops.so

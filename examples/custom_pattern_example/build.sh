@@ -1,0 +1,9 @@
+g++ \
+    -std=c++14 \
+    -fPIC \
+    -O3 \
+    -DONNX_NAMESPACE=onnx \
+    replace_relu_with_neg_pattern.cpp \
+    -shared \
+    -lpopart \
+    -o custom_pattern.so
