@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6.12. Auto Sharding &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.13. Error Handling" href="error_handling.html" />
+    <link rel="prev" title="6.11. Manual Sharding" href="manual_sharding.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.2.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../passes.html">5. Passes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../passes.html#pass">5.1. Pass 抽象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../passes.html#poprt-pass">5.2. PopRT 中注册的 Pass</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">6. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fp8.html">6.1. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#ipu-fp8">6.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id1">6.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp32-fp8">6.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id2">6.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id3">6.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">6.2. Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id1">6.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#io-tiles">6.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id2">6.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id3">6.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id4">6.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">6.3. Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">6.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">6.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">6.4. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">6.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">6.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">6.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">6.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_packing.html">6.5. CPU Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id1">6.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id2">6.5.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id6">6.5.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id8">6.5.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">6.6. Model Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">6.6.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id1">6.6.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">6.7. Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#id1">6.7.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">6.8. Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id1">6.8.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id2">6.8.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">6.9. Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">6.9.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">6.9.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">6.10. Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">6.10.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">6.10.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual_sharding.html">6.11. Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#sharding">6.11.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#pipelining">6.11.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id3">6.11.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id4">6.11.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id5">6.11.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.12. Auto Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">6.12.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">6.12.2. Auto Sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">6.12.3. Auto Sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html">6.13. Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id1">6.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id2">6.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">6.14. PopRT Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#onnx-frontend">6.14.1. ONNX Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#tensorflow-frontend">6.14.2. TensorFlow Frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">7. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">7.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">7.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">7.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-frontend-module">7.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">7.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">7.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">8. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">8.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">8.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#modelrunner">8.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#packrunner">8.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#device">8.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">9. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">10. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="auto-sharding">
+<span id="features-auto-sharding"></span><h1><span class="section-number">6.12. </span>Auto Sharding<a class="headerlink" href="#auto-sharding" title="Permalink to this headline"></a></h1>
+<p>PopRT Auto Sharding 支持自动选择模型切分点, 实现模型并行.</p>
+<section id="id1">
+<h2><span class="section-number">6.12.1. </span>模型并行<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<p>PopRT 支持根据用户提供的切分点将 ONNX graph 切分到不同的设备实现模型并行, 适用于超出单个设备内存限制, 需要占用多个设备的大模型.</p>
+<p>参考: <a class="reference external" href="https://docs.graphcore.ai/projects/tf-model-parallelism/en/latest/sharding.html">Sharding 原理说明</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>使用模型并行, 需要对 PopRT backend options 进行如下设置:</p>
+<ul class="simple">
+<li><p>options.virtual_graph_mode = “manual”</p></li>
+<li><p>options.num_ipus = 设备数量</p></li>
+</ul>
+</div>
+</section>
+<section id="id2">
+<h2><span class="section-number">6.12.2. </span>Auto Sharding 原理介绍<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<p>Auto Sharding 基于 <a class="reference internal" href="manual_sharding.html#features-manual-sharding"><span class="std std-ref">Manual Sharding</span></a> 增加切分方案遍历策略.</p>
+<section id="id3">
+<h3>备选点策略<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h3>
+<p>Auto Sharding 会从 ONNX graph 中选择切分备选点. 选择策略是: 选取 ONNX graph 中拥有多个中间输入的 node, 中间输入不包含模型输入和常量输入.</p>
+<p>备选点列表满足拓扑排序, 从每个备选点向其输入方向遍历找到该备选点对应的子图.</p>
+<p>每个备选点对应一个子图, 每个子图记录对应的 <strong>内存(bytes_cost)</strong> 和 <strong>计算量(FLOPs_cost)</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>内存(bytes_cost)</strong>: 子图中所有 node 的 initializer 输入大小的总和.</p></li>
+<li><p><strong>计算量(FLOPs_cost)</strong>: 子图中所有 node 的 FLOPs 的总和, 通过 <code class="docutils literal notranslate"><span class="pre">poprt.profile.Profiler().get_profiler()</span></code> 获得每个 node 对应的 FLOPs.</p></li>
+</ul>
+</div></blockquote>
+<p>合并内存或计算量较小的备选点, 减少备选点数量, 提高切分方案遍历效率.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>切分方案遍历策略是以备选点对应的 <strong>子图</strong> 为最小单位进行遍历. 子图列表依旧满足拓扑排序.</p>
+</div>
+<p>如下图所示, 备选点是 Op1, Op2, Op7. Op1 对应的子图是 [Op1, Op0, Op4], Op2 对应的子图是 [Op2, Op5, Op6], Op7 对应的子图是 [Op7, Op3, Op8]. 从左图转化为右图进行遍历.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_subgraph.png"><img alt="../_images/auto_sharding_subgraph.png" src="../_images/auto_sharding_subgraph.png" style="width: 50%;" /></a>
+</figure>
+</section>
+<section id="id4">
+<h3>切分方案遍历策略<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<p>Auto Sharding 会从备选点中选择切分方案</p>
+<ol class="arabic simple">
+<li><p>初始切分: 子图列表满足拓扑排序, 直接对子图列表按子图 <strong>内存(bytes_cost)</strong> 进行切分, 保证内存均衡. 如下, 将子图列表切分成4个 <strong>子图组</strong> , 每个 <strong>子图组</strong> 对应1个 IPU.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">| subgraph, subgraph, … | subgraph, subgraph, subgraph … | subgraph … | subgraph, subgraph… |</span>
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p>遍历策略:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>从初始方案开始遍历.</p></li>
+<li><p>如果出现 OOM, 将按照内存调整 OOM 的 IPU 对应的 <strong>子图组</strong>, 尝试将该 <strong>子图组</strong> 中可移动子图分别放入相邻或并行 <strong>子图组</strong> 进行编译.</p></li>
+<li><p>如果选择性能更优的切分方案, 将按照计算量对 <strong>子图组</strong> 进行平衡, 尝试将计算量最大的 <strong>子图组</strong> 中可移动子图分别放入相邻或并行 <strong>子图组</strong> , 查找计算量更平衡的划分方案进行编译.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">子图组</span></code> 更新有如下情况:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>子图组</strong> 起始子图, 可以分别移至 <strong>父子图组</strong>. 如下 subgraph 0 可以移至父子图组 subgraph group 0, subgraph 2 可以移至父子图组 subgraph group 1.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_update1.png"><img alt="../_images/auto_sharding_update1.png" src="../_images/auto_sharding_update1.png" style="width: 50%;" /></a>
+</figure>
+<ul class="simple">
+<li><p><strong>子图组</strong> 结尾子图, 可以分别移至 <strong>子子图组</strong>, 如下 subgraph 3 可以移至子子图组 subgraph group 0, subgraph 4 可以移至子子图组 subgraph group 1.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_update2.png"><img alt="../_images/auto_sharding_update2.png" src="../_images/auto_sharding_update2.png" style="width: 50%;" /></a>
+</figure>
+<ul class="simple">
+<li><p><strong>子图组</strong> 起始子图或结尾子图, 可以分别移至 <strong>并行子图组</strong>, 如下 subgraph 0, 1, 3, 4 可以移至并行子图组 subgraph group 0.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_update3.png"><img alt="../_images/auto_sharding_update3.png" src="../_images/auto_sharding_update3.png" style="width: 50%;" /></a>
+</figure>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>available memory proportion 调整: 如果遍历策略中, 每一个切分方案都出现 OOM, 将选择 OOM size 最小的一个切分方案尝试降低 available memory proportion 至 0.3 和 0.1 进行编译.</p></li>
+</ol>
+</section>
+</section>
+<section id="id5">
+<h2><span class="section-number">6.12.3. </span>Auto Sharding 使用方法<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Auto Sharding 要求输入的 ONNX model 是经过 PopRT 转换的.</p></li>
+<li><p>关于编译选项, 如果输入的 ONNX model 是 FP16 的, <code class="docutils literal notranslate"><span class="pre">partials_type</span></code> 默认是 <code class="docutils literal notranslate"><span class="pre">half</span></code>. <code class="docutils literal notranslate"><span class="pre">available_memory_proportion</span></code> 按照默认值进行切分策略遍历, 如果遍历中各切分策略均 OOM, 将按上述方式调整 <code class="docutils literal notranslate"><span class="pre">available_memory_proportion</span></code> 尝试编译. 除此之外, 不考虑其他编译选项. 用户可基于 Auto Sharding 的切分方案手动调整编译选项.</p></li>
+<li><p>因为没有考虑切分方案 Profiling 的实际表现进行调整, Auto Sharding 尝试遍历编译策略找到的切分方案可能是一个局部有效解, 不一定是全局最优解. 用户可以基于 Auto Sharding 选出的切分方案, 使用 <a class="reference internal" href="manual_sharding.html#features-manual-sharding"><span class="std std-ref">Manual Sharding</span></a> 手动调整切点.</p></li>
+<li><p>Auto Sharding 耗时可能较长, 和编译耗时成正比.</p></li>
+</ul>
+</div>
+<section id="id6">
+<h3>参数介绍<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h3>
+<p>Auto Sharding 工具位置: <a class="reference external" href="https://github.com/graphcore/PopRT/blob/main/tools/auto_sharding.py">auto_sharding.py</a> .</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--input_model</span> <span class="pre">${INPUT_MODEL}</span></code>: 输入的 ONNX model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num_ipus</span> <span class="pre">${NUM_IPUS}</span></code>: 指定 IPU 数量.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output_model</span> <span class="pre">${OUTPUT_MODEL}</span></code>: 输出的 ONNX model, 如果不设置, 会默认指定为 <code class="docutils literal notranslate"><span class="pre">${input_model}.auto_sharded.onnx</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--optimal_perf</span></code>: 是否开启性能选优. 如果不开启, 将在找到第一个成功编译的切分方案后停止遍历, 如果开启, 将在遍历所有切分方案后选择性能最优的切分方案.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num_processes</span> <span class="pre">${NUM_PROCESSES}</span></code>: 并行编译的进程数, 默认为2.</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>举例<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>不开启性能优化. 将模型切分到2个 IPU, 遍历切分方案均 OOM, 选择 OOM size 最小的切分方案尝试 <code class="docutils literal notranslate"><span class="pre">available_memory_proportion=0.3</span></code>, 编译成功.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python auto_sharding.py --input_model ../debug/deberta.onnx.optimized.onnx --num_ipus 2</span>
+<span class="go">...</span>
+<span class="go">[Success] Compile successfully available_memory_proportion 0.3 and solution:</span>
+<span class="go">Sharding nodes: Device 0 - [&#39;Add_938&#39;]</span>
+<span class="go">[Success] The latency 336.2899446487427 ms, tput 2.9736244449548064</span>
+<span class="go">[Success] Save the sharded model to ../debug/deberta.onnx.optimized.onnx.auto_sharded.onnx</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>开启性能优化. 将模型切分到2个 IPU, 遍历后返回性能最优解.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python auto_sharding.py --input_model=vit_l_16_16.onnx.optimized.onnx --num_ipus=2 --optimal_perf</span>
+<span class="go">...</span>
+<span class="go">[Success] The optimal solution:</span>
+<span class="go">Sharding nodes: Device 0 - [&#39;/encoder/layers/encoder_layer_11/Add_1&#39;]</span>
+<span class="go">[Success] The optimal latency 2.712721824645996 ms, tput 368.6334481164495</span>
+<span class="go">[Success] Save the sharded model to vit_l_16_16.onnx.optimized.onnx.auto_sharded.onnx</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="manual_sharding.html" class="btn btn-neutral float-left" title="6.11. Manual Sharding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="error_handling.html" class="btn btn-neutral float-right" title="6.13. Error Handling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

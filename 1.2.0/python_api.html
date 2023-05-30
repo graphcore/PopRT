@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>7. Python API &mdash; Title</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/js/graphcore.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8. C++ API" href="cxx_api.html" />
+    <link rel="prev" title="6.14. PopRT Frontend" href="features/frontend.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.2.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">5. Passes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="passes.html#pass">5.1. Pass 抽象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="passes.html#poprt-pass">5.2. PopRT 中注册的 Pass</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/index.html">6. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/fp8.html">6.1. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#ipu-fp8">6.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id1">6.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp32-fp8">6.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id2">6.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id3">6.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/overlap_io.html">6.2. Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id1">6.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#io-tiles">6.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id2">6.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id3">6.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id4">6.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/dynamic_batch_size.html">6.3. Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#id1">6.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#id3">6.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/packing.html">6.4. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#id1">6.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#packing-unpacking">6.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#transformer-based-nlp-models">6.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#id2">6.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/cpu_packing.html">6.5. CPU Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id1">6.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id2">6.5.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id6">6.5.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id8">6.5.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_fusion.html">6.6. Model Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#poprt">6.6.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#id1">6.6.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_ops.html">6.7. Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#id1">6.7.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_onnx_pass.html">6.8. Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#id1">6.8.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#id2">6.8.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_pattern.html">6.9. Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#custom-popart-patterns">6.9.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#poprt-custom-popart-patterns">6.9.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_transform.html">6.10. Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#custom-popart-transform">6.10.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#poprt-custom-transform">6.10.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/manual_sharding.html">6.11. Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#sharding">6.11.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#pipelining">6.11.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id3">6.11.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id4">6.11.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id5">6.11.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/auto_sharding.html">6.12. Auto Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id1">6.12.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id2">6.12.2. Auto Sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id5">6.12.3. Auto Sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/error_handling.html">6.13. Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/error_handling.html#id1">6.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/error_handling.html#id2">6.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/frontend.html">6.14. PopRT Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#onnx-frontend">6.14.1. ONNX Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#tensorflow-frontend">6.14.2. TensorFlow Frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-module">7.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-compiler-module">7.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-runtime-module">7.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-frontend-module">7.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-backends-module">7.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-quantizer-module">7.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cxx_api.html">8. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-compiler">8.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-runtime">8.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#modelrunner">8.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#packrunner">8.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#device">8.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">9. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal.html">10. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-api">
+<span id="id1"></span><h1><span class="section-number">7. </span>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline"></a></h1>
+<section id="poprt-module">
+<h2><span class="section-number">7.1. </span><code class="docutils literal notranslate"><span class="pre">poprt</span></code> module<a class="headerlink" href="#poprt-module" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.Converter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.</span></span><span class="sig-name descname"><span class="pre">Converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_version=11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision='fp32'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoints=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eightbitsio=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp16_skip_op_types=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_passes=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">used_passes=[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_fast_norm=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pack_args=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp8_skip_op_names=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp8_params='F143</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F143</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantize=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_insert_remap=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_erf_gelu=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serialize_matmul=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serialize_matmul_add=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remap_mode='after_matmul'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tensor_size=-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infer_shape_ahead=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_avoid_overflow_patterns=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_progress_bar=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">poprt</span> <span class="pre">(WARNING)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.Converter" title="Permalink to this definition"></a></dt>
+<dd><p>Convert genernal ONNX model to IPU friendly ONNX model.</p>
+<p>Construct a new Converter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_shape</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>int</em><em>]</em><em>]</em>) – the shape of inputs.</p></li>
+<li><p><strong>convert_version</strong> (<em>int</em>) – Convert opset to a specific version.</p></li>
+<li><p><strong>precision</strong> (<em>str</em>) – convert model to a soecific precision. Support precision: fp32/fp16/fp8.</p></li>
+<li><p><strong>checkpoints</strong> (<em>str</em>) – set output tensor names.</p></li>
+<li><p><strong>eightbitsio</strong> (<em>bool</em>) – enable 8bits io feature.</p></li>
+<li><p><strong>fp16_skip_op_types</strong> (<em>str</em>) – the list of ops which will keep fp32 precision in fp16 precision mode.</p></li>
+<li><p><strong>skip_passes</strong> (<em>str</em>) – the list of passes which will skip.</p></li>
+<li><p><strong>used_passes</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – user specified passes.</p></li>
+<li><p><strong>disable_fast_norm</strong> (<em>bool</em>) – disable to transfer layer_norm Op to fast_norm Op.</p></li>
+<li><p><strong>pack_args</strong> (<em>Dict</em>) – enable packed transformer.</p></li>
+<li><p><strong>fp8_skip_op_names</strong> (<em>str</em>) – The Op names which will keep fp32/fp16 in fp8 mode, such as ‘Conv_1,Conv_2’.</p></li>
+<li><p><strong>fp8_params</strong> (<em>str</em>) – Set parameters to fp8 model, the format is ‘input_format,weight_format,input_scale,weight_scale’.</p></li>
+<li><p><strong>quantize</strong> (<em>bool</em>) – whether to use quantization method.</p></li>
+<li><p><strong>enable_insert_remap</strong> (<em>bool</em>) – Enable insert remap automatically to improve tensor layout.</p></li>
+<li><p><strong>enable_erf_gelu</strong> (<em>bool</em>) – Enable replace Erf Gelu patterns with Gelu Op.</p></li>
+<li><p><strong>serialize_matmul</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Enable to serialize MatMul Op to save memory on chip.</p></li>
+<li><p><strong>serialize_matmul_add</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – Enable to serialize MatMul weights and Add bias with weights last dim to save memory on chip.</p></li>
+<li><p><strong>remap_mode</strong> (<em>str</em>) – The position of remap, support after_matmul and before_add.</p></li>
+<li><p><strong>max_tensor_size</strong> (<em>int</em>) – Max tensor size(bytes) generated by constant_folding, -1 means do not set max_tensor_size by default.</p></li>
+<li><p><strong>infer_shape_ahead</strong> (<em>bool</em>) – Fix input shape and infer shapes at beginning.</p></li>
+<li><p><strong>enable_avoid_overflow_patterns</strong> (<em>bool</em>) – Enable to keep fp32 for several specific patterns in fp16 model.</p></li>
+<li><p><strong>check</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>disable_progress_bar</strong> (<em>bool</em>) – </p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.Converter.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.Converter.convert" title="Permalink to this definition"></a></dt>
+<dd><p>Convert genernal ONNX model to IPU friendly ONNX model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>ModelProto</em>) – A ONNX ModelProto class object to be converted.</p></li>
+<li><p><strong>logger</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A ONNX ModelProto class object representing the ONNX model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>ModelProto</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="poprt-compiler-module">
+<h2><span class="section-number">7.2. </span><code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module<a class="headerlink" href="#poprt-compiler-module" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.compiler.Compiler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.compiler.</span></span><span class="sig-name descname"><span class="pre">Compiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">poprt._compiler.Compiler</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#poprt.compiler.Compiler" title="Permalink to this definition"></a></dt>
+<dd><p>Compile ONNX model to PopEF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.compiler.Compiler.compile">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">model:</span> <span class="pre">str,</span> <span class="pre">outputs:</span> <span class="pre">List[str],</span> <span class="pre">options:</span> <span class="pre">poprt._compiler.CompilerOptions</span> <span class="pre">=</span> <span class="pre">&lt;poprt._compiler.CompilerOptions</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fde92e1e1b0&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">poprt::compiler::Executable</span></span></span><a class="headerlink" href="#poprt.compiler.Compiler.compile" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>AnyStr</em><em>, </em><em>ModelProto</em><em>]</em>) – </p></li>
+<li><p><strong>outputs</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#poprt.compiler.CompilerOptions" title="poprt.compiler.CompilerOptions"><em>CompilerOptions</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Executable</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.compiler.Compiler.compile_and_export">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compile_and_export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">model:</span> <span class="pre">str,</span> <span class="pre">outputs:</span> <span class="pre">List[str],</span> <span class="pre">filename:</span> <span class="pre">str,</span> <span class="pre">options:</span> <span class="pre">poprt._compiler.CompilerOptions</span> <span class="pre">=</span> <span class="pre">&lt;poprt._compiler.CompilerOptions</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fde92e19f30&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#poprt.compiler.Compiler.compile_and_export" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>AnyStr</em><em>, </em><em>ModelProto</em><em>]</em>) – </p></li>
+<li><p><strong>outputs</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – </p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#poprt.compiler.CompilerOptions" title="poprt.compiler.CompilerOptions"><em>CompilerOptions</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.compiler.Compiler.compile_and_get_summary_report">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compile_and_get_summary_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">model:</span> <span class="pre">str,</span> <span class="pre">outputs:</span> <span class="pre">List[str],</span> <span class="pre">options:</span> <span class="pre">poprt._compiler.CompilerOptions</span> <span class="pre">=</span> <span class="pre">&lt;poprt._compiler.CompilerOptions</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fde92e1e130&gt;,</span> <span class="pre">reset_profile:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#poprt.compiler.Compiler.compile_and_get_summary_report" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>AnyStr</em><em>, </em><em>ModelProto</em><em>]</em>) – </p></li>
+<li><p><strong>outputs</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#poprt.compiler.CompilerOptions" title="poprt.compiler.CompilerOptions"><em>CompilerOptions</em></a>) – </p></li>
+<li><p><strong>reset_profile</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.compiler.CompilerOptions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.compiler.</span></span><span class="sig-name descname"><span class="pre">CompilerOptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">poprt._compiler.CompilerOptions</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#poprt.compiler.CompilerOptions" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="poprt-runtime-module">
+<h2><span class="section-number">7.3. </span><code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module<a class="headerlink" href="#poprt-runtime-module" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.runtime.Runner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.runtime.</span></span><span class="sig-name descname"><span class="pre">Runner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">popef</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.runtime.Runner" title="Permalink to this definition"></a></dt>
+<dd><p>Load PopEF model, and execute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>popef</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Executable</em><em>]</em>) – input popef</p></li>
+<li><p><strong>config</strong> (<em>Union</em><em>[</em><em>RuntimeConfig</em><em>, </em><em>PackRunnerConfig</em><em>]</em>) – runtime config</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.runtime.Runner.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.runtime.Runner.execute" title="Permalink to this definition"></a></dt>
+<dd><p>execute runner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>Union</em><em>[</em><em>InputMemoryView</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>ndarray</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>output</strong> (<em>Union</em><em>[</em><em>OutputMemoryView</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>ndarray</em><em>]</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.runtime.DeviceManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.runtime.</span></span><span class="sig-name descname"><span class="pre">DeviceManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">poprt._runtime.DeviceManager</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#poprt.runtime.DeviceManager" title="Permalink to this definition"></a></dt>
+<dd><p>Device Manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.runtime.DeviceManager.get_device">
+<span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_ipus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.runtime.DeviceManager.get_device" title="Permalink to this definition"></a></dt>
+<dd><p>Get Devices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_ipus</strong> (<em>int</em>) – num_ipus</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Device</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.runtime.DeviceManager.get_num_devices">
+<span class="sig-name descname"><span class="pre">get_num_devices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poprt.runtime.DeviceManager.get_num_devices" title="Permalink to this definition"></a></dt>
+<dd><p>Get the number of Devices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.runtime.DeviceManager.ipu_hardware_version">
+<span class="sig-name descname"><span class="pre">ipu_hardware_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poprt.runtime.DeviceManager.ipu_hardware_version" title="Permalink to this definition"></a></dt>
+<dd><p>Get IPU version.</p>
+<p>ipu21: C600 cards</p>
+<p>ipu2: mk2/Bow cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="poprt-frontend-module">
+<h2><span class="section-number">7.4. </span><code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module<a class="headerlink" href="#poprt-frontend-module" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.frontend.OnnxFrontend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.frontend.</span></span><span class="sig-name descname"><span class="pre">OnnxFrontend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.frontend.OnnxFrontend" title="Permalink to this definition"></a></dt>
+<dd><p>Onnx Frontend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – input model path</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.frontend.OnnxFrontend.get_onnx_name">
+<span class="sig-name descname"><span class="pre">get_onnx_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_or_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.frontend.OnnxFrontend.get_onnx_name" title="Permalink to this definition"></a></dt>
+<dd><p>Filter out non onnx file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>files</strong> – list of file name</p></li>
+<li><p><strong>dir_or_name</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ONNX Model if there are only one onnx, otherwise throw error.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>Optional</em>[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.frontend.OnnxFrontend.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poprt.frontend.OnnxFrontend.load_model" title="Permalink to this definition"></a></dt>
+<dd><p>Load ONNX Model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dir_or_name</strong> – directory or name of the model. If directory, there
+should only one model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ONNX Model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>ModelProto</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.frontend.TensorflowFrontend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.frontend.</span></span><span class="sig-name descname"><span class="pre">TensorflowFrontend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">saved_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs_as_nchw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs_as_nchw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.frontend.TensorflowFrontend" title="Permalink to this definition"></a></dt>
+<dd><p>TensorFlow Frontend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – input model path</p></li>
+<li><p><strong>saved_model</strong> (<em>bool</em>) – whether is tf saved_model</p></li>
+<li><p><strong>signature_def</strong> (<em>str</em>) – signature_def from saved_model to use</p></li>
+<li><p><strong>tag</strong> (<em>str</em>) – tag to use for saved_model</p></li>
+<li><p><strong>opset</strong> (<em>int</em>) – opset version to use for onnx domain in tf frontend</p></li>
+<li><p><strong>inputs_as_nchw</strong> (<em>str</em>) – transpose inputs as from nhwc to nchw</p></li>
+<li><p><strong>outputs_as_nchw</strong> (<em>str</em>) – transpose outputs as from nhwc to nchw</p></li>
+<li><p><strong>output_names</strong> – model output_names (optional for saved_model)</p></li>
+<li><p><strong>input_shape</strong> (<em>Dict</em>) – </p></li>
+<li><p><strong>outputs</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.frontend.TensorflowFrontend.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poprt.frontend.TensorflowFrontend.load_model" title="Permalink to this definition"></a></dt>
+<dd><p>Load tensorflow model and convert to onnx ModelProto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>ModelProto</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="poprt-backends-module">
+<h2><span class="section-number">7.5. </span><code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module<a class="headerlink" href="#poprt-backends-module" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.backends.Backend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.backends.</span></span><span class="sig-name descname"><span class="pre">Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_or_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_popef=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler_options=&lt;poprt.compiler.CompilerOptions</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runtime_options=&lt;poprt.runtime.RuntimeConfig</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_output_dtype=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.backends.Backend" title="Permalink to this definition"></a></dt>
+<dd><p>PopRT Backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_or_bytes</strong> (<em>Union</em><em>[</em><em>AnyStr</em><em>, </em><em>IO</em><em>[</em><em>bytes</em><em>]</em><em>, </em><em>onnx.ModelProto</em><em>]</em>) – input onnx model</p></li>
+<li><p><strong>export_popef</strong> (<em>str</em>) – target PopEF export path</p></li>
+<li><p><strong>compiler_options</strong> (<a class="reference internal" href="#poprt.compiler.CompilerOptions" title="poprt.compiler.CompilerOptions"><em>compiler.CompilerOptions</em></a>) – compiler options, see poprt.compiler.CompilerOptions</p></li>
+<li><p><strong>runtime_options</strong> (<em>runtime.AnyConfig</em>) – runtime options, see poprt.runtime.RuntimeConfig</p></li>
+<li><p><strong>align_output_dtype</strong> (<em>bool</em>) – flag to align output dtype based on the onnx model.
+<code class="docutils literal notranslate"><span class="pre">Backend.run</span></code> also have parameter <code class="docutils literal notranslate"><span class="pre">align_output_dtype</span></code>, the value will be True if one of them is set to be True</p></li>
+<li><p><strong>logger</strong> (<em>logging.Logger</em>) – custom logger</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.backends.Backend.get_io_info">
+<span class="sig-name descname"><span class="pre">get_io_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poprt.backends.Backend.get_io_info" title="Permalink to this definition"></a></dt>
+<dd><p>Return meta info of input/outputs, include dtype, name, shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple[Dict[str, Any], Dict[str, Any]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.backends.Backend.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_output_dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.backends.Backend.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run the Model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – output tensor names</p></li>
+<li><p><strong>inputs</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>ndarray</em><em>]</em>) – input tensor data</p></li>
+<li><p><strong>align_output_dtype</strong> (<em>bool</em>) – flag to align output dtype based on the onnx model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>List</em>[<em>ndarray</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.backends.Backend.set_opaque_blobs">
+<span class="sig-name descname"><span class="pre">set_opaque_blobs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#poprt.backends.Backend.set_opaque_blobs" title="Permalink to this definition"></a></dt>
+<dd><p>Pass dynamic input anchor info to pack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.backends.ORTBackend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.backends.</span></span><span class="sig-name descname"><span class="pre">ORTBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_or_bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sess_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">providers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lazy_load</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.backends.ORTBackend" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#poprt.backends.Backend" title="poprt.backends.Backend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">onnxruntime.InferenceSession</span></code> API compatible Backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_or_bytes</strong> – input onnx model</p></li>
+<li><p><strong>sess_options</strong> – <code class="docutils literal notranslate"><span class="pre">onnxruntime.InferenceSession</span></code> compatible API, not used</p></li>
+<li><p><strong>providers</strong> – <code class="docutils literal notranslate"><span class="pre">onnxruntime.InferenceSession</span></code> compatible API, not used</p></li>
+<li><p><strong>provider_options</strong> – <code class="docutils literal notranslate"><span class="pre">onnxruntime.InferenceSession</span></code> compatible API, not used</p></li>
+<li><p><strong>lazy_load</strong> – ORTBackend will load ONNX model by default, set to <code class="docutils literal notranslate"><span class="pre">True</span></code> to prevent it</p></li>
+<li><p><strong>**kwargs</strong> – see <code class="docutils literal notranslate"><span class="pre">poprt.Backend</span></code> for more args</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.backends.ORTBackend.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_feed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.backends.ORTBackend.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run the Model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_names</strong> – output tensor names</p></li>
+<li><p><strong>inputs</strong> – input tensor data</p></li>
+<li><p><strong>align_output_dtype</strong> – flag to align output dtype based on the onnx model</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>List</em>[<em>ndarray</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="poprt-quantizer-module">
+<h2><span class="section-number">7.6. </span><code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module<a class="headerlink" href="#poprt-quantizer-module" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="poprt.quantizer.quantize">
+<span class="sig-prename descclassname"><span class="pre">poprt.quantizer.</span></span><span class="sig-name descname"><span class="pre">quantize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_preprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fp8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantize_loss_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kld'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_of_layers_keep_fp16</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.quantizer.quantize" title="Permalink to this definition"></a></dt>
+<dd><p>Quantize the model according strategy. At now, we only support SimpleQuantizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>onnx_model</strong> (<em>ModelProto</em>) – onnx ModelProto</p></li>
+<li><p><strong>input_model</strong> (<em>str</em>) – the origin model</p></li>
+<li><p><strong>data_preprocess</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – path of pickle format file for data preprocessing,
+the storage format is {input_name_1: ndarray_1, input_name_2: ndarray_2, …}</p></li>
+<li><p><strong>precision</strong> (<em>typing_extensions.Literal</em><em>[</em><em>fp8</em><em>, </em><em>fp8_weight</em><em>]</em>) – convert the model to the specfied type</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – the output dir</p></li>
+<li><p><strong>options</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – options</p></li>
+<li><p><strong>quantize_loss_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>num_of_layers_keep_fp16</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A quantized onnx ModelProto</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>ModelProto</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.quantizer.FP8Quantizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.quantizer.</span></span><span class="sig-name descname"><span class="pre">FP8Quantizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_preprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fp8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_of_layers_keep_fp16</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.quantizer.FP8Quantizer" title="Permalink to this definition"></a></dt>
+<dd><p>Return the Input Model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_dir</strong> (<em>str</em>) – </p></li>
+<li><p><strong>loss_type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>data_preprocess</strong> (<em>str</em>) – </p></li>
+<li><p><strong>precision</strong> (<em>typing_extensions.Literal</em><em>[</em><em>fp8</em><em>, </em><em>fp8_weight</em><em>]</em>) – </p></li>
+<li><p><strong>num_of_layers_keep_fp16</strong> (<em>int</em>) – </p></li>
+<li><p><strong>options</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="features/frontend.html" class="btn btn-neutral float-left" title="6.14. PopRT Frontend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cxx_api.html" class="btn btn-neutral float-right" title="8. C++ API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

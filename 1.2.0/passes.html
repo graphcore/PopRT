@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5. Passes &mdash; Title</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/js/graphcore.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Features" href="features/index.html" />
+    <link rel="prev" title="4. 使用 PopRT" href="instructions.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.2.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Passes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pass">5.1. Pass 抽象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#poprt-pass">5.2. PopRT 中注册的 Pass</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/index.html">6. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/fp8.html">6.1. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#ipu-fp8">6.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id1">6.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp32-fp8">6.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id2">6.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id3">6.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/overlap_io.html">6.2. Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id1">6.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#io-tiles">6.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id2">6.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id3">6.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id4">6.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/dynamic_batch_size.html">6.3. Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#id1">6.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#id3">6.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/packing.html">6.4. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#id1">6.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#packing-unpacking">6.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#transformer-based-nlp-models">6.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#id2">6.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/cpu_packing.html">6.5. CPU Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id1">6.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id2">6.5.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id6">6.5.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id8">6.5.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_fusion.html">6.6. Model Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#poprt">6.6.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#id1">6.6.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_ops.html">6.7. Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#id1">6.7.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_onnx_pass.html">6.8. Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#id1">6.8.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#id2">6.8.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_pattern.html">6.9. Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#custom-popart-patterns">6.9.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#poprt-custom-popart-patterns">6.9.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_transform.html">6.10. Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#custom-popart-transform">6.10.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#poprt-custom-transform">6.10.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/manual_sharding.html">6.11. Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#sharding">6.11.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#pipelining">6.11.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id3">6.11.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id4">6.11.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id5">6.11.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/auto_sharding.html">6.12. Auto Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id1">6.12.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id2">6.12.2. Auto Sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id5">6.12.3. Auto Sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/error_handling.html">6.13. Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/error_handling.html#id1">6.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/error_handling.html#id2">6.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/frontend.html">6.14. PopRT Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#onnx-frontend">6.14.1. ONNX Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#tensorflow-frontend">6.14.2. TensorFlow Frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api.html">7. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-module">7.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-compiler-module">7.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-runtime-module">7.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-frontend-module">7.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-backends-module">7.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-quantizer-module">7.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cxx_api.html">8. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-compiler">8.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-runtime">8.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#modelrunner">8.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#packrunner">8.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#device">8.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">9. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal.html">10. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="passes">
+<span id="id1"></span><h1><span class="section-number">5. </span>Passes<a class="headerlink" href="#passes" title="Permalink to this headline"></a></h1>
+<p>Pass 是 PopRT 中用于优化 ONNX 模型的组件, 实现自定义的 Pass 见 <a class="reference internal" href="features/custom_onnx_pass.html#features-custom-onnx-pass"><span class="std std-ref">Custom Passes</span></a>.</p>
+<section id="pass">
+<h2><span class="section-number">5.1. </span>Pass 抽象<a class="headerlink" href="#pass" title="Permalink to this headline"></a></h2>
+<p>PopRT 中实现的 Pass 都继承自 <code class="docutils literal notranslate"><span class="pre">poprt.Pass</span></code>, 具有统一的接口:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.Pass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.</span></span><span class="sig-name descname"><span class="pre">Pass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.Pass" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract Base Class for Passes.</p>
+<p>A new Pass could be like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="kn">from</span> <span class="nn">poprt.passes</span> <span class="kn">import</span> <span class="n">register</span><span class="p">,</span> <span class="n">Pass</span>
+
+
+<span class="nd">@register</span><span class="p">(</span><span class="s1">&#39;dummy_pass&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Dummy</span><span class="p">(</span><span class="n">Pass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onnx_model</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;producer_name: </span><span class="si">{</span><span class="n">onnx_model</span><span class="o">.</span><span class="n">producer_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">onnx_model</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.Pass.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.Pass.run" title="Permalink to this definition"></a></dt>
+<dd><p>Run Pass, inherited subclasses should override this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>onnx_model</strong> (<em>ModelProto</em>) – input onnx model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the optimized onnx model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><em>ModelProto</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>Pass 的注册是自动进行的, 可以通过下面的 CLI 命令列出所有已经注册的 Pass:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt --list_all_passes</span>
+</pre></div>
+</div>
+<p>或者在 Python 中:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">poprt</span>
+
+<span class="n">passes</span> <span class="o">=</span> <span class="n">poprt</span><span class="o">.</span><span class="n">get_registered_passes</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">passes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">poprt.get_pass()</span></code> 的 Python 接口使用某一个 Pass, 同时可以使用 <code class="docutils literal notranslate"><span class="pre">poprt.PassManager</span></code> 应用多个 Pass.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="poprt.get_pass">
+<span class="sig-prename descclassname"><span class="pre">poprt.</span></span><span class="sig-name descname"><span class="pre">get_pass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.get_pass" title="Permalink to this definition"></a></dt>
+<dd><p>Get a Pass by registered name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – registered name of a Pass</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Pass instance</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#poprt.Pass" title="poprt.passes.base_pass.Pass"><em>Pass</em></a></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">poprt</span>
+
+<span class="c1"># get a Pass with parameters</span>
+<span class="n">onnx_model</span> <span class="o">=</span> <span class="n">poprt</span><span class="o">.</span><span class="n">get_pass</span><span class="p">(</span><span class="s1">&#39;float_to_half&#39;</span><span class="p">,</span> <span class="n">skip_op_types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Gelu&#39;</span><span class="p">])(</span><span class="n">onnx_model</span><span class="p">)</span>
+
+<span class="n">poprt</span><span class="o">.</span><span class="n">get_pass</span><span class="p">(</span><span class="s1">&#39;model_overview&#39;</span><span class="p">)(</span><span class="n">onnx_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.PassManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.</span></span><span class="sig-name descname"><span class="pre">PassManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">used_passes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gather_ir_passes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.PassManager" title="Permalink to this definition"></a></dt>
+<dd><p>Manage Passes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>used_passes</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#poprt.Pass" title="poprt.passes.base_pass.Pass"><em>Pass</em></a><em>]</em><em>]</em>) – passes that will be used</p></li>
+<li><p><strong>gather_ir_passes</strong> (<em>bool</em>) – gather onnx ir passes and execute it in one turn.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">poprt</span>
+
+<span class="n">pm</span> <span class="o">=</span> <span class="n">poprt</span><span class="o">.</span><span class="n">PassManager</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s1">&#39;model_overview&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;float_to_half&#39;</span><span class="p">,</span>
+        <span class="n">poprt</span><span class="o">.</span><span class="n">get_pass</span><span class="p">(</span><span class="s1">&#39;model_overview&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">pm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">onnx_model</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="poprt.PassManager.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">onnx_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.PassManager.run" title="Permalink to this definition"></a></dt>
+<dd><p>Apply passes to the onnx model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>onnx_model</strong> (<em>ModelProto</em>) – onnx model that will be optimized</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>ModelProto</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>由于 Pass 模块的结构可能会有变化, 不推荐以下使用方式:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">poprt.passes.float_to_half</span> <span class="kn">import</span> <span class="n">Float2Half</span>
+
+<span class="n">Float2Half</span><span class="p">()(</span><span class="n">onnx_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="poprt-pass">
+<h2><span class="section-number">5.2. </span>PopRT 中注册的 Pass<a class="headerlink" href="#poprt-pass" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.add_checkpoints.AddCheckpoints">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.add_checkpoints.</span></span><span class="sig-name descname"><span class="pre">AddCheckpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checkpoints</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.add_checkpoints.AddCheckpoints" title="Permalink to this definition"></a></dt>
+<dd><p>Add intermediate tensor to output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>checkpoints</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">add_checkpoints</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.ApplyIrPass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">ApplyIrPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">passes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.ApplyIrPass" title="Permalink to this definition"></a></dt>
+<dd><p>Apply passes based on onnx IR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>passes</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">apply_ir_pass</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.auto_insert_remap.AutoInsertRemap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.auto_insert_remap.</span></span><span class="sig-name descname"><span class="pre">AutoInsertRemap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remap_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'after_matmul'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.auto_insert_remap.AutoInsertRemap" title="Permalink to this definition"></a></dt>
+<dd><p>Insert remap after matmul.</p>
+<p>This is an experimental feature. There are two different insert mode: after_matmul
+and before_add. For after_matmul mode, it’s more general but more likely OOM, for
+before_add mode, it’s target to reduce cycles of attention + mask in transformer-
+based model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>remap_mode</strong> (<em>str</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">auto_insert_remap</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.workarounds.BatchNormWorkaround">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.workarounds.</span></span><span class="sig-name descname"><span class="pre">BatchNormWorkaround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.workarounds.BatchNormWorkaround" title="Permalink to this definition"></a></dt>
+<dd><p>Workaround for BatchNorm Operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">batchnorm_workaround</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.check_with_fake_data.CheckWithFakeData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.check_with_fake_data.</span></span><span class="sig-name descname"><span class="pre">CheckWithFakeData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin_model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.check_with_fake_data.CheckWithFakeData" title="Permalink to this definition"></a></dt>
+<dd><p>Checking model with fake data using onnxruntime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>origin_model</strong> (<em>ModelProto</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">check_with_fake_data</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.const_batch_size.ConstBatchSize">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.const_batch_size.</span></span><span class="sig-name descname"><span class="pre">ConstBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">const_batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.const_batch_size.ConstBatchSize" title="Permalink to this definition"></a></dt>
+<dd><p>Convert unknown batch size to a const value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>const_batch_size</strong> (<em>int</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">const_batch_size</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.const_input_shape.ConstInputShape">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.const_input_shape.</span></span><span class="sig-name descname"><span class="pre">ConstInputShape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">const_input_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.const_input_shape.ConstInputShape" title="Permalink to this definition"></a></dt>
+<dd><p>Convert input shape to const values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>const_input_shape</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">const_input_shape</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.constant_folding.ConstantFolding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.constant_folding.</span></span><span class="sig-name descname"><span class="pre">ConstantFolding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_tensor_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.constant_folding.ConstantFolding" title="Permalink to this definition"></a></dt>
+<dd><p>Support constant folding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>max_tensor_size</strong> (<em>int</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">constant_folding</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.workarounds.CumSumWorkaround">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.workarounds.</span></span><span class="sig-name descname"><span class="pre">CumSumWorkaround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.workarounds.CumSumWorkaround" title="Permalink to this definition"></a></dt>
+<dd><p>Workaround for CumSum Operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">cumsum_workaround</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.double_to_float.DoubleToFloat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.double_to_float.</span></span><span class="sig-name descname"><span class="pre">DoubleToFloat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.double_to_float.DoubleToFloat" title="Permalink to this definition"></a></dt>
+<dd><p>Transfer double to float(only for initializer).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">double_to_float</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.eight_bits_io.EightBitsIO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.eight_bits_io.</span></span><span class="sig-name descname"><span class="pre">EightBitsIO</span></span><a class="headerlink" href="#poprt.passes.eight_bits_io.EightBitsIO" title="Permalink to this definition"></a></dt>
+<dd><p>Insert norm operator after input image.</p>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eight_bits_io</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_deadend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_deadend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_deadend" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_deadend</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_duplicate_initializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_duplicate_initializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_duplicate_initializer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_duplicate_initializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_identity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_identity" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_identity</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_arithmetic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_arithmetic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_arithmetic" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_arithmetic</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_cast">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_cast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_cast" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_cast</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_expand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_expand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_expand" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_expand</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_flatten">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_flatten" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_flatten</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_if">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_if</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_if" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_if</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_pad">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_pad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_pad" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_pad</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_reshape">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_reshape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_reshape" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_reshape</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_nop_transpose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_nop_transpose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_nop_transpose" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_nop_transpose</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.eliminate_unused_initializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">eliminate_unused_initializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.eliminate_unused_initializer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">eliminate_unused_initializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.erf_gelu_pattern.ErfGeluPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.erf_gelu_pattern.</span></span><span class="sig-name descname"><span class="pre">ErfGeluPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.erf_gelu_pattern.ErfGeluPattern" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of Erf Gelu Op and replace the pattern with Erf Gelu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">erf_gelu_pattern</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.extract_constant_to_initializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">extract_constant_to_initializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.extract_constant_to_initializer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">extract_constant_to_initializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.final_check.FinalCheck">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.final_check.</span></span><span class="sig-name descname"><span class="pre">FinalCheck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.final_check.FinalCheck" title="Permalink to this definition"></a></dt>
+<dd><p>Final check for dtype and shape of the converted model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">final_check</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.workarounds.FloatOpsWorkaround">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.workarounds.</span></span><span class="sig-name descname"><span class="pre">FloatOpsWorkaround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.workarounds.FloatOpsWorkaround" title="Permalink to this definition"></a></dt>
+<dd><p>Workaround for Operators which are required with float32 / float16 inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">float_ops_workaround</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.float_to_fp8.Float2FP8">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.float_to_fp8.</span></span><span class="sig-name descname"><span class="pre">Float2FP8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp8_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['F143',</span> <span class="pre">'F143',</span> <span class="pre">0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_op_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fp8'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp8_input_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp8_weight_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.float_to_fp8.Float2FP8" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a model from fp32 or fp16 to fp8.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fp8_params</strong> (<em>List</em><em>[</em><em>Union</em><em>[</em><em>typing_extensions.Literal</em><em>[</em><em>F143</em><em>, </em><em>F152</em><em>]</em><em>, </em><em>str</em><em>]</em><em>]</em>) – Set parameters to fp8 model, the format is [input_format, weight_format, input_scale, weight_scale]</p></li>
+<li><p><strong>skip_op_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – The Op names which will keep fp32/fp16 in fp8 mode, such as [‘Conv_1’, ‘Conv_2’]</p></li>
+<li><p><strong>convert_model</strong> (<em>typing_extensions.Literal</em><em>[</em><em>fp8</em><em>, </em><em>fp8_weight</em><em>]</em>) – Specifies which type the model is converted to, can be set to ‘fp8’ or ‘fp8_weight’</p></li>
+<li><p><strong>fp8_input_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – Set parameters for each fp8 input node of fp8 model, if it’s not None, <code class="code docutils literal notranslate"><span class="pre">fp8_params</span></code> will be discarded</p></li>
+<li><p><strong>fp8_weight_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – Set parameters for each fp8 weight node of fp8 model, if it’s not None, <code class="code docutils literal notranslate"><span class="pre">fp8_params</span></code> will be discarded</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">float_to_fp8</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.float_to_half.Float2Half">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.float_to_half.</span></span><span class="sig-name descname"><span class="pre">Float2Half</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip_op_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_avoid_overflow_patterns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.float_to_half.Float2Half" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a model from fp32 to fp16.</p>
+<p>Create Float2Half instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip_op_types</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – The Op types which will keep fp32 in fp16 mode.</p></li>
+<li><p><strong>enable_avoid_overflow_patterns</strong> (<em>bool</em>) – Enable to keep fp32 for several specific patterns in fp16 model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Float2Half instance</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">float_to_half</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.float_to_mixed.Float2Mixed">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.float_to_mixed.</span></span><span class="sig-name descname"><span class="pre">Float2Mixed</span></span><a class="headerlink" href="#poprt.passes.float_to_mixed.Float2Mixed" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a model from fp32 to mixed precision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">float_to_mixed</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.fuse_bn_into_conv">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">fuse_bn_into_conv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.fuse_bn_into_conv" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_bn_into_conv</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.fuse_bn_into_gemm.FuseBnIntoGemm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.fuse_bn_into_gemm.</span></span><span class="sig-name descname"><span class="pre">FuseBnIntoGemm</span></span><a class="headerlink" href="#poprt.passes.fuse_bn_into_gemm.FuseBnIntoGemm" title="Permalink to this definition"></a></dt>
+<dd><p>Fuse BatchNormalization to Matmul/Gemm.</p>
+<dl class="simple">
+<dt>Condition:</dt><dd><p>condition 1: Matmul/Gemm use initializer
+condition 2: No multi outputs in Gemm/Matmul
+condition 3: Initializers used across operaters is not supported</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_bn_into_gemm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.fuse_cast_into_onehot.FuseCastIntoOnehot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.fuse_cast_into_onehot.</span></span><span class="sig-name descname"><span class="pre">FuseCastIntoOnehot</span></span><a class="headerlink" href="#poprt.passes.fuse_cast_into_onehot.FuseCastIntoOnehot" title="Permalink to this definition"></a></dt>
+<dd><p>Fuse Cast into OneHot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_cast_into_onehot</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.fuse_consecutive_cast">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">fuse_consecutive_cast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.fuse_consecutive_cast" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_consecutive_cast</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.fuse_consecutive_reshape">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">fuse_consecutive_reshape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.fuse_consecutive_reshape" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_consecutive_reshape</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.fuse_consecutive_squeeze">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">fuse_consecutive_squeeze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.fuse_consecutive_squeeze" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_consecutive_squeeze</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.fuse_consecutive_transpose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">fuse_consecutive_transpose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.fuse_consecutive_transpose" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_consecutive_transpose</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.fuse_consecutive_unsqueeze">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">fuse_consecutive_unsqueeze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.fuse_consecutive_unsqueeze" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fuse_consecutive_unsqueeze</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.fused_attention.FusedAttention">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.fused_attention.</span></span><span class="sig-name descname"><span class="pre">FusedAttention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.fused_attention.FusedAttention" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of MultiHeadAttention and replace it with Fused MultiHeadAttention.
+Attention Pattern as below:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Add</span>
+<span class="go">|</span>
+<span class="go">Reshape  --    --    --</span>
+<span class="go">|           \           \</span>
+<span class="go">MatMul       MatMul      MatMul</span>
+<span class="go">|            |           |</span>
+<span class="go">Reshape      Reshape     Reshape</span>
+<span class="go">|            |           |</span>
+<span class="go">Add          Add         Add</span>
+<span class="go">|            |           |</span>
+<span class="go">Reshape      Reshape     Reshape</span>
+</pre></div>
+</div>
+<p>Fused Attention Pattern as below:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Add</span>
+<span class="go">|</span>
+<span class="go">Concat</span>
+<span class="go">|</span>
+<span class="go">MatMul</span>
+<span class="go">|</span>
+<span class="go">Add</span>
+<span class="go">|</span>
+<span class="go">Reshape</span>
+<span class="go">|</span>
+<span class="go">Transpose</span>
+<span class="go">|</span>
+<span class="go">Split</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">fused_attention</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.gelu_pattern.GeluPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.gelu_pattern.</span></span><span class="sig-name descname"><span class="pre">GeluPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.gelu_pattern.GeluPattern" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of Gelu Op and replace the pattern with Gelu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">gelu_pattern</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.workarounds.IndicesWorkaround">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.workarounds.</span></span><span class="sig-name descname"><span class="pre">IndicesWorkaround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.workarounds.IndicesWorkaround" title="Permalink to this definition"></a></dt>
+<dd><p>Workaround for Gather / GatherElements Operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">indices_workaround</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.insert_attention_mask.InsertAttentionMask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.insert_attention_mask.</span></span><span class="sig-name descname"><span class="pre">InsertAttentionMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.insert_attention_mask.InsertAttentionMask" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Reshap-Cast-Sub-Mul with Cast-AttentionMask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">insert_attention_mask</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.int64_to_int32.Int64ToInt32">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.int64_to_int32.</span></span><span class="sig-name descname"><span class="pre">Int64ToInt32</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.int64_to_int32.Int64ToInt32" title="Permalink to this definition"></a></dt>
+<dd><p>Transfer int64 to int32.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">int64_to_int32</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.layer_norm_pattern.LayerNormPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.layer_norm_pattern.</span></span><span class="sig-name descname"><span class="pre">LayerNormPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.layer_norm_pattern.LayerNormPattern" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of LayerNorm Op and replace the pattern with Reshape + GroupNorm + Reshape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">layer_norm_pattern</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.layer_precision_compare.LayerPrecisionCompare">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.layer_precision_compare.</span></span><span class="sig-name descname"><span class="pre">LayerPrecisionCompare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_preprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.layer_precision_compare.LayerPrecisionCompare" title="Permalink to this definition"></a></dt>
+<dd><p>Compare the output of conv/matmul/gemm operator of the origin model and the fp8 model.</p>
+<p>It will randomly takes a batch of data from the calibration for inference, and then
+records the output of the origin model and the converted model. We use cosine
+distance to evaluate the error because it is a normalized number that measures the
+angle between vectors. The closer the value is to 0, the smaller the error. The log
+will write to a log file.</p>
+<p>Create LayerPrecisionCompare instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_preprocess</strong> (<em>str</em>) – Path of pickle format file for data preprocessing.</p></li>
+<li><p><strong>options</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – options for session.</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – The save path of log.</p></li>
+<li><p><strong>origin_model</strong> (<em>ModelProto</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A LayerPrecisionCompare instance</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">layer_precision_compare</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.manual_sharding.ManualSharding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.manual_sharding.</span></span><span class="sig-name descname"><span class="pre">ManualSharding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sharding_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipelining_info</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.manual_sharding.ManualSharding" title="Permalink to this definition"></a></dt>
+<dd><p>Shard the graph to several subgraphs manually in terms of specific nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sharding_info</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – </p></li>
+<li><p><strong>pipelining_info</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">manual_sharding</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.matmul_rotary_embedding.MatmulRotaryEmbedding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.matmul_rotary_embedding.</span></span><span class="sig-name descname"><span class="pre">MatmulRotaryEmbedding</span></span><a class="headerlink" href="#poprt.passes.matmul_rotary_embedding.MatmulRotaryEmbedding" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of element-wised rotary embedding and replace the pattern with equivalent matmul.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">matmul_rotary_embedding</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.model_overview.ModelOverview">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.model_overview.</span></span><span class="sig-name descname"><span class="pre">ModelOverview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_print</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.model_overview.ModelOverview" title="Permalink to this definition"></a></dt>
+<dd><p>Show the overview of the model, just print the information to stdout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">model_overview</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.move_subgraph_initializer.MoveSubgraphInitializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.move_subgraph_initializer.</span></span><span class="sig-name descname"><span class="pre">MoveSubgraphInitializer</span></span><a class="headerlink" href="#poprt.passes.move_subgraph_initializer.MoveSubgraphInitializer" title="Permalink to this definition"></a></dt>
+<dd><p>Move subgraph’s initializers into main graph.</p>
+<p>PopART only search initializers from main graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">move_subgraph_initializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.workarounds.OneHotWorkaround">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.workarounds.</span></span><span class="sig-name descname"><span class="pre">OneHotWorkaround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.workarounds.OneHotWorkaround" title="Permalink to this definition"></a></dt>
+<dd><p>Workaround for OneHot Op which is required with int32 depth and positive axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">onehot_workaround</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.overlap_io.OverlapIO">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.overlap_io.</span></span><span class="sig-name descname"><span class="pre">OverlapIO</span></span><a class="headerlink" href="#poprt.passes.overlap_io.OverlapIO" title="Permalink to this definition"></a></dt>
+<dd><p>Enable overlap io.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">overlap_io</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.packed_transformer.PackedTransformer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.packed_transformer.</span></span><span class="sig-name descname"><span class="pre">PackedTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.packed_transformer.PackedTransformer" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of SelfAttention and replace it with Packed SelfAttention.</p>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">packed_transformer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.post_expand.PostExpand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.post_expand.</span></span><span class="sig-name descname"><span class="pre">PostExpand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.post_expand.PostExpand" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">post_expand</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.pre_scale.PreScale">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.pre_scale.</span></span><span class="sig-name descname"><span class="pre">PreScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.pre_scale.PreScale" title="Permalink to this definition"></a></dt>
+<dd><p>Pre scale: attention matrix Q to Q/sqrt(d), and remove 1/sqrt(d) node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">pre_scale</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.remove_duplicated_initializer.RemoveDuplicatedInitializer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.remove_duplicated_initializer.</span></span><span class="sig-name descname"><span class="pre">RemoveDuplicatedInitializer</span></span><a class="headerlink" href="#poprt.passes.remove_duplicated_initializer.RemoveDuplicatedInitializer" title="Permalink to this definition"></a></dt>
+<dd><p>Remove duplicated initializer to save memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">remove_duplicated_initializer</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.remove_initializer_from_input.RemoveInitializerFromInput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.remove_initializer_from_input.</span></span><span class="sig-name descname"><span class="pre">RemoveInitializerFromInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.remove_initializer_from_input.RemoveInitializerFromInput" title="Permalink to this definition"></a></dt>
+<dd><p>Remove initializer from model inputs.</p>
+<p>Model: <a class="reference external" href="https://github.com/onnx/models/blob/main/vision/classification/resnet/model/resnet50-v1-7.onnx">https://github.com/onnx/models/blob/main/vision/classification/resnet/model/resnet50-v1-7.onnx</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">remove_initializer_from_input</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.remove_input_cast.RemoveInputCast">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.remove_input_cast.</span></span><span class="sig-name descname"><span class="pre">RemoveInputCast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.remove_input_cast.RemoveInputCast" title="Permalink to this definition"></a></dt>
+<dd><p>Remove input cast: input(fp16)-&gt;cast(fp16-&gt;int32)-&gt;gather to input(int32)-&gt;gather.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">remove_input_cast</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_bn_with_mul_add.ReplaceBNWithMulAdd">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_bn_with_mul_add.</span></span><span class="sig-name descname"><span class="pre">ReplaceBNWithMulAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_bn_with_mul_add.ReplaceBNWithMulAdd" title="Permalink to this definition"></a></dt>
+<dd><p>Replace BatchNormalization Op with Mul + Add.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_bn_with_mul_add</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_castlike.ReplaceCastLike">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_castlike.</span></span><span class="sig-name descname"><span class="pre">ReplaceCastLike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_castlike.ReplaceCastLike" title="Permalink to this definition"></a></dt>
+<dd><p>Replace onnx CastLike op to Cast.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_castlike</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_clip_empty_inputs.ReplaceClipInputs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_clip_empty_inputs.</span></span><span class="sig-name descname"><span class="pre">ReplaceClipInputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_clip_empty_inputs.ReplaceClipInputs" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Clip Op empty inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_clip_empty_inputs</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_consecutive_cast_with_notzero.ReplaceConsecuiveCastWithNotZero">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_consecutive_cast_with_notzero.</span></span><span class="sig-name descname"><span class="pre">ReplaceConsecuiveCastWithNotZero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_consecutive_cast_with_notzero.ReplaceConsecuiveCastWithNotZero" title="Permalink to this definition"></a></dt>
+<dd><p>Recognise the pattern of consecutive Cast Ops and replace the pattern with a NotZero Op.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_consecutive_cast_with_notzero</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_div_with_mul.ReplaceDivWithMul">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_div_with_mul.</span></span><span class="sig-name descname"><span class="pre">ReplaceDivWithMul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_div_with_mul.ReplaceDivWithMul" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Div with Mul if the divisor is constant.</p>
+<p>Model: <a class="reference external" href="https://github.com/onnx/models/blob/main/text/machine_comprehension/gpt-2/model/gpt2-10.onnx">https://github.com/onnx/models/blob/main/text/machine_comprehension/gpt-2/model/gpt2-10.onnx</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_div_with_mul</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.replace_einsum_with_matmul">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">replace_einsum_with_matmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.replace_einsum_with_matmul" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_einsum_with_matmul</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_erf_with_erfv2.ReplaceErfWithErfV2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_erf_with_erfv2.</span></span><span class="sig-name descname"><span class="pre">ReplaceErfWithErfV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_erf_with_erfv2.ReplaceErfWithErfV2" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Erf Op with ErfV2.</p>
+<p>ErfV2 is more efficient with bigger error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_erf_with_erfv2</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_gemm_with_matmul.ReplaceGemmWithMatMul">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_gemm_with_matmul.</span></span><span class="sig-name descname"><span class="pre">ReplaceGemmWithMatMul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_gemm_with_matmul.ReplaceGemmWithMatMul" title="Permalink to this definition"></a></dt>
+<dd><p>replace Gemm with MatMul in onnx model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_gemm_with_matmul</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_greater_or_equal.ReplaceGreaterOrEqual">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_greater_or_equal.</span></span><span class="sig-name descname"><span class="pre">ReplaceGreaterOrEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_greater_or_equal.ReplaceGreaterOrEqual" title="Permalink to this definition"></a></dt>
+<dd><p>Replace GreaterOrEqual Op with Less Op and Not Op.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_greater_or_equal</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_groupnorm_with_fast_norm.ReplaceGroupNormWithFastNorm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_groupnorm_with_fast_norm.</span></span><span class="sig-name descname"><span class="pre">ReplaceGroupNormWithFastNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_groupnorm_with_fast_norm.ReplaceGroupNormWithFastNorm" title="Permalink to this definition"></a></dt>
+<dd><p>Replace GroupNormalization to FastNorm if datatype is fp16 and num_groups=1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_groupnorm_with_fast_norm</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_half_reducemean.ReplaceHalfReduceMean">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_half_reducemean.</span></span><span class="sig-name descname"><span class="pre">ReplaceHalfReduceMean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_half_reducemean.ReplaceHalfReduceMean" title="Permalink to this definition"></a></dt>
+<dd><p>Replace ReduceMean Op in fp16 mode with ReduceSum + Mul in case of overflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_half_reducemean</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_hardswish.ReplaceHardSwish">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_hardswish.</span></span><span class="sig-name descname"><span class="pre">ReplaceHardSwish</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_hardswish.ReplaceHardSwish" title="Permalink to this definition"></a></dt>
+<dd><p>Replace HardSwish Op with HardSigmoid Op and Mul Op.</p>
+<p>Replacement is required for the opset before 14 since HardSwish is only supported
+14.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_hardswish</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_isinf.ReplaceIsInf">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_isinf.</span></span><span class="sig-name descname"><span class="pre">ReplaceIsInf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_isinf.ReplaceIsInf" title="Permalink to this definition"></a></dt>
+<dd><p>Replace IsInf Op with IsInfV2 Op(support detect_negative/_positive).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_isinf</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_less_or_equal.ReplaceLessOrEqual">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_less_or_equal.</span></span><span class="sig-name descname"><span class="pre">ReplaceLessOrEqual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_less_or_equal.ReplaceLessOrEqual" title="Permalink to this definition"></a></dt>
+<dd><p>Replace LessOrEqual Op with Less Op and Not Op.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_less_or_equal</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_nonzero.ReplaceNonZero">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_nonzero.</span></span><span class="sig-name descname"><span class="pre">ReplaceNonZero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_nonzero.ReplaceNonZero" title="Permalink to this definition"></a></dt>
+<dd><p>Replace NonZero by ArgMax when the number of nonzero element is known.</p>
+<p>Right now only single element is supported, going to support multi elements with
+TopK.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_nonzero</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_pow.ReplacePow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_pow.</span></span><span class="sig-name descname"><span class="pre">ReplacePow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_pow.ReplacePow" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Pow Op with Square Op and Mul Op.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_pow</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_round.ReplaceRound">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_round.</span></span><span class="sig-name descname"><span class="pre">ReplaceRound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_round.ReplaceRound" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Round Op with RoundV2 Op(half to even mode).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_round</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_softmax.ReplaceSoftmax">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_softmax.</span></span><span class="sig-name descname"><span class="pre">ReplaceSoftmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_softmax.ReplaceSoftmax" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Softmax Op with SoftmaxV2 Op when the axis is the lowest dim and the lowest dim is an odd.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_softmax</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_where_mask.ReplaceWhereMask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_where_mask.</span></span><span class="sig-name descname"><span class="pre">ReplaceWhereMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_where_mask.ReplaceWhereMask" title="Permalink to this definition"></a></dt>
+<dd><p>Change attention_mask method from where to add.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_where_mask</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_where_with_mul_add.ReplaceWhereWithMulAdd">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_where_with_mul_add.</span></span><span class="sig-name descname"><span class="pre">ReplaceWhereWithMulAdd</span></span><a class="headerlink" href="#poprt.passes.replace_where_with_mul_add.ReplaceWhereWithMulAdd" title="Permalink to this definition"></a></dt>
+<dd><p>Where(condition, X, Y) = Add(Mul(condition, X), Mul(neg_condition, Y)).</p>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_where_with_mul_add</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.replace_where_with_wherev2.ReplaceWhereWithWhereV2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.replace_where_with_wherev2.</span></span><span class="sig-name descname"><span class="pre">ReplaceWhereWithWhereV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.replace_where_with_wherev2.ReplaceWhereWithWhereV2" title="Permalink to this definition"></a></dt>
+<dd><p>Replace Where Op with WhereV2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">replace_where_with_wherev2</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.serialize_matmul.SerializeMatmul">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.serialize_matmul.</span></span><span class="sig-name descname"><span class="pre">SerializeMatmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serialize_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.serialize_matmul.SerializeMatmul" title="Permalink to this definition"></a></dt>
+<dd><p>Enable to serialize Matmul Op to save memory on chip.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>serialize_dict</strong> (<em>Dict</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">serialize_matmul</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.serialize_matmul_add.SerializeMatmulAdd">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.serialize_matmul_add.</span></span><span class="sig-name descname"><span class="pre">SerializeMatmulAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serialize_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.serialize_matmul_add.SerializeMatmulAdd" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>serialize_dict</strong> (<em>Dict</em>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">serialize_matmul_add</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.shape_inference.ReplacePow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.shape_inference.</span></span><span class="sig-name descname"><span class="pre">ReplacePow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.shape_inference.ReplacePow" title="Permalink to this definition"></a></dt>
+<dd><p>Do shape inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">shape_inference</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.workarounds.TopKWorkaround">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.workarounds.</span></span><span class="sig-name descname"><span class="pre">TopKWorkaround</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.workarounds.TopKWorkaround" title="Permalink to this definition"></a></dt>
+<dd><p>Workaround for TopK Op which is required with positive axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">topk_workaround</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.trace_folding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">trace_folding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.trace_folding" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">trace_folding</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="poprt.passes.apply_ir_pass.unique_name_for_nodes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">poprt.passes.apply_ir_pass.</span></span><span class="sig-name descname"><span class="pre">unique_name_for_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#poprt.passes.apply_ir_pass.unique_name_for_nodes" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Registered as Pass: <code class="docutils literal notranslate"><span class="pre">unique_name_for_nodes</span></code></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="instructions.html" class="btn btn-neutral float-left" title="4. 使用 PopRT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="features/index.html" class="btn btn-neutral float-right" title="6. Features" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

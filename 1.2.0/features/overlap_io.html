@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6.2. Overlap IO &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6.3. Dynamic Batch Size" href="dynamic_batch_size.html" />
+    <link rel="prev" title="6.1. FP8" href="fp8.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.2.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../passes.html">5. Passes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../passes.html#pass">5.1. Pass 抽象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../passes.html#poprt-pass">5.2. PopRT 中注册的 Pass</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">6. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fp8.html">6.1. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#ipu-fp8">6.1.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id1">6.1.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp32-fp8">6.1.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id2">6.1.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id3">6.1.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.2. Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">6.2.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#io-tiles">6.2.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">6.2.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">6.2.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">6.2.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">6.3. Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">6.3.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">6.3.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">6.4. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">6.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">6.4.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">6.4.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">6.4.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_packing.html">6.5. CPU Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id1">6.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id2">6.5.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id6">6.5.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id8">6.5.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">6.6. Model Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">6.6.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id1">6.6.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">6.7. Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#id1">6.7.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">6.8. Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id1">6.8.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id2">6.8.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">6.9. Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">6.9.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">6.9.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法二: 通过 CLI 命令行参数启用指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">6.10. Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">6.10.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">6.10.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual_sharding.html">6.11. Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#sharding">6.11.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#pipelining">6.11.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id3">6.11.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id4">6.11.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id5">6.11.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="auto_sharding.html">6.12. Auto Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id1">6.12.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id2">6.12.2. Auto Sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id5">6.12.3. Auto Sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html">6.13. Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id1">6.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id2">6.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">6.14. PopRT Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#onnx-frontend">6.14.1. ONNX Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#tensorflow-frontend">6.14.2. TensorFlow Frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">7. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">7.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">7.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">7.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-frontend-module">7.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">7.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">7.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">8. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">8.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">8.2. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#modelrunner">8.2.1. ModelRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#packrunner">8.2.2. PackRunner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#device">8.2.3. Device</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">9. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">10. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overlap-io">
+<span id="features-overlap-io"></span><h1><span class="section-number">6.2. </span>Overlap IO<a class="headerlink" href="#overlap-io" title="Permalink to this headline"></a></h1>
+<p>IPU 在执行推理模型时, 一般分成 3 个阶段:</p>
+<ol class="arabic simple">
+<li><p>Load: 从 Host 拷贝输入数据到 IPU</p></li>
+<li><p>Compute: 模型计算</p></li>
+<li><p>Store: 从 IPU 拷贝结果数据到 Host</p></li>
+</ol>
+<p>这三个阶段是串行执行的, 也就是说在 Load/Store 阶段传输数据时, IPU 的计算资源是闲置状态. 这在一些输入输出数据比较大的模型中, 整个模型的性能是受 IO 限制的. 对于这种模型, 开启 Overlap IO 能够使计算阶段和 IO 阶段重叠起来, 提高 IPU 的计算资源利用率.</p>
+<section id="id1">
+<h2><span class="section-number">6.2.1. </span>原理<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<p>Overlap IO 的原理是通过把 IPU 的片上所有 Tile 划分成两组, 即 Compute Tiles 和 IO Tiles, Compute Tiles 专门处理计算, 而 IO Tiles 专门负责与 Host 之间进行数据拷贝. 这样, 对于一个计算流来说, Load, Compute, Store 三个阶段组成了一个三级的 pipeline, 从而使计算和 IO 重叠起来, 提高 IPU 计算资源的利用率.</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/overlap_io_pipeline.png"><img alt="../_images/overlap_io_pipeline.png" src="../_images/overlap_io_pipeline.png" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">Load/Compute/Store 组成的 pipeline</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="io-tiles">
+<h2><span class="section-number">6.2.2. </span>配置 IO Tiles<a class="headerlink" href="#io-tiles" title="Permalink to this headline"></a></h2>
+<p>Overlap IO 的开启只需要设置一个参数, 即 IO Tiles 的数量. 可以调整 IO Tiles 的数量来优化传输的吞吐量. 要计算 IO Tiles 的数量, 可以用所有输入输出的 Tensor 大小之和除以每个 Tile 可用的 SRAM 大小, 然后四舍五入到下一个 2 的幂次方.</p>
+<ul class="simple">
+<li><p>通过 PopRT CLI 中 <code class="docutils literal notranslate"><span class="pre">--num_io_tiles</span></code> 来配置 IO Tiles:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model model.onnx \</span>
+<span class="go">    --export_popef \</span>
+<span class="go">    --output_dir model \</span>
+<span class="go">    --num_io_tiles 128</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">poprt.compiler.CompilerOptions</span></code> API 来配置 IO Tiles:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">opts</span> <span class="o">=</span> <span class="n">poprt</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">CompilerOptions</span><span class="p">()</span>
+<span class="n">opts</span><span class="o">.</span><span class="n">num_io_tiles</span> <span class="o">=</span> <span class="mi">128</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2><span class="section-number">6.2.3. </span>调试<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<p>通过 <a class="reference external" href="https://docs.graphcore.ai/projects/graph-analyser-userguide/en/latest/index.html">PopVision Graph Analyser</a> 工具, 可以观察 IO 和 Compute 是否重叠, 从而来判断 OverlapIO 是否生效, 以及通过调整 IO Tiles 的数量来优化模型的性能.</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../_images/overlap_io.png"><img alt="../_images/overlap_io.png" src="../_images/overlap_io.png" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Overlap IO 使得 IO 和 Compute 互相掩盖</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id3">
+<h2><span class="section-number">6.2.4. </span>并发请求<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h2>
+<p>由于通过 Overlap IO 把推理的 3 个阶段组成了一个三段式的流水线, 因此, 为了能维持流水线运行下去, 必须要有足够的并发数据喂给 IPU. 通过多线程的方式给 IPU 并发的喂数据, 至少需要启动 3 个线程.</p>
+</section>
+<section id="id4">
+<h2><span class="section-number">6.2.5. </span>示例<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h2>
+<p>下面是一个简单的 OverlapIO 的 example code:</p>
+<div class="literal-block-wrapper docutils container" id="simple-overlapio-py">
+<div class="code-block-caption"><span class="caption-number">Listing 6.1 </span><span class="caption-text">simple_overlapio.py</span><a class="headerlink" href="#simple-overlapio-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1"># Copyright (c) 2022 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">threading</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos">  6</span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="kn">from</span> <span class="nn">onnx</span> <span class="kn">import</span> <span class="n">helper</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="kn">from</span> <span class="nn">poprt</span> <span class="kn">import</span> <span class="n">runtime</span>
+<span class="linenos"> 11</span><span class="kn">from</span> <span class="nn">poprt.compiler</span> <span class="kn">import</span> <span class="n">Compiler</span><span class="p">,</span> <span class="n">CompilerOptions</span>
+<span class="linenos"> 12</span><span class="kn">from</span> <span class="nn">poprt.runtime</span> <span class="kn">import</span> <span class="n">RuntimeConfig</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="linenos"> 15</span><span class="sd">PopRT use OverlapInnerLoop strategy as default exchange strategy.</span>
+<span class="linenos"> 16</span><span class="sd">There are two loops in the main program: outer loop and inner loop.</span>
+<span class="linenos"> 17</span><span class="sd">Each batch data needs to be processed in three pipeline stages: load/compute/store.</span>
+<span class="linenos"> 18</span><span class="sd">Therefore, in order to enable the pipeline to run normally, at least three threads</span>
+<span class="linenos"> 19</span><span class="sd">are required to feed data to the pipeline at the same time.</span>
+<span class="linenos"> 20</span><span class="sd">==============================================================</span>
+<span class="linenos"> 21</span><span class="sd">OverlapInnerLoop:</span>
+<span class="linenos"> 22</span><span class="sd">- Boxes denote subgraphs / subgraph Ops / loops</span>
+<span class="linenos"> 23</span><span class="sd">- Inputs/outputs are loop carried in order</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="sd">.- outer loop ----------------------------------------.</span>
+<span class="linenos"> 26</span><span class="sd">|                  .- inner loop -.                   |</span>
+<span class="linenos"> 27</span><span class="sd">| load - compute - | - store      |                   |</span>
+<span class="linenos"> 28</span><span class="sd">|           load - | - compute -- | - store           |</span>
+<span class="linenos"> 29</span><span class="sd">|                  |   load ----- | - compute - store |</span>
+<span class="linenos"> 30</span><span class="sd">|                  &#39;--------------&#39;                   |</span>
+<span class="linenos"> 31</span><span class="sd">&#39;-----------------------------------------------------&#39;</span>
+<span class="linenos"> 32</span><span class="sd">         ^^^^^^^       ^^^^^^^        ^^^^^^^</span>
+<span class="linenos"> 33</span><span class="sd">         overlap       overlap        overlap</span>
+<span class="linenos"> 34</span>
+<span class="linenos"> 35</span><span class="sd">==============================================================</span>
+<span class="linenos"> 36</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="linenos"> 37</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Compile ONNX to PopEF.&quot;&quot;&quot;</span>
+<span class="linenos"> 41</span>    <span class="n">model_bytes</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+<span class="linenos"> 42</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span>    <span class="n">options</span> <span class="o">=</span> <span class="n">CompilerOptions</span><span class="p">()</span>
+<span class="hll"><span class="linenos"> 45</span>    <span class="n">options</span><span class="o">.</span><span class="n">batches_per_step</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">batches_per_step</span>
+</span><span class="linenos"> 46</span>    <span class="n">options</span><span class="o">.</span><span class="n">num_io_tiles</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num_io_tiles</span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span>    <span class="n">executable</span> <span class="o">=</span> <span class="n">Compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model_bytes</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+<span class="linenos"> 49</span>    <span class="k">return</span> <span class="n">executable</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">executable</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run PopEF.&quot;&quot;&quot;</span>
+<span class="linenos"> 54</span>    <span class="c1"># Create model runner</span>
+<span class="linenos"> 55</span>    <span class="n">config</span> <span class="o">=</span> <span class="n">RuntimeConfig</span><span class="p">()</span>
+<span class="linenos"> 56</span>    <span class="n">config</span><span class="o">.</span><span class="n">timeout_ns</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos"> 57</span>    <span class="c1"># Create model runner</span>
+<span class="linenos"> 58</span>    <span class="n">model_runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">ModelRunner</span><span class="p">(</span><span class="n">executable</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span>    <span class="n">inputs_info</span> <span class="o">=</span> <span class="n">model_runner</span><span class="o">.</span><span class="n">get_model_inputs</span><span class="p">()</span>
+<span class="linenos"> 61</span>    <span class="n">outputs_info</span> <span class="o">=</span> <span class="n">model_runner</span><span class="o">.</span><span class="n">get_model_outputs</span><span class="p">()</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span>    <span class="c1"># Run in multiple threads</span>
+<span class="linenos"> 64</span>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">bps</span><span class="p">,</span> <span class="n">inputs_info</span><span class="p">,</span> <span class="n">outputs_info</span><span class="p">):</span>
+<span class="linenos"> 65</span>        <span class="n">inputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos"> 66</span>        <span class="n">outputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos"> 67</span>
+<span class="linenos"> 68</span>        <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs_info</span><span class="p">:</span>
+<span class="linenos"> 69</span>            <span class="n">inputs</span><span class="p">[</span><span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+<span class="linenos"> 70</span>                <span class="nb">input</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">()</span>
+<span class="linenos"> 71</span>            <span class="p">)</span>
+<span class="linenos"> 72</span>        <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs_info</span><span class="p">:</span>
+<span class="linenos"> 73</span>            <span class="n">outputs</span><span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+<span class="linenos"> 74</span>                <span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">()</span>
+<span class="linenos"> 75</span>            <span class="p">)</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span>        <span class="c1"># To correctly generate the popvision report, iteration must be a</span>
+<span class="linenos"> 78</span>        <span class="c1"># multiple of batches_per_step and greater than 2 * batches_per_step</span>
+<span class="linenos"> 79</span>        <span class="c1"># There are 3 threads, so the total number feed into IPU is 3 * iteration</span>
+<span class="linenos"> 80</span>        <span class="n">iteration</span> <span class="o">=</span> <span class="n">bps</span>
+<span class="hll"><span class="linenos"> 81</span>        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iteration</span><span class="p">):</span>
+</span><span class="linenos"> 82</span>            <span class="n">model_runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span>    <span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 85</span>    <span class="n">num_threads</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="linenos"> 86</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run PopEF with </span><span class="si">{</span><span class="n">num_threads</span><span class="si">}</span><span class="s2"> threads.&quot;</span><span class="p">)</span>
+<span class="linenos"> 87</span>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">):</span>
+<span class="linenos"> 88</span>        <span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="linenos"> 89</span>            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
+<span class="linenos"> 90</span>                <span class="n">target</span><span class="o">=</span><span class="n">execute</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batches_per_step</span><span class="p">,</span> <span class="n">inputs_info</span><span class="p">,</span> <span class="n">outputs_info</span><span class="p">)</span>
+<span class="linenos"> 91</span>            <span class="p">)</span>
+<span class="linenos"> 92</span>        <span class="p">)</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span>    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+<span class="linenos"> 95</span>        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="linenos"> 96</span>
+<span class="linenos"> 97</span>    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+<span class="linenos"> 98</span>        <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="linenos"> 99</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Complete.&quot;</span><span class="p">)</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span><span class="k">def</span> <span class="nf">default_model</span><span class="p">():</span>
+<span class="linenos">103</span>    <span class="n">TensorProto</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">TensorProto</span>
+<span class="linenos">104</span>
+<span class="linenos">105</span>    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">106</span>    <span class="n">num_matmuls</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="linenos">107</span>    <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="s2">&quot;Expand&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Act0&quot;</span><span class="p">]))</span>
+<span class="linenos">108</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_matmuls</span><span class="p">):</span>
+<span class="linenos">109</span>        <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="s2">&quot;MatMul&quot;</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Act</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Weight&quot;</span><span class="p">],</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Act</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]))</span>
+<span class="linenos">110</span>    <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="linenos">111</span>        <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="s2">&quot;ReduceMean&quot;</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Act</span><span class="si">{</span><span class="n">num_matmuls</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">],</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="linenos">112</span>    <span class="p">)</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span>    <span class="n">graph</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_graph</span><span class="p">(</span>
+<span class="linenos">115</span>        <span class="n">nodes</span><span class="p">,</span>
+<span class="linenos">116</span>        <span class="s2">&quot;matmul_test&quot;</span><span class="p">,</span>
+<span class="linenos">117</span>        <span class="p">[</span>
+<span class="linenos">118</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)),</span>
+<span class="linenos">119</span>        <span class="p">],</span>
+<span class="linenos">120</span>        <span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">))],</span>
+<span class="linenos">121</span>        <span class="p">[</span>
+<span class="linenos">122</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor</span><span class="p">(</span>
+<span class="linenos">123</span>                <span class="s2">&quot;shape&quot;</span><span class="p">,</span>
+<span class="linenos">124</span>                <span class="n">TensorProto</span><span class="o">.</span><span class="n">INT64</span><span class="p">,</span>
+<span class="linenos">125</span>                <span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+<span class="linenos">126</span>                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+<span class="linenos">127</span>            <span class="p">),</span>
+<span class="linenos">128</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor</span><span class="p">(</span>
+<span class="linenos">129</span>                <span class="s2">&quot;Weight&quot;</span><span class="p">,</span>
+<span class="linenos">130</span>                <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>
+<span class="linenos">131</span>                <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+<span class="linenos">132</span>                <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+<span class="linenos">133</span>            <span class="p">),</span>
+<span class="linenos">134</span>        <span class="p">],</span>
+<span class="linenos">135</span>    <span class="p">)</span>
+<span class="linenos">136</span>    <span class="n">opset_imports</span> <span class="o">=</span> <span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">make_opsetid</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+<span class="linenos">137</span>    <span class="n">original_model</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_model</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">opset_imports</span><span class="o">=</span><span class="n">opset_imports</span><span class="p">)</span>
+<span class="linenos">138</span>    <span class="k">return</span> <span class="n">original_model</span>
+<span class="linenos">139</span>
+<span class="linenos">140</span>
+<span class="linenos">141</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">142</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+<span class="linenos">143</span>        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Convert onnx model and run it on IPU.&#39;</span>
+<span class="linenos">144</span>    <span class="p">)</span>
+<span class="linenos">145</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">146</span>        <span class="s1">&#39;--batches_per_step&#39;</span><span class="p">,</span>
+<span class="linenos">147</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="linenos">148</span>        <span class="n">default</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+<span class="linenos">149</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of on-chip loop count.&quot;</span><span class="p">,</span>
+<span class="linenos">150</span>    <span class="p">)</span>
+<span class="linenos">151</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">152</span>        <span class="s1">&#39;--num_io_tiles&#39;</span><span class="p">,</span>
+<span class="linenos">153</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="linenos">154</span>        <span class="n">default</span><span class="o">=</span><span class="mi">192</span><span class="p">,</span>
+<span class="linenos">155</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of IO tiles.&quot;</span><span class="p">,</span>
+<span class="linenos">156</span>    <span class="p">)</span>
+<span class="linenos">157</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos">158</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">default_model</span><span class="p">()</span>
+<span class="linenos">159</span>    <span class="n">exec</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="linenos">160</span>    <span class="n">run</span><span class="p">(</span><span class="n">exec</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/e6afb4c5146650575d21976eff1092c7/simple_overlapio.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">simple_overlapio.py</span></code></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fp8.html" class="btn btn-neutral float-left" title="6.1. FP8" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dynamic_batch_size.html" class="btn btn-neutral float-right" title="6.3. Dynamic Batch Size" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>
