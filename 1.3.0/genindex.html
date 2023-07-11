@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index &mdash; Title</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/tabs.js"></script>
+        <script src="_static/js/graphcore.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.3.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/index.html">5. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/passes.html#pass">5.1.1. Pass 抽象</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#ipu-fp8">5.2.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id1">5.2.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp32-fp8">5.2.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id2">5.2.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#id3">5.2.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/overlap_io.html">5.3. Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id1">5.3.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#io-tiles">5.3.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id2">5.3.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id3">5.3.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#id4">5.3.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/dynamic_batch_size.html">5.4. Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#id1">5.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#id3">5.4.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#id1">5.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#packing-unpacking">5.5.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#id2">5.5.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/cpu_packing.html">5.6. CPU Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id1">5.6.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id2">5.6.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id6">5.6.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#id8">5.6.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_fusion.html">5.7. Model Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#poprt">5.7.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#id1">5.7.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_ops.html">5.8. Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#id1">5.8.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_onnx_pass.html">5.9. Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#id1">5.9.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#id2">5.9.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_pattern.html">5.10. Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#custom-popart-patterns">5.10.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#poprt-custom-popart-patterns">5.10.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#python-api-pattern">方法二: 使用 Python API 启用或关闭指定的 Pattern</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#cli-pattern">方法三: 通过 CLI 命令行参数启用或关闭指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_transform.html">5.11. Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#custom-popart-transform">5.11.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#poprt-custom-transform">5.11.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/manual_sharding.html">5.12. Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#sharding">5.12.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#pipelining">5.12.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id3">5.12.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id4">5.12.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#id5">5.12.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/error_handling.html">5.13. Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/error_handling.html#id1">5.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/error_handling.html#id2">5.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/frontend.html">5.14. PopRT Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#onnx-frontend">5.14.1. ONNX Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#tensorflow-frontend">5.14.2. TensorFlow Frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/auto_sharding.html">5.15. Auto Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id1">5.15.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id2">5.15.2. Auto Sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#id5">5.15.3. Auto Sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_debugger.html">5.16. Model Debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#id1">5.16.1. 使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#id2">5.16.2. 使用示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">8. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.PassManager.add_passes">add_passes() (poprt.PassManager method)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.add_checkpoints.AddCheckpoints">AddCheckpoints (class in poprt.passes.add_checkpoints)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.against_passes">against_passes() (poprt.Pass static method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.apply_host_concat_split.ApplyHostConcatSplit">ApplyHostConcatSplit (class in poprt.passes.apply_host_concat_split)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.ApplyIrPass">ApplyIrPass (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.auto_insert_remap.AutoInsertRemap">AutoInsertRemap (class in poprt.passes.auto_insert_remap)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.backends.Backend">Backend (class in poprt.backends)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.workarounds.BatchNormWorkaround">BatchNormWorkaround (class in poprt.passes.workarounds)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.check_with_fake_data.CheckWithFakeData">CheckWithFakeData (class in poprt.passes.check_with_fake_data)</a>
+</li>
+      <li><a href="python_api.html#poprt.compiler.Compiler.compile">compile() (poprt.compiler.Compiler static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.compiler.Compiler.compile_and_export">compile_and_export() (poprt.compiler.Compiler static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.compiler.Compiler.compile_and_get_summary_report">compile_and_get_summary_report() (poprt.compiler.Compiler static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.compiler.Compiler">Compiler (class in poprt.compiler)</a>
+</li>
+      <li><a href="python_api.html#poprt.compiler.CompilerOptions">CompilerOptions (class in poprt.compiler)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.constant_folding.ConstantFolding">ConstantFolding (class in poprt.passes.constant_folding)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.const_batch_size.ConstBatchSize">ConstBatchSize (class in poprt.passes.const_batch_size)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.const_input_shape.ConstInputShape">ConstInputShape (class in poprt.passes.const_input_shape)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.constraint_passes">constraint_passes() (poprt.Pass static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.Converter.convert">convert() (poprt.Converter method)</a>
+</li>
+      <li><a href="python_api.html#poprt.Converter">Converter (class in poprt)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.workarounds.CumSumWorkaround">CumSumWorkaround (class in poprt.passes.workarounds)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.runtime.DeviceManager">DeviceManager (class in poprt.runtime)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.double_to_float.DoubleToFloat">DoubleToFloat (class in poprt.passes.double_to_float)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.eight_bits_io.EightBitsIO">EightBitsIO (class in poprt.passes.eight_bits_io)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_deadend">eliminate_deadend (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_duplicate_initializer">eliminate_duplicate_initializer (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_identity">eliminate_identity (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_arithmetic">eliminate_nop_arithmetic (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_cast">eliminate_nop_cast (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_expand">eliminate_nop_expand (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_flatten">eliminate_nop_flatten (class in poprt.passes.apply_ir_pass)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_if">eliminate_nop_if (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_pad">eliminate_nop_pad (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_reshape">eliminate_nop_reshape (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_nop_transpose">eliminate_nop_transpose (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.eliminate_unused_initializer">eliminate_unused_initializer (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.erf_gelu_pattern.ErfGeluPattern">ErfGeluPattern (class in poprt.passes.erf_gelu_pattern)</a>
+</li>
+      <li><a href="python_api.html#poprt.runtime.Runner.execute">execute() (poprt.runtime.Runner method)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.extract_constant_to_initializer">extract_constant_to_initializer (class in poprt.passes.apply_ir_pass)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.fill_squeeze_axes.FillSqueezeAxes">FillSqueezeAxes (class in poprt.passes.fill_squeeze_axes)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.final_check.FinalCheck">FinalCheck (class in poprt.passes.final_check)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.float_to_fp8.Float2FP8">Float2FP8 (class in poprt.passes.float_to_fp8)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.float_to_half.Float2Half">Float2Half (class in poprt.passes.float_to_half)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.float_to_mixed.Float2Mixed">Float2Mixed (class in poprt.passes.float_to_mixed)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.workarounds.FloatOpsWorkaround">FloatOpsWorkaround (class in poprt.passes.workarounds)</a>
+</li>
+      <li><a href="python_api.html#poprt.quantizer.FP8Quantizer">FP8Quantizer (class in poprt.quantizer)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.fuse_bn_into_conv">fuse_bn_into_conv (class in poprt.passes.apply_ir_pass)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.fuse_consecutive_cast">fuse_consecutive_cast (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.fuse_consecutive_reshape">fuse_consecutive_reshape (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.fuse_consecutive_squeeze">fuse_consecutive_squeeze (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.fuse_consecutive_transpose">fuse_consecutive_transpose (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.fuse_consecutive_unsqueeze">fuse_consecutive_unsqueeze (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.fuse_bn_into_gemm.FuseBnIntoGemm">FuseBnIntoGemm (class in poprt.passes.fuse_bn_into_gemm)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.fuse_cast_into_onehot.FuseCastIntoOnehot">FuseCastIntoOnehot (class in poprt.passes.fuse_cast_into_onehot)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.fused_attention.FusedAttention">FusedAttention (class in poprt.passes.fused_attention)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.fuse_mul_into_matmul.FuseMulIntoMatmul">FuseMulIntoMatmul (class in poprt.passes.fuse_mul_into_matmul)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.gelu_pattern.GeluPattern">GeluPattern (class in poprt.passes.gelu_pattern)</a>
+</li>
+      <li><a href="python_api.html#poprt.PassManager.get_all_pass_names">get_all_pass_names() (poprt.PassManager method)</a>
+</li>
+      <li><a href="python_api.html#poprt.runtime.DeviceManager.get_device">get_device() (poprt.runtime.DeviceManager method)</a>
+</li>
+      <li><a href="python_api.html#poprt.backends.Backend.get_io_info">get_io_info() (poprt.backends.Backend method)</a>
+</li>
+      <li><a href="python_api.html#poprt.runtime.DeviceManager.get_num_devices">get_num_devices() (poprt.runtime.DeviceManager method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.frontend.OnnxFrontend.get_onnx_name">get_onnx_name() (poprt.frontend.OnnxFrontend method)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.get_pass">get_pass() (poprt.Pass static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.PassManager.get_passes">get_passes() (poprt.PassManager method)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.get_registered_passes">get_registered_passes() (poprt.Pass static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.runtime.DeviceManager.get_specific_device">get_specific_device() (poprt.runtime.DeviceManager method)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.get_typed_registered_passes">get_typed_registered_passes() (poprt.Pass static method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.workarounds.IndicesWorkaround">IndicesWorkaround (class in poprt.passes.workarounds)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.insert_attention_mask.InsertAttentionMask">InsertAttentionMask (class in poprt.passes.insert_attention_mask)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.int64_to_int32.Int64ToInt32">Int64ToInt32 (class in poprt.passes.int64_to_int32)</a>
+</li>
+      <li><a href="python_api.html#poprt.runtime.DeviceManager.ipu_hardware_version">ipu_hardware_version() (poprt.runtime.DeviceManager method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.layer_norm_pattern.LayerNormPattern">LayerNormPattern (class in poprt.passes.layer_norm_pattern)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.layer_precision_compare.LayerPrecisionCompare">LayerPrecisionCompare (class in poprt.passes.layer_precision_compare)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.frontend.OnnxFrontend.load_model">load_model() (poprt.frontend.OnnxFrontend method)</a>
+
+      <ul>
+        <li><a href="python_api.html#poprt.frontend.TensorflowFrontend.load_model">(poprt.frontend.TensorflowFrontend method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.manual_sharding.ManualSharding">ManualSharding (class in poprt.passes.manual_sharding)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.matmul_rotary_embedding.MatmulRotaryEmbedding">MatmulRotaryEmbedding (class in poprt.passes.matmul_rotary_embedding)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.merge_matmul.MergeMatmul">MergeMatmul (class in poprt.passes.merge_matmul)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.merge_matmul_add.MergeMatmulAdd">MergeMatmulAdd (class in poprt.passes.merge_matmul_add)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.model_overview.ModelOverview">ModelOverview (class in poprt.passes.model_overview)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.move_subgraph_initializer.MoveSubgraphInitializer">MoveSubgraphInitializer (class in poprt.passes.move_subgraph_initializer)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.workarounds.OneHotWorkaround">OneHotWorkaround (class in poprt.passes.workarounds)</a>
+</li>
+      <li><a href="python_api.html#poprt.frontend.OnnxFrontend">OnnxFrontend (class in poprt.frontend)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.backends.ORTBackend">ORTBackend (class in poprt.backends)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.overlap_io.OverlapIO">OverlapIO (class in poprt.passes.overlap_io)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.packed_transformer.PackedTransformer">PackedTransformer (class in poprt.passes.packed_transformer)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass">Pass (class in poprt)</a>
+</li>
+      <li><a href="python_api.html#poprt.PassManager">PassManager (class in poprt)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler8CompilerE">poprt::compiler::Compiler (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler8Compiler7compileERKNSt6stringERKNSt6vectorINSt6stringEEERK15CompilerOptions">poprt::compiler::Compiler::compile (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler8Compiler16compileAndExportERKNSt6stringERKNSt6vectorINSt6stringEEERKNSt6stringERK15CompilerOptions">poprt::compiler::Compiler::compileAndExport (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt8compiler8Compiler16compileAndExportERKNSt6stringERKNSt6vectorINSt6stringEEERNSt7ostreamERK15CompilerOptions">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler8Compiler26compileAndGetSummaryReportERKNSt6stringERKNSt6vectorINSt6stringEEERK15CompilerOptionsb">poprt::compiler::Compiler::compileAndGetSummaryReport (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptionsE">poprt::compiler::CompilerOptions (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions25availableMemoryProportionE">poprt::compiler::CompilerOptions::availableMemoryProportion (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions14batchesPerStepE">poprt::compiler::CompilerOptions::batchesPerStep (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions9cachePathE">poprt::compiler::CompilerOptions::cachePath (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions25compilationProgressLoggerE">poprt::compiler::CompilerOptions::compilationProgressLogger (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions15constantWeightsE">poprt::compiler::CompilerOptions::constantWeights (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions38createHostTransferableTensorWithOffsetE">poprt::compiler::CompilerOptions::createHostTransferableTensorWithOffset (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions14customPatternsE">poprt::compiler::CompilerOptions::customPatterns (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions30customTransformApplierSettingsE">poprt::compiler::CompilerOptions::customTransformApplierSettings (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions19enableEngineCachingE">poprt::compiler::CompilerOptions::enableEngineCaching (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions16enableFastReduceE">poprt::compiler::CompilerOptions::enableFastReduce (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions22enableGatherSimplifierE">poprt::compiler::CompilerOptions::enableGatherSimplifier (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions17enableModelFusionE">poprt::compiler::CompilerOptions::enableModelFusion (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions22enableNonStableSoftmaxE">poprt::compiler::CompilerOptions::enableNonStableSoftmax (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions15enableOutliningE">poprt::compiler::CompilerOptions::enableOutlining (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions20enablePadConvChannelE">poprt::compiler::CompilerOptions::enablePadConvChannel (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions16enablePipeliningE">poprt::compiler::CompilerOptions::enablePipelining (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions25enablePrefetchDatastreamsE">poprt::compiler::CompilerOptions::enablePrefetchDatastreams (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions13engineOptionsE">poprt::compiler::CompilerOptions::engineOptions (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions13groupHostSyncE">poprt::compiler::CompilerOptions::groupHostSync (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions10ipuVersionE">poprt::compiler::CompilerOptions::ipuVersion (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions10numIOTilesE">poprt::compiler::CompilerOptions::numIOTiles (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions7numIpusE">poprt::compiler::CompilerOptions::numIpus (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions11opaqueBlobsE">poprt::compiler::CompilerOptions::opaqueBlobs (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt8compiler15CompilerOptionseqERK15CompilerOptions">poprt::compiler::CompilerOptions::operator== (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions16outlineThresholdE">poprt::compiler::CompilerOptions::outlineThreshold (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions12partialsTypeE">poprt::compiler::CompilerOptions::partialsType (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions22rearrangeAnchorsOnHostE">poprt::compiler::CompilerOptions::rearrangeAnchorsOnHost (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions22rearrangeStreamsOnHostE">poprt::compiler::CompilerOptions::rearrangeStreamsOnHost (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions16serializedIrDestE">poprt::compiler::CompilerOptions::serializedIrDest (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions11serializeIrE">poprt::compiler::CompilerOptions::serializeIr (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions26showCompilationProgressBarE">poprt::compiler::CompilerOptions::showCompilationProgressBar (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions20streamBufferingDepthE">poprt::compiler::CompilerOptions::streamBufferingDepth (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions23subgraphCopyingStrategyE">poprt::compiler::CompilerOptions::subgraphCopyingStrategy (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions18swapLimitSchedulerE">poprt::compiler::CompilerOptions::swapLimitScheduler (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions18timeLimitSchedulerE">poprt::compiler::CompilerOptions::timeLimitScheduler (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions38transitiveClosureOptimizationThresholdE">poprt::compiler::CompilerOptions::transitiveClosureOptimizationThreshold (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions21use128BitConvUnitLoadE">poprt::compiler::CompilerOptions::use128BitConvUnitLoad (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions16virtualGraphModeE">poprt::compiler::CompilerOptions::virtualGraphMode (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt8compiler15CompilerOptions23virtualGraphSplitRatiosE">poprt::compiler::CompilerOptions::virtualGraphSplitRatios (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10ExecutableE">poprt::Executable (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10Executable17appendOpaqueBlobsERKNSt3mapINSt6stringENSt6stringEEE">poprt::Executable::appendOpaqueBlobs (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable17appendOpaqueBlobsERKNSt4pairINSt6stringENSt6stringEEE">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableENSt10shared_ptrIN5popef5ModelEEE">poprt::Executable::Executable (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableERK10Executable">[1]</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableERKNSt10shared_ptrINSt7istreamEEENSt9streamoffE">[2]</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableERKNSt6stringE">[3]</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableERKNSt6vectorINSt6stringEEE">[4]</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableERR10Executable">[5]</a>, <a href="cxx_api.html#_CPPv4N5poprt10Executable10ExecutableEv">[6]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10Executable14getOpaqueBlobsEv">poprt::Executable::getOpaqueBlobs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10Executable13getPopefModelEv">poprt::Executable::getPopefModel (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10ExecutableaSERK10Executable">poprt::Executable::operator= (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt10ExecutableaSERR10Executable">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt10ExecutableD0Ev">poprt::Executable::~Executable (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunnerE">poprt::runtime::BaseRunner (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunner10BaseRunnerERR10BaseRunner">poprt::runtime::BaseRunner::BaseRunner (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunner10BaseRunnerEv">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunner7executeER15InputMemoryViewR16OutputMemoryView">poprt::runtime::BaseRunner::execute (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunner12executeAsyncER15InputMemoryViewR16OutputMemoryView">poprt::runtime::BaseRunner::executeAsync (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime10BaseRunner16getExecuteInputsEv">poprt::runtime::BaseRunner::getExecuteInputs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime10BaseRunner17getExecuteOutputsEv">poprt::runtime::BaseRunner::getExecuteOutputs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunneraSERK10BaseRunner">poprt::runtime::BaseRunner::operator= (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunneraSERR10BaseRunner">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10BaseRunnerD0Ev">poprt::runtime::BaseRunner::~BaseRunner (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime21ConstTensorMemoryViewE">poprt::runtime::ConstTensorMemoryView (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime21ConstTensorMemoryView21ConstTensorMemoryViewEPKv8uint64_t">poprt::runtime::ConstTensorMemoryView::ConstTensorMemoryView (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime21ConstTensorMemoryView21ConstTensorMemoryViewERK16TensorMemoryView">[1]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime21ConstTensorMemoryView21ConstTensorMemoryViewEv">[2]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime21ConstTensorMemoryView4dataE">poprt::runtime::ConstTensorMemoryView::data (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime21ConstTensorMemoryView13dataSizeBytesE">poprt::runtime::ConstTensorMemoryView::dataSizeBytes (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDescE">poprt::runtime::DataDesc (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDesc8DataDescENSt6stringE7int64_tNSt6vectorI7int64_tEEN5popef8DataTypeEb">poprt::runtime::DataDesc::DataDesc (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDesc8dataTypeE">poprt::runtime::DataDesc::dataType (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDesc4nameE">poprt::runtime::DataDesc::name (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDesc23popefContainsTensorDataE">poprt::runtime::DataDesc::popefContainsTensorData (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDesc5shapeE">poprt::runtime::DataDesc::shape (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime8DataDesc11sizeInBytesE">poprt::runtime::DataDesc::sizeInBytes (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime6DeviceE">poprt::runtime::Device (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime6Device6DeviceENSt10shared_ptrIN13model_runtime6DeviceEEE">poprt::runtime::Device::Device (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime6Device6DeviceERK6Device">[1]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime6Device6DeviceERR6Device">[2]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime6Device6deviceEv">poprt::runtime::Device::device (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime6Device10ipuVersionEv">poprt::runtime::Device::ipuVersion (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime6DeviceaSERK6Device">poprt::runtime::Device::operator= (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime6DeviceaSERR6Device">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime6DeviceD0Ev">poprt::runtime::Device::~Device (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManagerE">poprt::runtime::DeviceManager (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManager13DeviceManagerERK13DeviceManager">poprt::runtime::DeviceManager::DeviceManager (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManager13DeviceManagerERR13DeviceManager">[1]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManager13DeviceManagerEv">[2]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManager9getDeviceE7int64_t">poprt::runtime::DeviceManager::getDevice (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime13DeviceManager13getNumDevicesEv">poprt::runtime::DeviceManager::getNumDevices (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManager17getSpecificDeviceE7int64_t">poprt::runtime::DeviceManager::getSpecificDevice (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManager18ipuHardwareVersionEv">poprt::runtime::DeviceManager::ipuHardwareVersion (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManageraSERK13DeviceManager">poprt::runtime::DeviceManager::operator= (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManageraSERR13DeviceManager">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13DeviceManagerD0Ev">poprt::runtime::DeviceManager::~DeviceManager (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16DeviceWaitConfigE">poprt::runtime::DeviceWaitConfig (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16DeviceWaitConfig16DeviceWaitConfigEii">poprt::runtime::DeviceWaitConfig::DeviceWaitConfig (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime16DeviceWaitConfig16DeviceWaitConfigEv">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16DeviceWaitConfig12sleepTimeSecE">poprt::runtime::DeviceWaitConfig::sleepTimeSec (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16DeviceWaitConfig10timeoutSecE">poprt::runtime::DeviceWaitConfig::timeoutSec (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime9InputDescE">poprt::runtime::InputDesc (C++ type)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime15InputMemoryViewE">poprt::runtime::InputMemoryView (C++ type)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunnerE">poprt::runtime::ModelRunner (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunner7executeER15InputMemoryViewR16OutputMemoryView">poprt::runtime::ModelRunner::execute (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunner12executeAsyncER15InputMemoryViewR16OutputMemoryView">poprt::runtime::ModelRunner::executeAsync (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime11ModelRunner16getExecuteInputsEv">poprt::runtime::ModelRunner::getExecuteInputs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime11ModelRunner17getExecuteOutputsEv">poprt::runtime::ModelRunner::getExecuteOutputs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunner11ModelRunnerERK11ModelRunner">poprt::runtime::ModelRunner::ModelRunner (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunner11ModelRunnerERKNSt10shared_ptrI10ExecutableEERK13RuntimeConfig">[1]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunner11ModelRunnerERKNSt6stringERK13RuntimeConfig">[2]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunner11ModelRunnerERR11ModelRunner">[3]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunneraSERK11ModelRunner">poprt::runtime::ModelRunner::operator= (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunneraSERR11ModelRunner">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime11ModelRunnerD0Ev">poprt::runtime::ModelRunner::~ModelRunner (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10OutputDescE">poprt::runtime::OutputDesc (C++ type)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime22OutputFutureMemoryViewE">poprt::runtime::OutputFutureMemoryView (C++ type)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16OutputMemoryViewE">poprt::runtime::OutputMemoryView (C++ type)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunnerE">poprt::runtime::PackRunner (C++ class)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunner7executeER15InputMemoryViewR16OutputMemoryView">poprt::runtime::PackRunner::execute (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunner12executeAsyncER15InputMemoryViewR16OutputMemoryView">poprt::runtime::PackRunner::executeAsync (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime10PackRunner16getExecuteInputsEv">poprt::runtime::PackRunner::getExecuteInputs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime10PackRunner17getExecuteOutputsEv">poprt::runtime::PackRunner::getExecuteOutputs (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunneraSERK10PackRunner">poprt::runtime::PackRunner::operator= (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunneraSERR10PackRunner">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunner10PackRunnerERK10PackRunner">poprt::runtime::PackRunner::PackRunner (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunner10PackRunnerERKNSt10shared_ptrI10ExecutableEERK16PackRunnerConfig">[1]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunner10PackRunnerERKNSt6stringERK16PackRunnerConfig">[2]</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunner10PackRunnerERR10PackRunner">[3]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10PackRunnerD0Ev">poprt::runtime::PackRunner::~PackRunner (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfigE">poprt::runtime::PackRunnerConfig (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig4algoE">poprt::runtime::PackRunnerConfig::algo (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig12delimiterNumE">poprt::runtime::PackRunnerConfig::delimiterNum (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig16deviceWaitConfigE">poprt::runtime::PackRunnerConfig::deviceWaitConfig (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig21disableDataAcrossRowsE">poprt::runtime::PackRunnerConfig::disableDataAcrossRows (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig12dynamicGroupE">poprt::runtime::PackRunnerConfig::dynamicGroup (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig16dynamicInputNameE">poprt::runtime::PackRunnerConfig::dynamicInputName (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig19enablePaddingRemoveE">poprt::runtime::PackRunnerConfig::enablePaddingRemove (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig26enablePaddingRemovePatternENSt6stringENSt6vectorINSt6stringEEE">poprt::runtime::PackRunnerConfig::enablePaddingRemovePattern (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig19enableSingleRowModeENSt6stringENSt6stringEi">poprt::runtime::PackRunnerConfig::enableSingleRowMode (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig8maskNameE">poprt::runtime::PackRunnerConfig::maskName (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig11maxValidNumE">poprt::runtime::PackRunnerConfig::maxValidNum (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig16PackRunnerConfigEiiNSt6stringENSt6stringE">poprt::runtime::PackRunnerConfig::PackRunnerConfig (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig10runnerTypeE">poprt::runtime::PackRunnerConfig::runnerType (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig21timeoutInMicroSecondsE">poprt::runtime::PackRunnerConfig::timeoutInMicroSeconds (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16PackRunnerConfig19unpackInfoInputNameE">poprt::runtime::PackRunnerConfig::unpackInfoInputName (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10RunnerTypeE">poprt::runtime::RunnerType (C++ enum)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10RunnerType17ModelFusionRunnerE">poprt::runtime::RunnerType::ModelFusionRunner (C++ enumerator)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10RunnerType11ModelRunnerE">poprt::runtime::RunnerType::ModelRunner (C++ enumerator)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime10RunnerType10PackRunnerE">poprt::runtime::RunnerType::PackRunner (C++ enumerator)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfigE">poprt::runtime::RuntimeConfig (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig9autoResetE">poprt::runtime::RuntimeConfig::autoReset (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig11batchingDimE">poprt::runtime::RuntimeConfig::batchingDim (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig18batchSizeTimeoutNSE">poprt::runtime::RuntimeConfig::batchSizeTimeoutNS (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig16checkPackageHashE">poprt::runtime::RuntimeConfig::checkPackageHash (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig21dataParallelTimeoutNSE">poprt::runtime::RuntimeConfig::dataParallelTimeoutNS (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig16deviceWaitConfigE">poprt::runtime::RuntimeConfig::deviceWaitConfig (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig11flushByNameE">poprt::runtime::RuntimeConfig::flushByName (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig21flushOnWaitingOutputsE">poprt::runtime::RuntimeConfig::flushOnWaitingOutputs (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig25isBatchSizeTimeoutEnabledE">poprt::runtime::RuntimeConfig::isBatchSizeTimeoutEnabled (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4NK5poprt7runtime13RuntimeConfigeqERK13RuntimeConfig">poprt::runtime::RuntimeConfig::operator== (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig17replicaIdToDeviceE">poprt::runtime::RuntimeConfig::replicaIdToDevice (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig28requestTracepointsBufferSizeE">poprt::runtime::RuntimeConfig::requestTracepointsBufferSize (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig24ringBufferSizeMultiplierE">poprt::runtime::RuntimeConfig::ringBufferSizeMultiplier (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig10runnerTypeE">poprt::runtime::RuntimeConfig::runnerType (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig10threadSafeE">poprt::runtime::RuntimeConfig::threadSafe (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig9timeoutNSE">poprt::runtime::RuntimeConfig::timeoutNS (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime13RuntimeConfig16validateIOParamsE">poprt::runtime::RuntimeConfig::validateIOParams (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemoryE">poprt::runtime::TensorMemory (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemory4dataE">poprt::runtime::TensorMemory::data (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemory13dataSizeBytesE">poprt::runtime::TensorMemory::dataSizeBytes (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemory12getConstViewEv">poprt::runtime::TensorMemory::getConstView (C++ function)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemory7getViewEv">poprt::runtime::TensorMemory::getView (C++ function)</a>, <a href="cxx_api.html#_CPPv4NK5poprt7runtime12TensorMemory7getViewEv">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemory12TensorMemoryE7int64_t">poprt::runtime::TensorMemory::TensorMemory (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime12TensorMemory12TensorMemoryEv">[1]</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16TensorMemoryViewE">poprt::runtime::TensorMemoryView (C++ struct)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16TensorMemoryView4dataE">poprt::runtime::TensorMemoryView::data (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16TensorMemoryView13dataSizeBytesE">poprt::runtime::TensorMemoryView::dataSizeBytes (C++ member)</a>
+</li>
+      <li><a href="cxx_api.html#_CPPv4N5poprt7runtime16TensorMemoryView16TensorMemoryViewEPv8uint64_t">poprt::runtime::TensorMemoryView::TensorMemoryView (C++ function)</a>, <a href="cxx_api.html#_CPPv4N5poprt7runtime16TensorMemoryView16TensorMemoryViewEv">[1]</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.post_expand.PostExpand">PostExpand (class in poprt.passes.post_expand)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.pre_scale.PreScale">PreScale (class in poprt.passes.pre_scale)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.property_register">property_register() (poprt.Pass static method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.quantizer.quantize">quantize() (in module poprt.quantizer)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.Pass.register_pass">register_pass() (poprt.Pass static method)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.remove_duplicated_initializer.RemoveDuplicatedInitializer">RemoveDuplicatedInitializer (class in poprt.passes.remove_duplicated_initializer)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.workarounds.RemoveEmptyConcatInputs">RemoveEmptyConcatInputs (class in poprt.passes.workarounds)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.remove_initializer_from_input.RemoveInitializerFromInput">RemoveInitializerFromInput (class in poprt.passes.remove_initializer_from_input)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.remove_input_cast.RemoveInputCast">RemoveInputCast (class in poprt.passes.remove_input_cast)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.remove_outputs.RemoveOutputs">RemoveOutputs (class in poprt.passes.remove_outputs)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.replace_einsum_with_matmul">replace_einsum_with_matmul (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_bn_with_mul_add.ReplaceBNWithMulAdd">ReplaceBNWithMulAdd (class in poprt.passes.replace_bn_with_mul_add)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_castlike.ReplaceCastLike">ReplaceCastLike (class in poprt.passes.replace_castlike)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_clip_empty_inputs.ReplaceClipInputs">ReplaceClipInputs (class in poprt.passes.replace_clip_empty_inputs)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_consecutive_cast_with_notzero.ReplaceConsecuiveCastWithNotZero">ReplaceConsecuiveCastWithNotZero (class in poprt.passes.replace_consecutive_cast_with_notzero)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_div_with_mul.ReplaceDivWithMul">ReplaceDivWithMul (class in poprt.passes.replace_div_with_mul)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_erf_with_erfv2.ReplaceErfWithErfV2">ReplaceErfWithErfV2 (class in poprt.passes.replace_erf_with_erfv2)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_gemm_with_matmul.ReplaceGemmWithMatMul">ReplaceGemmWithMatMul (class in poprt.passes.replace_gemm_with_matmul)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_greater_or_equal.ReplaceGreaterOrEqual">ReplaceGreaterOrEqual (class in poprt.passes.replace_greater_or_equal)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_groupnorm_with_fast_norm.ReplaceGroupNormWithFastNorm">ReplaceGroupNormWithFastNorm (class in poprt.passes.replace_groupnorm_with_fast_norm)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.replace_half_reducemean.ReplaceHalfReduceMean">ReplaceHalfReduceMean (class in poprt.passes.replace_half_reducemean)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_hardswish.ReplaceHardSwish">ReplaceHardSwish (class in poprt.passes.replace_hardswish)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_isinf.ReplaceIsInf">ReplaceIsInf (class in poprt.passes.replace_isinf)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_less_or_equal.ReplaceLessOrEqual">ReplaceLessOrEqual (class in poprt.passes.replace_less_or_equal)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_nonzero.ReplaceNonZero">ReplaceNonZero (class in poprt.passes.replace_nonzero)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_pow.ReplacePow">ReplacePow (class in poprt.passes.replace_pow)</a>
+
+      <ul>
+        <li><a href="python_api.html#poprt.passes.shape_inference.ReplacePow">(class in poprt.passes.shape_inference)</a>
+</li>
+      </ul></li>
+      <li><a href="python_api.html#poprt.passes.replace_round.ReplaceRound">ReplaceRound (class in poprt.passes.replace_round)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_softmax.ReplaceSoftmax">ReplaceSoftmax (class in poprt.passes.replace_softmax)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_where_mask.ReplaceWhereMask">ReplaceWhereMask (class in poprt.passes.replace_where_mask)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_where_with_mul_add.ReplaceWhereWithMulAdd">ReplaceWhereWithMulAdd (class in poprt.passes.replace_where_with_mul_add)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.replace_where_with_wherev2.ReplaceWhereWithWhereV2">ReplaceWhereWithWhereV2 (class in poprt.passes.replace_where_with_wherev2)</a>
+</li>
+      <li><a href="python_api.html#poprt.backends.Backend.run">run() (poprt.backends.Backend method)</a>
+
+      <ul>
+        <li><a href="python_api.html#poprt.backends.ORTBackend.run">(poprt.backends.ORTBackend method)</a>
+</li>
+        <li><a href="python_api.html#poprt.Pass.run">(poprt.Pass method)</a>
+</li>
+        <li><a href="python_api.html#poprt.PassManager.run">(poprt.PassManager method)</a>
+</li>
+      </ul></li>
+      <li><a href="python_api.html#poprt.runtime.Runner">Runner (class in poprt.runtime)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.serialize_matmul.SerializeMatmul">SerializeMatmul (class in poprt.passes.serialize_matmul)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.serialize_matmul_add.SerializeMatmulAdd">SerializeMatmulAdd (class in poprt.passes.serialize_matmul_add)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.backends.Backend.set_opaque_blobs">set_opaque_blobs() (poprt.backends.Backend method)</a>
+</li>
+      <li><a href="python_api.html#poprt.PassManager.sort_passes">sort_passes() (poprt.PassManager method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.frontend.TensorflowFrontend">TensorflowFrontend (class in poprt.frontend)</a>
+</li>
+      <li><a href="python_api.html#poprt.passes.workarounds.TopKWorkaround">TopKWorkaround (class in poprt.passes.workarounds)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.trace_folding">trace_folding (class in poprt.passes.apply_ir_pass)</a>
+</li>
+      <li><a href="python_api.html#poprt.Pass.traverse_graph">traverse_graph() (poprt.Pass method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api.html#poprt.passes.apply_ir_pass.unique_name_for_nodes">unique_name_for_nodes (class in poprt.passes.apply_ir_pass)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

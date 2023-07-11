@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5.2. FP8 &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.3. Overlap IO" href="overlap_io.html" />
+    <link rel="prev" title="5.1. Passes" href="passes.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.3.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="passes.html#pass">5.1.1. Pass 抽象</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ipu-fp8">5.2.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">5.2.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fp32-fp8">5.2.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">5.2.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">5.2.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.3. Overlap IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id1">5.3.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#io-tiles">5.3.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id2">5.3.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id3">5.3.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id4">5.3.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.4. Dynamic Batch Size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">5.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">5.4.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">5.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">5.5.2. Packing 及 Unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">5.5.4. 如何使用 Packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_packing.html">5.6. CPU Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id1">5.6.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id2">5.6.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id6">5.6.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id8">5.6.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.7. Model Fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">5.7.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id1">5.7.2. 实现 PopRT Runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">5.8. Custom Operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#id1">5.8.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">5.9. Custom Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id1">5.9.1. 实现 Custom Passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id2">5.9.2. 使用 Custom Passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 Custom Passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 Custom Passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.10. Custom Patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">5.10.1. 实现 Custom PopART Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">5.10.2. 在 PopRT 中使用 Custom PopART Patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 Pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#python-api-pattern">方法二: 使用 Python API 启用或关闭指定的 Pattern</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法三: 通过 CLI 命令行参数启用或关闭指定的 Pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.11. Custom Transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">5.11.1. 实现 Custom PopART Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">5.11.2. 在 PopRT 中使用 Custom Transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual_sharding.html">5.12. Manual Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#sharding">5.12.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#pipelining">5.12.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id3">5.12.3. Manual Sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id4">5.12.4. 配置 Manual Sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-cli-manual-sharding">通过 PopRT CLI 配置 Manual Sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 Manual Sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#id5">5.12.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html">5.13. Error Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id1">5.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id2">5.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">5.14. PopRT Frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#onnx-frontend">5.14.1. ONNX Frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#tensorflow-frontend">5.14.2. TensorFlow Frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="auto_sharding.html">5.15. Auto Sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id1">5.15.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id2">5.15.2. Auto Sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id5">5.15.3. Auto Sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_debugger.html">5.16. Model Debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#id1">5.16.1. 使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#id2">5.16.2. 使用示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">8. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fp8">
+<span id="features-fp8"></span><h1><span class="section-number">5.2. </span>FP8<a class="headerlink" href="#fp8" title="Permalink to this headline"></a></h1>
+<section id="ipu-fp8">
+<h2><span class="section-number">5.2.1. </span>IPU FP8 类型介绍<a class="headerlink" href="#ipu-fp8" title="Permalink to this headline"></a></h2>
+<p>FP8 顾名思义即 8bit 的 float 数据类型, 内存占用为 FP32 的 1/4, FP16 的 1/2, 与 INT8 一样. IPU 支持两种 FP8 数据类型: F8E4M3 和 F8E5M2.</p>
+<p>FP8 二进制编码如下表:</p>
+<table class="colwidths-given docutils align-default" id="id4" style="width: 70%">
+<caption><span class="caption-number">Table 5.1 </span><span class="caption-text">FP8 二进制编码</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>E4M3</p></td>
+<td><p>E5M2</p></td>
+</tr>
+<tr class="row-even"><td><p>Exponent bias</p></td>
+<td><p>8</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-odd"><td><p>Max normal</p></td>
+<td><p>S.1111.110 = 1.75 * 2^8</p></td>
+<td><p>S.11111.10 = 1.10 * 2 ^ 16</p></td>
+</tr>
+<tr class="row-even"><td><p>Min normal</p></td>
+<td><p>S.0001.000 = 1.0 * 2 ^ -6</p></td>
+<td><p>S.00001.00 = 1.0 * 2 ^ -14</p></td>
+</tr>
+<tr class="row-odd"><td><p>Max subnorm</p></td>
+<td><p>S.0000.111 = 0.875 * 2 ^ -6</p></td>
+<td><p>S.00000.11 = 0.75 * 2 ^ -14</p></td>
+</tr>
+<tr class="row-even"><td><p>Min subnorm</p></td>
+<td><p>S.0000.001 = 0.125 * 2 ^ -6</p></td>
+<td><p>S.00000.01 = 0.25 * 2 ^ -14</p></td>
+</tr>
+</tbody>
+</table>
+<p>从表中可以看出, E4M3 的表示范围更小, 但是精度略高于 E5M2. 此外, 与 FP32/FP16 相比, FP8 的动态范围要小得多, 为了扩大表达范围, FP8 还支持通过一个额外的 scale 参数来调整表示范围,
+scale 越大, 表示范围越大, 精度越低, scale 越小, 表示范围越小, 精度越高.</p>
+<p>更多关于 FP8 的信息参考 <a class="reference external" href="https://arxiv.org/abs/2206.02915">8-bit Numerical Formats for Deep Neural Networks</a>.</p>
+</section>
+<section id="id1">
+<h2><span class="section-number">5.2.2. </span>FP8 量化介绍<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<p>模型量化在实际应用中很常见, 其中 INT8 量化更是被广泛应用, 这是将模型中所有的输入和参数转换为 INT8 格式同时只损失很少精度的技术, 可以在降低内存占用的情况下加快推理速度, 主要包括后训练量化和量化训练这两种, 量化对象为权重和输入, 它们都会引入额外的数据还原层, 会增加计算量, 不像 FP32 转 FP16 那样直接.</p>
+<p>FP8 量化的目的也是最大限度将低精度转换后的损失, 转换过程跟 FP32 转 FP16 一样直接, 如果模型全为 FP8, 无需修改模型结构, 直接将输入和参数转换为 FP8 即可, 如果是 FP8 与 FP16 的混合精度模型, 只需要在对应地方加上 Cast. FP8 量化会确定一组 scale 和 format 参数, 满足精度损失尽可能低的要求. 目前 IPU 还未支持 FP8 的量化训练, 因此这里只介绍后训练量化, 包括对权重和输入的量化.</p>
+<p>关于权重量化, IPU 支持的 FP8 算子暂时只包括 Conv/MatMul/Cast, 所以会把 FP16/FP32 模型对应算子的权重取出并做 FP8 转换, 转换时会为每一组权重设置不同的 scale 和 format 参数, 然后将转换后的权重与 FP16/FP32 的权重计算损失, 损失最小的那组对应的 scale 和 format 就为该层权重最佳的 FP8 参数, 之后按同样的方式处理下一组权重. 整个转换过程在 CPU 上进行, 损失包括 mse/mae/snr/kld/cos_dist, 量化时指定其中一种即可.</p>
+<p>关于输入量化, 量化原理与权重量化一致, 处理方式有些许区别. 由于每个 FP8 算子的输入是未知的, 无法直接对输入做量化, 所以需要事先给定一些校验数据进行推理, 然后记录每个 FP8 算子的输入, 接着要做的事情就是和权重量化一样, 通过遍历的方法找到 FP16/FP32 的输入与 FP8 输入损失最小的那组 scale 和 format.</p>
+</section>
+<section id="fp32-fp8">
+<h2><span class="section-number">5.2.3. </span>FP32 模型转 FP8 模型的流程<a class="headerlink" href="#fp32-fp8" title="Permalink to this headline"></a></h2>
+<p>对于 MatMul 和 Conv 等计算密度高的算子, FP8 类型比 FP16 类型有更高的算力, 因此把模型从 FP32/FP16 转换成 FP8, 能够提高模型的吞吐, 降低模型的延时. 另外由于 IPU 是把整个模型放到片上运行, FP8 类型的 Tensor 相比 FP32/FP16 类型的 Tensor, 需要的存储空间更小, 因此 IPU 能够跑更大规模的模型, 或者支持更大的 Batch Size.</p>
+<p>模型从 FP32/FP16 类型转成 FP8 类型, 是指把模型中支持 FP8 类型的算子替换成 FP8 类型, 然后该算子对应的权重 Tensor 转换为 FP8 类型的 Tensor. 由于目前 IPU 只有 Conv 和 MatMul 算子支持 FP8 类型的计算, 因此 PopRT 工具中的 FP8 转换其实是混合精度模型的转换, 即只把 Conv 和 MatMul 算子转成 FP8, 其它算子保持原来的类型.</p>
+<p>这里通过举例来说明如何将一个包含两个 MatMul 的 onnx 模型转换为 FP8 格式. 在 MatMul 之前, 其他 OP 的输出是 FP16 格式, 需要在这些 OP 后面添加一个 Cast 节点将其转换为 FP8. 同样的, MatMul 的另外一个权重输入也需要转换为 FP8, 但是权重的 FP8 转换不是在模型中通过 Cast 进行, 而是预先在 CPU 上对 onnx 模型中的权重进行 FP8 转换, 这样便能省去权重部分的 Cast, 提高推理效率. 转换完成之后便开始执行第一个 FP8 MatMul, 输出的类型为 FP16, 然后在执行第二个 MatMul 时, 输入和权重做同样的 FP8 转换, 依次类推, 直至完成整个推理过程.</p>
+<figure class="align-center" id="fp8-convert-process">
+<a class="reference internal image-reference" href="../_images/fp8_convert_process.png"><img alt="../_images/fp8_convert_process.png" src="../_images/fp8_convert_process.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">FP8 模型转换流程</span><a class="headerlink" href="#fp8-convert-process" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id2">
+<h2><span class="section-number">5.2.4. </span>FP8 模型转换工具使用方法<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<p>FP8 模型转换工具目前包含两种使用方式, 一种是用默认的 scale 和 format 进行快速转换, 值分别为 0 和 F143, 这样可以很快的验证模型是否能成功转换为 FP8, 更加方便的验证 FP8 模型的速度. 另一种是启用 FP8 的量化工具进行转换, 这种方式会消耗一些时间来计算最佳的 scale 和 format, 可以让模型的精度损失更低, 还能得到不同参数下各层的误差情况, 方便进行精度的进一步调试.</p>
+<p>以 ResNet50 为例对两种使用方式进行介绍.</p>
+<p>在下载模型之前需要先安装依赖包, 命令如下:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install torch==1.10.0</span>
+<span class="go">pip instal torchvision==0.11.1</span>
+</pre></div>
+</div>
+<p>ResNet50.onnx 下载和转换脚本:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">resnet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">dummy_input</span><span class="p">,</span>
+    <span class="s1">&#39;ResNet50.onnx&#39;</span><span class="p">,</span>
+    <span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">],</span>
+    <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">],</span>
+    <span class="n">opset_version</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>快速转换的命令如下:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model ResNet50.onnx \</span>
+<span class="go">    --output_model ResNet50_FP8.onnx \</span>
+<span class="go">    --input_shape input=1,3,224,224 \</span>
+<span class="go">    --precision fp8 \</span>
+<span class="go">    --fp8_skip_op_names Conv_0,Conv_8,Gemm_121 \</span>
+<span class="go">    --fp8_params F143,F143,-3,-3 \</span>
+<span class="go">    --convert_version 11</span>
+</pre></div>
+</div>
+<p>其中 fp8_skip_op_names 和 fp8_params 是用于调整精度的参数, 前者可以指定哪些层保留为 FP16 数据类型, 后者用于指定输入和权重的 format 和 scale, 如果不设置, 工具会将模型所有的 Conv/MatMul/Gemm 转换为 FP8, format 和 scale 会使用默认值.</p>
+<p>此外, 工具还支持用 fp8 存储权重, 用 fp16 执行推理, 该方式相比 fp16 模型可以在少量增加延时的情况下显著降低内存的占用, 转换方式与上述的 fp8 基本无异, 只需将 precision 参数改为 fp8_weight 即可.</p>
+<p>量化转换的命令如下:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model ResNet50.onnx \</span>
+<span class="go">    --output_model ResNet50_FP8.onnx \</span>
+<span class="go">    --input_shape input=1,3,224,224 \</span>
+<span class="go">    --precision fp8 \</span>
+<span class="go">    --calibration_with_data \</span>
+<span class="go">    --calibration_loss_type kld \</span>
+<span class="go">    --num_of_layers_keep_fp16 3 \</span>
+<span class="go">    --data_preprocess calibration_dict.pickle \</span>
+<span class="go">    --precision_compare \</span>
+<span class="go">    --convert_version 11</span>
+</pre></div>
+</div>
+<p>其中 calibration_with_data 参数表示开启量化转换, 此时需要额外传入用作数值校验的输入数据. num_of_layers_keep_fp16 用于将损失为 topk 大的层保留为 FP16, 以进一步提高模型精度.</p>
+<p>例如 ResNet50 的输入名为 input, 输入数据为 ImageNet, 可以从 ImageNet 的测试集中随机取出约 50 张图片制作校验集, 校验集的 shape 为 50*3*224*224, 然后以字典的形式 {input: ndarray} 保存为 pickle 文件. 需注意如果模型有预处理过程且没有包含在网络中, 校验数据要做完预处理之后再保存, 确保其与模型的输入能够匹配.</p>
+<p>校准完成之后会得到一个 quantize.log 的文件, 该文件记录着 FP8 算子输入和权重部分不同 scale 和 format 下的损失, 同时也会给出损失最小的那组 scale 和 format, 这组参数即是量化后的 FP8 模型用到的参数, 此外, 当 calibration_loss_type 不为 kld 时, 还会额外记录量化前后及量化噪声的均值/方差/偏度/峰度等信息.</p>
+<p>如果设置 precision_compare, 会计算原始模型与 FP8 模型中间层的输出损失, 结果保存在 precision_compare.log 中, 这可用于精度进一步调试, 各个指标的含义及调试建议如下:</p>
+<p>MSE: 平均均方误差, 用于计算原始数据与量化数据间的误差平方和的均值, 越接近 0 越好, 值大小受数据本身大小和数据量的影响, 需结合数据本身的情况一起考虑.</p>
+<p>MAE: 平均绝对误差, 用于计算原始数据与量化数据间的绝对值误差的均值, 越接近 0 越好, 同样受数据本身大小和数据量的影响, 需结合数据本身的情况一起考虑.</p>
+<p>SNR: 信噪比, 用于计算原始数据与量化数据间的误差平方和与原始数据平方和的比值, 越接近 0 越好, 消除了数据本身大小和数据量的影响, 可适当对比各层间该值的大小来判断误差情况.</p>
+<p>Cosine Distance: 余弦距离, 用于计算原始数据与量化数据展开为一维后的夹角大小, 越接近 0 越好, 不受数据本身大小和数据量的影响, 且范围在 0 与 1 之间, 这些特性使得它成为非常直观且重要的评价指标, 可适当对比各层间该值的大小来判断误差情况, 有些层的差异可能会达到一个数量级.</p>
+<p>Noise Skewness: 用于计算原始数据与量化数据间的差值的偏度, 衡量分布的不对称性, 若偏度大于 0, 则分布右偏, 若偏度小于 0, 则分布为左偏, 同时偏度的绝对值越大, 说明分布的偏移程度越严重.</p>
+<p>Noise Kurtosis: 用于计算原始数据与量化数据间的差值的峰度, 衡量分布的陡峭或者平滑状况, 若峰度接近 0, 分布的峰态服从正态分布, 若峰度大于 0, 分布越陡峭, 峰度小于 0, 分布越矮胖.</p>
+<p>Noise Hist: 用于统计原始数据与量化数据间的差值的直方图, 直方图被分为 32 个 bin 区间, 衡量数据总体的分布情况.</p>
+<p>precision_compare.log 给出了原始数据, 量化数据以及这两者间误差的 mean/std/min/max/skewness/kurtosis/histogram 这些指标, 它们用于刻画数据总体的分布形状, 帮助用户从统计的角度去比较量化前后的数据差异.</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">5.2.5. </span>FP8 模型转换精度调试经验<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h2>
+<p>在精度仍较差的情况下, 可以尝试以下方法:</p>
+<p>对于快速转换, 如果是 CV 类模型, 建议将首个 Conv 和最后的 MatMul 保持为 FP16, 如果是 NLP 类模型, 建议将最后的 MatMul 保持为 FP16. format 使用 F143, 在推理过程中 E4M3 的 FP8 格式精度更高, scale 选择在 -5 到 0 之间的整数值, 可以逐个进行尝试选取精度最高的那一个.</p>
+<p>对于量化转换, 校验集需从真实的数据中选取, 数据量不宜过大, 否则量化过程会很漫长, 例如 ResNet50, 可以选择 20 张左右的图片做为校验集, 实际情况需根据模型大小自行调整, 如果量化速度过慢, 可适当降低数据量大小.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="passes.html" class="btn btn-neutral float-left" title="5.1. Passes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="overlap_io.html" class="btn btn-neutral float-right" title="5.3. Overlap IO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>
