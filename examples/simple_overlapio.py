@@ -55,10 +55,10 @@ def run(executable, args):
     config = RuntimeConfig()
     config.timeout_ns = 0
     # Create model runner
-    model_runner = runtime.ModelRunner(executable, config)
+    model_runner = runtime.Runner(executable, config)
 
-    inputs_info = model_runner.get_model_inputs()
-    outputs_info = model_runner.get_model_outputs()
+    inputs_info = model_runner.get_execute_inputs()
+    outputs_info = model_runner.get_execute_outputs()
 
     # Run in multiple threads
     def execute(bps, inputs_info, outputs_info):

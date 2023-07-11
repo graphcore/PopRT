@@ -1,8 +1,10 @@
-## Descritpion
+# FP8 Static Quantization Example
 
-This is an example of FP8 static quantization. It uses cpu for FP8 quantization, which can solve the problems of insufficient memory and efficiency of FP8 quantization in poprt. It is a supplement to the FP8 quantization tool in poprt.
+## Description
 
-This example automatically calculates the accuracy of the FP8 model under different fp8_params and fp8_skip_op_names and saves it in a csv file.
+This is an example of FP8 static quantization. It uses the CPU for FP8 quantization, which can solve the problems of insufficient memory and efficiency of FP8 quantization in PopRT. It is a supplement to the FP8 quantization tool in PopRT.
+
+This example automatically calculates the accuracy of the FP8 model under different `fp8_params` and `fp8_skip_op_names` and saves it in a CSV file.
 
 ## Run
 
@@ -24,7 +26,7 @@ This example automatically calculates the accuracy of the FP8 model under differ
 1. Algorithm
 
    - Firstly, the scale of FP8 model is set successively as \[-5,-4,-3,-2,-1,0,1,2\], and the precision is calculated. The scale with the highest precision is selected as the final scale.
-   - Then, the quantization error of each conv/matmul/gemm in FP8 model is calculated using ppq, and eight ops with the largest quantization error are selected.
+   - Then, the quantization error of each conv, matmul or gemm operation in FP8 model is calculated using ppq, and eight ops with the largest quantization error are selected.
    - Finally, each of the eight ops is set to FP16 one by one, and the accuracy is calculated to select the case with the highest accuracy.
 
 1. Results

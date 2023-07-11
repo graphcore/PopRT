@@ -43,7 +43,7 @@ def compile(model: onnx.ModelProto, args):
 
 
 def run_synchronous(
-    model_runner: runtime.ModelRunner,
+    model_runner: runtime.Runner,
     input: RuntimeInput,
     output: RuntimeInput,
     iterations: int,
@@ -64,7 +64,7 @@ def run_synchronous(
 
 
 def run_asynchronous(
-    model_runner: runtime.ModelRunner,
+    model_runner: runtime.Runner,
     input: RuntimeInput,
     output: RuntimeInput,
     iterations: int,
@@ -76,7 +76,7 @@ def run_asynchronous(
 
     sess_start = time.time()
     for i in range(iterations):
-        f = model_runner.executeAsync(async_inputs[i], async_outputs[i])
+        f = model_runner.execute_async(async_inputs[i], async_outputs[i])
         futures.append(f)
 
     # waits all execution ends
@@ -91,21 +91,21 @@ def run_asynchronous(
 def run(executable, args):
     """Run PopEF."""
     # Create model runner
-    model_runner = runtime.ModelRunner(executable)
+    model_runner = runtime.Runner(executable)
 
     # fix random number generation
     np.random.seed(2022)
 
     # Prepare inputs and outpus
     inputs = {}
-    inputs_info = model_runner.get_model_inputs()
+    inputs_info = model_runner.get_execute_inputs()
     for input in inputs_info:
         inputs[input.name] = np.random.uniform(0, 1, input.shape).astype(
             input.numpy_data_type()
         )
 
     outputs = {}
-    outputs_info = model_runner.get_model_outputs()
+    outputs_info = model_runner.get_execute_outputs()
     for output in outputs_info:
         outputs[output.name] = np.zeros(output.shape, dtype=output.numpy_data_type())
 
