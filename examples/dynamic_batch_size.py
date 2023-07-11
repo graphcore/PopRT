@@ -41,7 +41,7 @@ def run(executable):
     config = RuntimeConfig()
     config.timeout_ns = 300 * 1000
     config.batching_dim = 0
-    model_runner = runtime.ModelRunner(executable, config)
+    model_runner = runtime.Runner(executable, config)
     batch_sizes = [1, 4, 7]
     for batch_size in batch_sizes:
         inputs = {}

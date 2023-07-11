@@ -353,18 +353,18 @@ class AutoSharding:
         # Performance
         runner_config = runtime.RuntimeConfig()
         runner_config.timeout_ns = 0
-        runner = runtime.ModelRunner(popef, runner_config)
+        runner = runtime.Runner(popef, runner_config)
         inputs = {}
-        for i in runner.get_model_inputs():
+        for i in runner.get_execute_inputs():
             inputs[i.name] = np.ones(i.shape).astype(i.numpy_data_type())
         outputs = {}
-        for o in runner.get_model_outputs():
+        for o in runner.get_execute_outputs():
             outputs[o.name] = np.zeros(o.shape, dtype=o.numpy_data_type())
 
         # Warmup
         futures = []
         for i in range(20):
-            f = runner.executeAsync(inputs, outputs)
+            f = runner.execute_async(inputs, outputs)
             futures.append(f)
         for i, future in enumerate(futures):
             future.wait()
@@ -373,7 +373,7 @@ class AutoSharding:
         futures = []
         sess_start = time.time()
         for i in range(200):
-            f = runner.executeAsync(inputs, outputs)
+            f = runner.execute_async(inputs, outputs)
             futures.append(f)
         for i, future in enumerate(futures):
             future.wait()

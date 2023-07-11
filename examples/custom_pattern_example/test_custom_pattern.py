@@ -96,7 +96,7 @@ serialized_ir_dest={abs_path}/ir/ir.json"""
     check_ir(ir_file)
 
     # Create model runner
-    model_runner = runtime.ModelRunner(popef_file)
+    model_runner = runtime.Runner(popef_file)
 
     # Check results
     data = np.random.uniform(0, 1, (3, 2)).astype(np.float32)

@@ -3,11 +3,14 @@ import argparse
 import csv
 import os
 import queue
+import random
 import sys
 import tempfile
+import threading
 import time
 
 from multiprocessing.pool import ThreadPool
+from queue import Queue
 
 import numpy as np
 import packing_utils
@@ -127,7 +130,7 @@ def run_packing_model_with_pack_runner_unpack_repack(args, datasets):
 
     popef_path = tmpdir.name + '/executable.popef'
     # popef_path = "/popconverter/examples/packed_bert_example/executable.popef"
-    pack_runner = runtime.PackRunner(popef_path, config)
+    pack_runner = runtime.Runner(popef_path, config)
 
     result_queue = queue.Queue()
     results = []
@@ -145,7 +148,7 @@ def run_packing_model_with_pack_runner_unpack_repack(args, datasets):
             OUTPUT1: np.zeros([args.max_seq_len]).astype(np.float16),
             OUTPUT2: np.zeros([args.max_seq_len]).astype(np.float16),
         }
-        future = pack_runner.executeAsync(feed_dicts, out_dict)
+        future = pack_runner.execute_async(feed_dicts, out_dict)
         result_queue.put((future, out_dict))
     result_queue.put((None, None))
     while True:
@@ -292,14 +295,14 @@ def run_packing_model_with_pack_runner_attention_mask(args, datasets, algo):
     )
 
     if algo == "next_fit":
-        config.algorithom = runtime.PackAlgorithm.next_fit
+        config.algorithm = runtime.PackAlgorithm.next_fit
     else:
-        config.algorithom = runtime.PackAlgorithm.first_fit
+        config.algorithm = runtime.PackAlgorithm.first_fit
 
     config.enable_input_single_row_mode("attention_mask")
     popef_path = tmpdir.name + '/executable.popef'
     # popef_path = "/popconverter/examples/packed_bert_example/executable.popef"
-    pack_runner = runtime.PackRunner(popef_path, config)
+    pack_runner = runtime.Runner(popef_path, config)
 
     result_queue = queue.Queue()
     results = []
@@ -309,13 +312,14 @@ def run_packing_model_with_pack_runner_attention_mask(args, datasets, algo):
             INPUT_IDS: datasets[i].input_ids,
             ATTENTION_MASK: datasets[i].attention_mask,
             TOKEN_TYPE_IDS: datasets[i].token_type_ids,
-            POSITION_IDS: datasets[i].position_ids,
+            # position_ids is an optional input for first_fit/next_fit mode
+            # POSITION_IDS: datasets[i].position_ids,
         }
         out_dict = {
             OUTPUT1: np.zeros([args.max_seq_len]).astype(np.float16),
             OUTPUT2: np.zeros([args.max_seq_len]).astype(np.float16),
         }
-        future = pack_runner.executeAsync(feed_dicts, out_dict)
+        future = pack_runner.execute_async(feed_dicts, out_dict)
         result_queue.put((future, out_dict))
     result_queue.put((None, None))
     while True:
@@ -343,6 +347,85 @@ def run_packing_model_with_pack_runner_attention_mask(args, datasets, algo):
 
     tmpdir.cleanup()
     return results
+
+
+def latency_distribuion_with_pack_runner_attention_mask(args, datasets, algo):
+    tmpdir = tempfile.TemporaryDirectory()
+    # export popef for PackRunner
+    get_session(
+        args.model_with_packing_attention_mask,
+        1,
+        "poprt",
+        output_dir=tmpdir.name,
+        export_popef=True,
+    ).load()
+    config = runtime.PackRunnerConfig(
+        timeout_microseconds=args.timeout_microseconds,
+        max_valid_num=args.max_valid_num,
+        dynamic_input_name=args.dynamic_input_name,
+    )
+
+    if algo == "next_fit":
+        config.algorithm = runtime.PackAlgorithm.next_fit
+    else:
+        config.algorithm = runtime.PackAlgorithm.first_fit
+
+    config.enable_input_single_row_mode("attention_mask")
+    popef_path = tmpdir.name + '/executable.popef'
+    # popef_path = "/popconverter/examples/packed_bert_example/executable.popef"
+    pack_runner = runtime.Runner(popef_path, config)
+
+    sample_num = args.batch_size * args.iterations
+    clients = int(args.batch_size * 3.5)
+    count_percent = 0.6
+
+    q = Queue()
+
+    def perf_count(model_runner, iteration):
+        durations = []
+        for i in range(sample_num):
+            start_time = time.time()
+            random.randint(0, sample_num)
+            feed_dicts = {
+                INPUT_IDS: datasets[i].input_ids,
+                ATTENTION_MASK: datasets[i].attention_mask,
+                TOKEN_TYPE_IDS: datasets[i].token_type_ids,
+            }
+            out_dict = {
+                OUTPUT1: np.zeros([args.max_seq_len]).astype(np.float16),
+                OUTPUT2: np.zeros([args.max_seq_len]).astype(np.float16),
+            }
+            pack_runner.execute(feed_dicts, out_dict)
+            end_time = time.time()
+            durations.append((start_time, end_time))
+        # remove first and last example's time counter
+        ignored_samples = int(sample_num * (1 - count_percent) / 2)
+        durations = durations[ignored_samples:-ignored_samples]
+        q.put(durations, timeout=10)
+
+    thp = [
+        threading.Thread(target=perf_count, args=(pack_runner, args.iterations))
+        for _ in range(clients)
+    ]
+    for t in thp:
+        t.start()
+    for t in thp:
+        t.join()
+
+    durations_from_th = []
+    while not q.empty():
+        durations_from_th += q.get()
+    max_timestamp = max(y for _, y in durations_from_th)
+    min_timestamp = min(x for x, _ in durations_from_th)
+    clients * (sample_num * count_percent) / (max_timestamp - min_timestamp)
+    times_range = [y - x for x, y in durations_from_th]
+
+    times_range.sort()
+    tail_latency = round(times_range[int(len(times_range) * 0.99)] * 1000, 2)
+    avg_latency = round(sum(times_range) / len(times_range) * 1000, 2)
+
+    print(f"Average Latency: {avg_latency}ms, P99 latency: {tail_latency}ms.")
+    return tail_latency, avg_latency
 
 
 # no pack, padding each line with 0 if input length is not long enough.
@@ -502,6 +585,8 @@ def main():
     online_pack_result_attention_mask_next_fit = (
         run_packing_model_with_pack_runner_attention_mask(args, datasets, "next_fit")
     )
+    latency_distribuion_with_pack_runner_attention_mask(args, datasets, "first_fit")
+
     # compare the results
     print("\nCompare results between original and online pack(with unpack repack)")
     calculate_mae(

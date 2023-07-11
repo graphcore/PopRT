@@ -211,7 +211,7 @@ def run_packing_model_with_pack_runner_attention_mask(args, datasets, algo):
 
     config.enable_input_single_row_mode("attention_mask", "unpack_info", 1)
     popef_path = tmpdir.name + '/executable.popef'
-    pack_runner = runtime.PackRunner(popef_path, config)
+    pack_runner = runtime.Runner(popef_path, config)
 
     result_queue = queue.Queue()
     results = []
@@ -225,7 +225,7 @@ def run_packing_model_with_pack_runner_attention_mask(args, datasets, algo):
         out_dict = {
             OUTPUT1: np.zeros([OUTPUT_LEN]).astype(np.float16),
         }
-        future = pack_runner.executeAsync(feed_dicts, out_dict)
+        future = pack_runner.execute_async(feed_dicts, out_dict)
         result_queue.put((future, out_dict))
     result_queue.put((None, None))
     while True:

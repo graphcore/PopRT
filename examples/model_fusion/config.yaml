@@ -1,5 +1,5 @@
 output_dir: './'
-output_model: 'executable'
+output_model: 'model_fusion.onnx'
 export_popef: True
 max_tensor_size: -1
 ipu_version: 'ipu21'

@@ -44,10 +44,10 @@ class InferenceBase(object):
         executable = Compiler.compile(model_bytes, outputs, options)
 
         # Create model runner
-        self.model_runner = runtime.ModelRunner(executable)
-        self.inputs_info = self.model_runner.get_model_inputs()
+        self.model_runner = runtime.Runner(executable)
+        self.inputs_info = self.model_runner.get_execute_inputs()
         self.outputs = {}
-        self.outputs_info = self.model_runner.get_model_outputs()
+        self.outputs_info = self.model_runner.get_execute_outputs()
         for output in self.outputs_info:
             self.outputs[output.name] = np.zeros(
                 output.shape, dtype=output.numpy_data_type()
