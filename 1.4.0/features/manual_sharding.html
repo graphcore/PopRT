@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5.12. Manual sharding &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.13. Error handling" href="error_handling.html" />
+    <link rel="prev" title="5.11. Custom transforms" href="custom_transform.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.4.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. 简介</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id2">1.1. 背景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id3">1.2. 架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#id4">1.3. 工作流程</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#poprt-poplar-sdk">2.1. PopRT 和 Poplar SDK 版本的对应关系</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#docker">2.2. 从 Docker 镜像快速开始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#host-poprt">2.3. 在 Host 上安装 PopRT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. 快速开始</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id2">3.1. 主要参数介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id3">3.2. 转换并运行模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#onnx">3.2.1. 下载 ONNX 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id4">3.2.2. 获取 ONNX 模型输入输出信息</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#shape">3.2.3. 指定输入 shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id5">3.2.4. 指定模型精度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id6">3.2.5. 运行模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#popef">3.2.6. 导出 PopEF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#id7">3.3. 快速部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id8">3.3.1. 运行导出的 PopEF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#id9">3.3.2. 运行转换后的 ONNX 模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api">3.4. Python API 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. 使用 PopRT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#id1">4.1. 使用方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#cli">4.1.1. CLI 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../instructions.html#tf2onnx">tf2onnx</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="passes.html#pass">5.1.1. Pass 抽象</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#ipu-fp8">5.2.1. IPU FP8 类型介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id1">5.2.2. FP8 量化介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp32-fp8">5.2.3. FP32 模型转 FP8 模型的流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id2">5.2.4. FP8 模型转换工具使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#id3">5.2.5. FP8 模型转换精度调试经验</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.3. Overlap I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id1">5.3.1. 原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#io-tiles">5.3.2. 配置 IO Tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id2">5.3.3. 调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id3">5.3.4. 并发请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#id4">5.3.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.4. Dynamic batch size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id1">5.4.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#id3">5.4.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id1">5.5.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-unpacking">5.5.2. Packing 及 unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#id2">5.5.4. 如何使用 packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id3">下载模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id4">转换模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#id5">运行模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_packing.html">5.6. CPU packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id1">5.6.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id2">5.6.2. 功能模块介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id3">1. 超时处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id4">2. 用户数据预处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id5">3. 数据累积</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#pack">4. Pack 后处理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id6">5.6.3. Pack 算法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#id7">1. 首尾相连的 pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#firstfit-pack">2. FirstFit pack 方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#nextfit-pack">3. NextFit pack 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#id8">5.6.4. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.7. Model fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#poprt">5.7.1. 实现 PopRT 模型融合</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#id1">5.7.2. 实现 PopRT runtime 融合模型推理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">5.8. Custom operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#id1">5.8.1. 编写自定义算子</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#leakyrelu-op-onnx">创建一个带有 <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> OP 的 ONNX 模型文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#poprt">在 PopRT 中使用自定义算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">5.9. Custom passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id1">5.9.1. 实现 custom passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#id2">5.9.2. 使用 custom passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#poprt-cli-custom-passes">在 PopRT CLI 中使用 custom passes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#python-api-custom-passes">在 Python API 中使用 custom passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.10. Custom patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#custom-popart-patterns">5.10.1. 实现 custom PopART patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#poprt-custom-popart-patterns">5.10.2. 在 PopRT 中使用 custom PopART patterns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#patterncreator-pattern">方法一: 在 <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> 设置 pattern 默认使能</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#python-api-pattern">方法二: 使用 Python API 启用或关闭指定的 pattern</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#cli-pattern">方法三: 通过 CLI 命令行参数启用或关闭指定的 pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.11. Custom transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#custom-popart-transform">5.11.1. 实现 custom PopART transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#poprt-custom-transform">5.11.2. 在 PopRT 中使用 custom transform</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.12. Manual sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sharding">5.12.1. Sharding / 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipelining">5.12.2. Pipelining / 流水线并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">5.12.3. Manual sharding 流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">5.12.4. 配置 manual sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#poprt-cli-manual-sharding">通过 PopRT CLI 配置 manual sharding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#poprt-converter-sharder-api-manual-sharding">通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 manual sharding</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">5.12.5. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html">5.13. Error handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id1">5.13.1. 背景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="error_handling.html#id2">5.13.2. 相关的错误处理方式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">5.14. PopRT frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#onnx-frontend">5.14.1. ONNX frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#tensorflow-frontend">5.14.2. TensorFlow frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-cli-tensorflow">通过 PopRT CLI 加载 TensorFlow 模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#poprt-frontend-api-tensorflow">通过 <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> API 加载 TensorFlow 模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="auto_sharding.html">5.15. Auto sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id1">5.15.1. 模型并行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id2">5.15.2. Auto sharding 原理介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id3">备选点策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id4">切分方案遍历策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#id5">5.15.3. Auto sharding 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id6">参数介绍</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#id7">举例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_debugger.html">5.16. Model debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#id1">5.16.1. 使用方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#id2">5.16.2. 使用示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">7.1. PopRT compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">7.3. PopRT runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">8. 文档修订记录</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="manual-sharding">
+<span id="features-manual-sharding"></span><h1><span class="section-number">5.12. </span>Manual sharding<a class="headerlink" href="#manual-sharding" title="Permalink to this headline"></a></h1>
+<p>PopRT manual sharding 支持通过用户提供的切分点将模型划分成不同的子图, 实现模型并行和流水线并行.</p>
+<section id="sharding">
+<h2><span class="section-number">5.12.1. </span>Sharding / 模型并行<a class="headerlink" href="#sharding" title="Permalink to this headline"></a></h2>
+<p>PopRT 支持根据用户提供的切分点将 ONNX graph 切分到不同的设备实现模型并行, 适用于超出单个设备内存限制, 需要占用多个设备的大模型.</p>
+<p>参考: <a class="reference external" href="https://docs.graphcore.ai/projects/tf-model-parallelism/en/latest/sharding.html">Sharding 原理说明</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>使用模型并行, 需要对 PopRT backend options 进行如下设置:</p>
+<ul class="simple">
+<li><p>options.virtual_graph_mode = “manual”</p></li>
+<li><p>options.num_ipus = 设备数量</p></li>
+</ul>
+</div>
+</section>
+<section id="pipelining">
+<h2><span class="section-number">5.12.2. </span>Pipelining / 流水线并行<a class="headerlink" href="#pipelining" title="Permalink to this headline"></a></h2>
+<p>PopRT 支持根据用户的提供的切分点将 ONNX graph 切分成不同的流水线阶段, 实现流水线并行, 提高 throughput.</p>
+<p>参考: <a class="reference external" href="https://docs.graphcore.ai/projects/tf-model-parallelism/en/latest/pipelining.html">Pipelining 原理说明</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>使用流水线并行, 需要基于模型并行并对 PopRT backend options 进行如下设置:</p>
+<ul class="simple">
+<li><p>options.enable_pipelining = True</p></li>
+<li><p>options.batches_per_step = 流水线阶段数量的整数倍</p></li>
+</ul>
+</div>
+</section>
+<section id="id3">
+<h2><span class="section-number">5.12.3. </span>Manual sharding 流程<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h2>
+<p>PopRT manual sharding 基于 ONNX node 对 ONNX graph 进行切分, 切分点可以是任意的 ONNX node.</p>
+<ol class="arabic">
+<li><p>ONNX graph 中 nodes 是按拓扑排序的顺序排列的. PopRT manual sharding 首先对用户设置的切分点进行拓扑排序.</p></li>
+<li><p>遍历切分点, 以切分点为起点向输入方向遍历 ONNX graph, 将遍历到的所有 ONNX node 放入一个子图中, 如果遇到 node 没有输入 node 或 node 已经设置了切分信息则停止该分支的遍历.</p></li>
+<li><p>遍历完整后将得到子图, 以 ONNX attribute 的方式对子图设置切分信息:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">__ipu_number</span></code> 指定模型并行中每个子图对应的设备序号</p>
+<p><code class="docutils literal notranslate"><span class="pre">__pipeline_stage</span></code> 指定流水线并行中每个子图对应的流水线阶段.</p>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li><p>可以单独使能模型并行, 但是流水线并行需要和模型并行搭配使用.</p></li>
+<li><p>通常不同的切分点对应不同的设备序号和流水线阶段, 但同一个设备上可以有多个子图和多个流水线阶段.</p></li>
+<li><p>根据切分点设置切分信息后, 剩余没有设置切分信息的 node 将被自动设置:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">__ipu_number</span></code> 将被设置为当前已设置的最大设备序号 + 1.</p>
+<p><code class="docutils literal notranslate"><span class="pre">__pipeline_stage</span></code> 将被设置为当前已设置的最大流水线阶段 + 1.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</section>
+<section id="id4">
+<h2><span class="section-number">5.12.4. </span>配置 manual sharding<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>如果同时配置模型并行(sharding)和流水线并行(pipelining) 或 只配置模型并行(sharding), 需要保证输入模型是原模型, 也就是没有经过模型并行和流水线并行处理的模型.</p></li>
+<li><p>如果只配置流水线并行(pipelining), 需要保证输入模型是经过模型并行处理的模型.</p></li>
+</ul>
+</div>
+<p>Manual sharding 有两种配置方法, 一种是通过 PopRT CLI, 另一种是通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API.</p>
+<section id="poprt-cli-manual-sharding">
+<h3>通过 PopRT CLI 配置 manual sharding<a class="headerlink" href="#poprt-cli-manual-sharding" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>通过 yaml 文件指定切分点名称, 设备序号和流水线阶段:</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="shard-yaml">
+<div class="code-block-caption"><span class="caption-number">Listing 5.17 </span><span class="caption-text">shard.yaml</span><a class="headerlink" href="#shard-yaml" title="Permalink to this code"></a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="p p-Indicator">-</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="nt">node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resnetv17_stage1__plus0</span>
+<span class="linenos"> 3</span><span class="w">  </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="linenos"> 5</span><span class="p p-Indicator">-</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nt">node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resnetv17_stage4_batchnorm2_fwd</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos"> 8</span><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos"> 9</span><span class="p p-Indicator">-</span>
+<span class="linenos">10</span><span class="w">  </span><span class="nt">node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resnetv17_stage4__plus0</span>
+<span class="linenos">11</span><span class="w">  </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="linenos">12</span><span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/2001c3516846b5aaa7e1f5f92ae3526e/shard.yaml"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">shard.yaml</span></code></a></p>
+<ul class="simple">
+<li><p>通过 PopRT CLI 中通过 <code class="docutils literal notranslate"><span class="pre">--manual_sharding_config</span></code> 来配置切分信息:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model model.onnx \</span>
+<span class="go">    --manual_sharding_config shard.yaml</span>
+</pre></div>
+</div>
+<ul>
+<li><p>通过 PopRT CLI 中 <code class="docutils literal notranslate"><span class="pre">--only_manual_sharding</span></code> 来确定是否仅对 <code class="docutils literal notranslate"><span class="pre">input_model</span></code> 进行 manual sharding, 默认不设置.</p>
+<blockquote>
+<div><p>不设置 <code class="docutils literal notranslate"><span class="pre">--only_manual_sharding</span></code> 表示对 <code class="docutils literal notranslate"><span class="pre">input_model</span></code> 进行 Convert 优化后再进行 manual sharding.</p>
+<p>设置 <code class="docutils literal notranslate"><span class="pre">--only_manual_sharding</span></code> 表示对 <code class="docutils literal notranslate"><span class="pre">input_model</span></code> 仅进行 manual sharding, 仅支持 <code class="docutils literal notranslate"><span class="pre">--input_model</span></code>, <code class="docutils literal notranslate"><span class="pre">--output_model</span></code>, <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code> 和 <code class="docutils literal notranslate"><span class="pre">--manual_sharding_config</span></code>, 其它参数无效.</p>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model model.onnx \</span>
+<span class="go">    --manual_sharding_config shard.yaml \</span>
+<span class="go">    --only_manual_sharding</span>
+</pre></div>
+</div>
+</section>
+<section id="poprt-converter-sharder-api-manual-sharding">
+<h3>通过 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 配置 manual sharding<a class="headerlink" href="#poprt-converter-sharder-api-manual-sharding" title="Permalink to this headline"></a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">sharding_info</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;resnetv17_stage1__plus0&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;resnetv17_stage4_batchnorm2_fwd&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;resnetv17_stage4__plus0: 2,</span>
+<span class="p">}</span>
+<span class="n">pipelining_info</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;resnetv17_stage1__plus0&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;resnetv17_stage4_batchnorm2_fwd&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;resnetv17_stage4__plus0: 2,</span>
+<span class="p">}</span>
+
+<span class="n">sharded_model</span> <span class="o">=</span> <span class="n">poprt</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">Sharder</span><span class="p">(</span>
+                            <span class="n">sharding_info</span><span class="o">=</span><span class="n">sharding_info</span><span class="p">,</span>
+                            <span class="n">pipelining_info</span><span class="o">=</span><span class="n">pipelining_info</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">converted_model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>设置 <code class="docutils literal notranslate"><span class="pre">--only_manual_sharding</span></code> 的 CLI 或 使用 <code class="docutils literal notranslate"><span class="pre">poprt.converter.Sharder</span></code> API 需要保证 ONNX graph 中每一个 node 都有 <code class="docutils literal notranslate"><span class="pre">unique</span> <span class="pre">name</span></code> .</p></li>
+<li><p>不设置 <code class="docutils literal notranslate"><span class="pre">--only_manual_sharding</span></code> 的 CLI 无需保证 ONNX graph 中每一个 node 都有 <code class="docutils literal notranslate"><span class="pre">unique</span> <span class="pre">name</span></code> , Convert 优化过程会保证每一个 node 都有 <code class="docutils literal notranslate"><span class="pre">unique</span> <span class="pre">name</span></code> .</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2><span class="section-number">5.12.5. </span>示例<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h2>
+<p>下面是一个简单的 manual sharding 的 example:</p>
+<p>以 <a class="reference external" href="https://github.com/onnx/models/raw/main/vision/classification/resnet/model/resnet50-v1-7.onnx">ResNet50</a> 为例.</p>
+<div class="literal-block-wrapper docutils container" id="shard-py">
+<div class="code-block-caption"><span class="caption-number">Listing 5.18 </span><span class="caption-text">shard.py</span><a class="headerlink" href="#shard-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Copyright (c) 2023 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="kn">from</span> <span class="nn">poprt</span> <span class="kn">import</span> <span class="n">runtime</span>
+<span class="linenos"> 7</span><span class="kn">from</span> <span class="nn">poprt.compiler</span> <span class="kn">import</span> <span class="n">Compiler</span><span class="p">,</span> <span class="n">CompilerOptions</span>
+<span class="linenos"> 8</span><span class="kn">from</span> <span class="nn">poprt.converter</span> <span class="kn">import</span> <span class="n">Sharder</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="k">def</span> <span class="nf">load_model</span><span class="p">():</span>
+<span class="linenos">12</span>    <span class="c1"># Download model</span>
+<span class="linenos">13</span>    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/onnx/models/raw/main/vision/classification/resnet/model/resnet50-v1-7.onnx&#39;</span>
+<span class="linenos">14</span>    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="linenos">15</span>    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+<span class="linenos">16</span>        <span class="n">model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load_model_from_string</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="linenos">17</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos">18</span>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+<span class="linenos">19</span>            <span class="sa">f</span><span class="s2">&quot;Failed to download model with status_code </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="linenos">20</span>        <span class="p">)</span>
+<span class="linenos">21</span>    <span class="k">return</span> <span class="n">model</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="k">def</span> <span class="nf">manual_sharding</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<span class="linenos">25</span>    <span class="c1"># Fix the batch size to 1</span>
+<span class="linenos">26</span>    <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">tensor_type</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dim_value</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>    <span class="c1"># Sharding and pipelining info</span>
+<span class="linenos">29</span>    <span class="n">sharding_info</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">30</span>        <span class="s2">&quot;resnetv17_stage1__plus0&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="linenos">31</span>        <span class="s2">&quot;resnetv17_stage4_batchnorm2_fwd&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">32</span>        <span class="s2">&quot;resnetv17_stage4__plus0&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="linenos">33</span>    <span class="p">}</span>
+<span class="linenos">34</span>    <span class="n">pipelining_info</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">35</span>        <span class="s2">&quot;resnetv17_stage1__plus0&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="linenos">36</span>        <span class="s2">&quot;resnetv17_stage4_batchnorm2_fwd&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">37</span>        <span class="s2">&quot;resnetv17_stage4__plus0&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="linenos">38</span>    <span class="p">}</span>
+<span class="linenos">39</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">Sharder</span><span class="p">(</span><span class="n">sharding_info</span><span class="o">=</span><span class="n">sharding_info</span><span class="p">,</span> <span class="n">pipelining_info</span><span class="o">=</span><span class="n">pipelining_info</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+<span class="linenos">40</span>        <span class="n">model</span>
+<span class="linenos">41</span>    <span class="p">)</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span>    <span class="k">return</span> <span class="n">model</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<span class="linenos">47</span>    <span class="c1"># Compile the model with backend options</span>
+<span class="linenos">48</span>    <span class="n">model_bytes</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+<span class="linenos">49</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span>    <span class="n">options</span> <span class="o">=</span> <span class="n">CompilerOptions</span><span class="p">()</span>
+<span class="linenos">52</span>    <span class="n">options</span><span class="o">.</span><span class="n">ipu_version</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">DeviceManager</span><span class="p">()</span><span class="o">.</span><span class="n">ipu_hardware_version</span><span class="p">()</span>
+<span class="linenos">53</span>    <span class="c1"># Sharding into 4 IPUs</span>
+<span class="linenos">54</span>    <span class="n">options</span><span class="o">.</span><span class="n">num_ipus</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="linenos">55</span>    <span class="c1"># Enable Sharding and Pipelining</span>
+<span class="linenos">56</span>    <span class="n">options</span><span class="o">.</span><span class="n">enable_pipelining</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="linenos">57</span>    <span class="n">options</span><span class="o">.</span><span class="n">virtual_graph_mode</span> <span class="o">=</span> <span class="s2">&quot;manual&quot;</span>
+<span class="linenos">58</span>    <span class="n">options</span><span class="o">.</span><span class="n">batches_per_step</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="linenos">59</span>
+<span class="linenos">60</span>    <span class="n">executable</span> <span class="o">=</span> <span class="n">Compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model_bytes</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+<span class="linenos">61</span>    <span class="n">runner_config</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">RuntimeConfig</span><span class="p">()</span>
+<span class="linenos">62</span>    <span class="n">runner_config</span><span class="o">.</span><span class="n">timeout_ns</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">63</span>    <span class="n">runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="n">executable</span><span class="p">,</span> <span class="n">runner_config</span><span class="p">)</span>
+<span class="linenos">64</span>    <span class="k">return</span> <span class="n">runner</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span>
+<span class="linenos">67</span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">runner</span><span class="p">):</span>
+<span class="linenos">68</span>    <span class="n">inputs_info</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">get_execute_inputs</span><span class="p">()</span>
+<span class="linenos">69</span>    <span class="n">outputs_info</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">get_execute_outputs</span><span class="p">()</span>
+<span class="linenos">70</span>
+<span class="linenos">71</span>    <span class="n">inputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos">72</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs_info</span><span class="p">:</span>
+<span class="linenos">73</span>        <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">())</span>
+<span class="linenos">74</span>
+<span class="linenos">75</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos">76</span>    <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outputs_info</span><span class="p">:</span>
+<span class="linenos">77</span>        <span class="n">outputs</span><span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">o</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">())</span>
+<span class="linenos">78</span>
+<span class="linenos">79</span>    <span class="n">runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="linenos">80</span>
+<span class="linenos">81</span>
+<span class="linenos">82</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">83</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">()</span>
+<span class="linenos">84</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">manual_sharding</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="linenos">85</span>    <span class="n">runner</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="linenos">86</span>    <span class="n">run</span><span class="p">(</span><span class="n">runner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/07db38d22f485231fce9dfa46fd4d943/shard.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">shard.py</span></code></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom_transform.html" class="btn btn-neutral float-left" title="5.11. Custom transforms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="error_handling.html" class="btn btn-neutral float-right" title="5.13. Error handling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

@@ -1,8 +1,11 @@
 # PopRT Docs
 
-Latest Version: [1.3.0](https://graphcore.github.io/PopRT/1.3.0)
+Latest Version: [1.4.0](https://graphcore.github.io/PopRT/1.4.0), [1.4.0-en](https://graphcore.github.io/PopRT/1.4.0-en)
 
 ## Previous Versions
+
+[1.4.0](https://graphcore.github.io/PopRT/1.4.0)
+[1.4.0-en](https://graphcore.github.io/PopRT/1.4.0-en)
 
 [1.3.0](https://graphcore.github.io/PopRT/1.3.0)
 

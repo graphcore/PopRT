@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PopRT User Guide &mdash; Title</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/js/graphcore.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Introduction" href="overview.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="#">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.4.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#background">1.1. Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#architecture">1.2. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#workflow">1.3. Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compatibility-of-poprt-with-the-poplar-sdk">2.1. Compatibility of PopRT with the Poplar SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#quick-start-with-a-docker-image">2.2. Quick start with a Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-poprt-on-host-server">2.3. Install PopRT on host server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#install-poplar-sdk">Install Poplar SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#enable-the-sdk">Enable the SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#install-poprt">Install PopRT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">3. Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#cli-parameters">3.1. CLI parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#convert-and-run-model">3.2. Convert and run model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#download-onnx-model">3.2.1. Download ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#obtain-input-and-output-information-for-onnx-model">3.2.2. Obtain input and output information for ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#specify-input-shape">3.2.3. Specify input shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#specify-model-accuracy">3.2.4. Specify model accuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#run-model">3.2.5. Run model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#export-popef-model">3.2.6. Export PopEF model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#quick-deployment">3.3. Quick deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#run-exported-popef-model">3.3.1. Run exported PopEF model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#run-converted-onnx-model">3.3.2. Run converted ONNX model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#python-api-example">3.4. Python API example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instructions.html">4. Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#Named Arguments">4.1. Named Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#Sub-commands:">4.2. Sub-commands:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instructions.html#tf2onnx">4.2.1. tf2onnx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Named Arguments_repeat1">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/index.html">5. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/passes.html#pass-abstract">5.1.1. Pass abstract</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#ipu-fp8-type">5.2.1. IPU FP8 type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp8-quantisation">5.2.2. FP8 quantisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#converting-an-fp32-model-to-fp8">5.2.3. Converting an FP32 model to FP8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp8-model-conversion-tool">5.2.4. FP8 model conversion tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#debugging-fp8-model-conversion-problems">5.2.5. Debugging FP8 model conversion problems</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/overlap_io.html">5.3. Overlap I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#principle">5.3.1. Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#configuring-i-o-tiles">5.3.2. Configuring I/O tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#debugging">5.3.3. Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#concurrent-requests">5.3.4. Concurrent requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#example">5.3.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/dynamic_batch_size.html">5.4. Dynamic batch size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#background">5.4.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#example">5.4.2. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#background">5.5.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#packing-and-unpacking">5.5.2. Packing and unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#how-to-use-packing">5.5.4. How to use packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#downloading-the-model">Downloading the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#converting-the-model">Converting the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#running-the-model">Running the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/cpu_packing.html">5.6. CPU packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#background">5.6.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#functional-modules">5.6.2. Functional modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#timeout-processing">Timeout processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#user-data-preprocessing">User data preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#data-accumulation">Data accumulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#post-packing-processing">Post-packing processing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#packing-algorithms">5.6.3. Packing algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#end-to-end-method">End-to-end method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#firstfit-method">FirstFit method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#nextfit-method">NextFit method</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#examples">5.6.4. Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_fusion.html">5.7. Model fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#implementing-poprt-model-fusion">5.7.1. Implementing PopRT model fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#implementing-poprt-runtime-fusion-model-inference">5.7.2. Implementing PopRT Runtime fusion model inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_ops.html">5.8. Custom operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#writing-custom-operators">5.8.1. Writing custom operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#create-the-onnx-model-file-with-the-leakyrelu-op">Create the ONNX model file with the <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> op</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#using-custom-operators-in-poprt">5.8.2. Using custom operators in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_onnx_pass.html">5.9. Custom passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#implementing-custom-passes">5.9.1. Implementing custom passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes">5.9.2. Using custom passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes-in-the-poprt-cli">Using custom passes in the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes-in-the-python-api">Using custom passes in the Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_pattern.html">5.10. Custom patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#implementing-custom-popart-patterns">5.10.1. Implementing custom PopART patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#using-custom-popart-patterns-in-poprt">5.10.2. Using custom PopART patterns in PopRT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-1-use-patterncreator-to-enable-the-pattern-by-default">Method 1: Use <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> to enable the pattern by default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-2-configure-a-pattern-using-the-python-api">Method 2: Configure a pattern using the Python API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-3-config-the-specified-pattern-using-cli">Method 3: Config the specified pattern using CLI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_transform.html">5.11. Custom transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#implementing-custom-popart-transforms">5.11.1. Implementing custom PopART transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#using-custom-transforms-in-poprt">5.11.2. Using custom transforms in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/manual_sharding.html">5.12. Manual sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#sharding-and-model-parallelism">5.12.1. Sharding and model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#pipelining-and-pipeline-parallelism">5.12.2. Pipelining and pipeline parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#manual-sharding-process">5.12.3. Manual sharding process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding">5.12.4. Configuring manual sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding-with-the-poprt-cli">Configuring manual sharding with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding-with-the-python-api">Configuring manual sharding with the Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#example">5.12.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/error_handling.html">5.13. Error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features/frontend.html">5.14. PopRT frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#onnx-frontend">5.14.1. ONNX frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#tensorflow-frontend">5.14.2. TensorFlow frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#loading-a-tensorflow-model-with-the-poprt-cli">Loading a TensorFlow model with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#loading-a-tensorflow-model-with-python-api">Loading a TensorFlow model with Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/auto_sharding.html">5.15. Auto-sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#model-parallelism">5.15.1. Model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#principle-of-auto-sharding">5.15.2. Principle of auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#alternative-nodes-strategy">Alternative nodes strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#traversal-strategy-of-sharding-scheme">Traversal strategy of sharding scheme</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#using-auto-sharding">5.15.3. Using auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#auto-sharding-tool">Auto-sharding tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_debugger.html">5.16. Model debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#model-debugger-tool">5.16.1. Model Debugger tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#examples">5.16.2. Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">8. Revision history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="poprt-user-guide">
+<h1>PopRT User Guide<a class="headerlink" href="#poprt-user-guide" title="Permalink to this headline"></a></h1>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/c600-front.jpg"><img alt="_images/c600-front.jpg" src="_images/c600-front.jpg" style="width: 90%;" /></a>
+</figure>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#background">1.1. Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#architecture">1.2. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#workflow">1.3. Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compatibility-of-poprt-with-the-poplar-sdk">2.1. Compatibility of PopRT with the Poplar SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#quick-start-with-a-docker-image">2.2. Quick start with a Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-poprt-on-host-server">2.3. Install PopRT on host server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#install-poplar-sdk">Install Poplar SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#enable-the-sdk">Enable the SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#install-poprt">Install PopRT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">3. Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#cli-parameters">3.1. CLI parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#convert-and-run-model">3.2. Convert and run model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#download-onnx-model">3.2.1. Download ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#obtain-input-and-output-information-for-onnx-model">3.2.2. Obtain input and output information for ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#specify-input-shape">3.2.3. Specify input shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#specify-model-accuracy">3.2.4. Specify model accuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#run-model">3.2.5. Run model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#export-popef-model">3.2.6. Export PopEF model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#quick-deployment">3.3. Quick deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#run-exported-popef-model">3.3.1. Run exported PopEF model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quick_start.html#run-converted-onnx-model">3.3.2. Run converted ONNX model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html#python-api-example">3.4. Python API example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instructions.html">4. Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#Named Arguments">4.1. Named Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#Sub-commands:">4.2. Sub-commands:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instructions.html#tf2onnx">4.2.1. tf2onnx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Named Arguments_repeat1">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/index.html">5. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/passes.html#pass-abstract">5.1.1. Pass abstract</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#ipu-fp8-type">5.2.1. IPU FP8 type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp8-quantisation">5.2.2. FP8 quantisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#converting-an-fp32-model-to-fp8">5.2.3. Converting an FP32 model to FP8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp8-model-conversion-tool">5.2.4. FP8 model conversion tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#debugging-fp8-model-conversion-problems">5.2.5. Debugging FP8 model conversion problems</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/overlap_io.html">5.3. Overlap I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#principle">5.3.1. Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#configuring-i-o-tiles">5.3.2. Configuring I/O tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#debugging">5.3.3. Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#concurrent-requests">5.3.4. Concurrent requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#example">5.3.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/dynamic_batch_size.html">5.4. Dynamic batch size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#background">5.4.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#example">5.4.2. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#background">5.5.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#packing-and-unpacking">5.5.2. Packing and unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#how-to-use-packing">5.5.4. How to use packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#downloading-the-model">Downloading the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#converting-the-model">Converting the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#running-the-model">Running the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/cpu_packing.html">5.6. CPU packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#background">5.6.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#functional-modules">5.6.2. Functional modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#timeout-processing">Timeout processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#user-data-preprocessing">User data preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#data-accumulation">Data accumulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#post-packing-processing">Post-packing processing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#packing-algorithms">5.6.3. Packing algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#end-to-end-method">End-to-end method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#firstfit-method">FirstFit method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#nextfit-method">NextFit method</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#examples">5.6.4. Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_fusion.html">5.7. Model fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#implementing-poprt-model-fusion">5.7.1. Implementing PopRT model fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#implementing-poprt-runtime-fusion-model-inference">5.7.2. Implementing PopRT Runtime fusion model inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_ops.html">5.8. Custom operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#writing-custom-operators">5.8.1. Writing custom operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#create-the-onnx-model-file-with-the-leakyrelu-op">Create the ONNX model file with the <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> op</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#using-custom-operators-in-poprt">5.8.2. Using custom operators in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_onnx_pass.html">5.9. Custom passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#implementing-custom-passes">5.9.1. Implementing custom passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes">5.9.2. Using custom passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes-in-the-poprt-cli">Using custom passes in the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes-in-the-python-api">Using custom passes in the Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_pattern.html">5.10. Custom patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#implementing-custom-popart-patterns">5.10.1. Implementing custom PopART patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#using-custom-popart-patterns-in-poprt">5.10.2. Using custom PopART patterns in PopRT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-1-use-patterncreator-to-enable-the-pattern-by-default">Method 1: Use <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> to enable the pattern by default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-2-configure-a-pattern-using-the-python-api">Method 2: Configure a pattern using the Python API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-3-config-the-specified-pattern-using-cli">Method 3: Config the specified pattern using CLI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_transform.html">5.11. Custom transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#implementing-custom-popart-transforms">5.11.1. Implementing custom PopART transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#using-custom-transforms-in-poprt">5.11.2. Using custom transforms in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/manual_sharding.html">5.12. Manual sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#sharding-and-model-parallelism">5.12.1. Sharding and model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#pipelining-and-pipeline-parallelism">5.12.2. Pipelining and pipeline parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#manual-sharding-process">5.12.3. Manual sharding process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding">5.12.4. Configuring manual sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding-with-the-poprt-cli">Configuring manual sharding with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding-with-the-python-api">Configuring manual sharding with the Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#example">5.12.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/error_handling.html">5.13. Error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features/frontend.html">5.14. PopRT frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#onnx-frontend">5.14.1. ONNX frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#tensorflow-frontend">5.14.2. TensorFlow frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#loading-a-tensorflow-model-with-the-poprt-cli">Loading a TensorFlow model with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#loading-a-tensorflow-model-with-python-api">Loading a TensorFlow model with Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/auto_sharding.html">5.15. Auto-sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#model-parallelism">5.15.1. Model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#principle-of-auto-sharding">5.15.2. Principle of auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#alternative-nodes-strategy">Alternative nodes strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#traversal-strategy-of-sharding-scheme">Traversal strategy of sharding scheme</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#using-auto-sharding">5.15.3. Using auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#auto-sharding-tool">Auto-sharding tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_debugger.html">5.16. Model debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#model-debugger-tool">5.16.1. Model Debugger tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#examples">5.16.2. Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">8. Revision history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-right" title="1. Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

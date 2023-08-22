@@ -1,0 +1,12 @@
+-
+  node: resnetv17_stage1__plus0
+  device: 0
+  stage: 0
+-
+  node: resnetv17_stage4_batchnorm2_fwd
+  device: 1
+  stage: 1
+-
+  node: resnetv17_stage4__plus0
+  device: 2
+  stage: 2
