@@ -16,8 +16,6 @@ from poprt.passes.onnx_helper import topological_sort
 
 np.random.seed(0)
 
-sHostConcatRunnerConfig = 'HostConcatRunnerConfig'
-
 
 def compile_overlapio(model: onnx.ModelProto, fp: str = ''):
     """Compile ONNX to PopEF."""
@@ -113,7 +111,7 @@ def run(executable, merge_executable, merged_infos):
     config = runtime.HostConcatRunnerConfig()
     config.check_package_hash = False
     config.ring_buffer_size_multiplier = 30
-    config.timeout_ns = 100
+    config.timeout_ns = 5 * 1000 * 1000  # 5ms
 
     hccs = {}
     for merged_info in merged_infos:
@@ -166,7 +164,7 @@ def run_with_host_concat_runner(executable, inputs, outputs):
     config = runtime.HostConcatRunnerConfig()
     config.check_package_hash = False
     config.ring_buffer_size_multiplier = 30
-    config.timeout_ns = 100
+    config.timeout_ns = 5 * 1000 * 1000  # 5ms
 
     runner = runtime.HostConcatRunner(executable, config)
 
@@ -293,5 +291,5 @@ if __name__ == '__main__':
     # run(fp0, fp1, merged_infos_list)
 
     # use merged_infos from popef model
-    inputs, outputs = run_with_lightrunner(fp0)
-    run_with_host_concat_runner(fp1, inputs, outputs)
+    inputs, outputs = run_with_lightrunner(exe)
+    run_with_host_concat_runner(merge_exe, inputs, outputs)

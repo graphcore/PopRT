@@ -312,8 +312,7 @@ def run_packing_model_with_pack_runner_attention_mask(args, datasets, algo):
             INPUT_IDS: datasets[i].input_ids,
             ATTENTION_MASK: datasets[i].attention_mask,
             TOKEN_TYPE_IDS: datasets[i].token_type_ids,
-            # position_ids is an optional input for first_fit/next_fit mode
-            # POSITION_IDS: datasets[i].position_ids,
+            POSITION_IDS: datasets[i].position_ids,
         }
         out_dict = {
             OUTPUT1: np.zeros([args.max_seq_len]).astype(np.float16),

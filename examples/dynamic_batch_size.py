@@ -39,7 +39,7 @@ def compile(model: onnx.ModelProto):
 def run(executable):
     """Run PopEF."""
     config = RuntimeConfig()
-    config.timeout_ns = 300 * 1000
+    config.timeout_ns = 300 * 1000  # 300us
     config.batching_dim = 0
     model_runner = runtime.Runner(executable, config)
     batch_sizes = [1, 4, 7]

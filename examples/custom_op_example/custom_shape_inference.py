@@ -10,7 +10,7 @@ from poprt.passes import ShapeFunc, get_dtype, get_shape, register_shape_func
 
 @register_shape_func(['LeakyRelu'])
 class LeakyRelu(ShapeFunc):
-    """Function based on ONNX to infer the shape and dtype of Custom Op."""
+    """Function based on ONNX to infer the shape and dtype of custom op."""
 
     def __init__(self) -> None:
         super().__init__()

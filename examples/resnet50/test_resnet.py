@@ -104,7 +104,7 @@ if __name__ == '__main__':
         '--calibration_loss_type',
         type=str,
         default='kld',
-        choices=['mse', 'mae', 'snr', 'kld', 'cos_dist'],
+        choices=['mse', 'mae', 'snr', 'kld', 'cos_dist', 'gptq'],
         help='Choose the calibration method, default is kld.',
     )
     parser.add_argument(
