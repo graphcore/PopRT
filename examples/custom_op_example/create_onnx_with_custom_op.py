@@ -34,18 +34,18 @@ def create_onnx_model_with_custom_op():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Convert onnx model and run it on IPU.'
+        description='Convert ONNX model and run it on the IPU.'
     )
     parser.add_argument(
         '--output_dir',
         type=str,
         default='./',
-        help="Full path of the onnx model will be saved to.",
+        help="Full path of the directory the ONNX model will be saved to.",
     )
     args = parser.parse_args()
 
     if not os.path.isdir(args.output_dir):
-        raise ValueError("--output_dir should be an exist folder")
+        raise ValueError("--output_dir should be an existing folder")
 
     model_path = os.path.join(args.output_dir, 'custom_op_test.onnx')
 

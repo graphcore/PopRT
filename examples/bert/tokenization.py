@@ -73,7 +73,7 @@ def validate_case_matches_checkpoint(do_lower_case, init_checkpoint):
             "You passed in `--do_lower_case=%s` with `--init_checkpoint=%s`. "
             "However, `%s` seems to be a %s model, so you "
             "should pass in `--do_lower_case=%s` so that the fine-tuning matches "
-            "how the model was pre-training. If this error is wrong, please "
+            "how the model was pre-trained. If this error is wrong, please "
             "just comment out this check."
             % (actual_flag, init_checkpoint, model_name, case_name, opposite_flag)
         )
@@ -96,7 +96,7 @@ def convert_to_unicode(text):
         else:
             raise ValueError("Unsupported string type: %s" % (type(text)))
     else:
-        raise ValueError("Not running on Python2 or Python 3?")
+        raise ValueError("Not running on Python 2 or Python 3?")
 
 
 def printable_text(text):
@@ -119,7 +119,7 @@ def printable_text(text):
         else:
             raise ValueError("Unsupported string type: %s" % (type(text)))
     else:
-        raise ValueError("Not running on Python2 or Python 3?")
+        raise ValueError("Not running on Python 2 or Python 3?")
 
 
 def load_vocab(vocab_file):

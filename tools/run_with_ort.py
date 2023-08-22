@@ -9,11 +9,12 @@ np.random.seed(2022)
 
 
 def get_synthetic_data(inputs_meta):
-    """Get synthetic data according to inputs_meta.
+    """Get synthetic data based on input information.
 
-    :param inputs_meta: input info, include name, dtype, shape
+    :param inputs_meta: Input information, including name, data type and shape.
 
-    :return: {name, data}, will set batch_size to 1 if not provided
+    :return: {name, data}, will set the batch size to 1, if this is not
+        provided.
     """
     feed_dicts = {}
     for input in inputs_meta:
@@ -31,12 +32,12 @@ def get_synthetic_data(inputs_meta):
 
 
 def get_sess_and_data(model_name):
-    """Get sess and synthetic data.
+    """Get session and synthetic data.
 
-    :param onnx_model: the imported onnx model
+    :param onnx_model: The imported ONNX model
 
-    :return sess: InferenceSession
-    :return feed_dicts: {input_name, input_data}, will set batch-size to 1
+    :return sess: The inference session.
+    :return feed_dicts: {input_name, input_data} and will set batch size to 1.
     """
 
     sess = ort.InferenceSession(model_name)
@@ -50,11 +51,11 @@ def get_sess_and_data(model_name):
 def run(args):
     """Run and print the output.
 
-    :param args: config
+    :param args: Config.
     """
     model_name = args.model
     if not os.path.exists(model_name):
-        raise RuntimeError(f"{model_name} does not exist, please double check")
+        raise RuntimeError(f"{model_name} does not exist. Please check the model name.")
 
     sess, feed_dicts = get_sess_and_data(model_name)
 
@@ -69,11 +70,9 @@ def run(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='run model with onnxruntime')
     parser.add_argument(
-        '--model', type=str, required=True, help="full path of the onnx model"
+        '--model', type=str, required=True, help="Full path to the ONNX model"
     )
-    parser.add_argument(
-        '--print', action='store_true', help="print the output of model"
-    )
+    parser.add_argument('--print', action='store_true', help="Print the model output.")
     args = parser.parse_args()
 
     run(args)

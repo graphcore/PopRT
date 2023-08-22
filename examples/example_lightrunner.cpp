@@ -41,7 +41,7 @@ int main() {
 
   auto dm     = DeviceManager();
   auto device = dm.getDevice(1);
-  conf.replica_to_device.emplace(0, device);
+  conf.replicaIdToDevice.emplace(0, device);
 
   LightRunner modelRunner(popef, conf);
   auto inputs = modelRunner.getExecuteInputs();

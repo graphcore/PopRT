@@ -24,7 +24,7 @@ loggers = {}
 def get_logger(name='debugger') -> logging.Logger:
     """Get a Python logger by name.
 
-    :param name: The name of the logger. Defaults to 'debugger'.
+    :param name: The name of the logger. Default: 'debugger'.
 
     :return: The logger instance.
     """
@@ -60,9 +60,9 @@ class StoreDictKeyPair(argparse.Action):
 class Precision:
     """A class for computing precision metrics between two sets of results.
 
-    :param method: The precision metric(s) to compute. Valid values are 'mse', 'rmse',
-        'mae', 'mape', and 'r2'. If a list of strings is provided, all metrics in the list
-        will be computed.
+    :param method: The precision metric(s) to compute. Valid values are 'mse',
+        'rmse', 'mae', 'mape', and 'r2'. If a list of strings is provided, all
+        metrics in the list will be computed.
     """
 
     def __init__(self, method='mse') -> None:
@@ -70,7 +70,7 @@ class Precision:
             self.method = method
         else:
             raise TypeError(
-                f"Compare method should be str or a list, but recieved {type(method)}"
+                f"The compare method should be str or a list, but received {type(method)}"
             )
 
     def mse(self, result_lhs: np.ndarray, result_rhs: np.ndarray) -> float:
@@ -151,7 +151,7 @@ class Precision:
         """
         if result_lhs.shape != result_rhs.shape:
             raise ValueError(
-                f"Shape miss match {result_lhs.shape} vs {result_rhs.shape}"
+                f"Shape mismatch: {result_lhs.shape} vs {result_rhs.shape}"
             )
 
         if isinstance(self.method, str):
@@ -169,7 +169,7 @@ class ModelPrinter:
         level_mapping = {"model": 0, "graph": 1, "node": 3, "tensor": 4}
         if print_level not in level_mapping.keys():
             raise ValueError(
-                f"{print_level} is not supported in ModelPrinter, only supports model, graph and node."
+                f"{print_level} is not supported in ModelPrinter. Only model, graph and node are supported."
             )
         self.print_level = print_level
         self.model_info = ''
@@ -322,7 +322,7 @@ class ModelPrinter:
             elif tensors:
                 self.print_tensors(model, tensors)
             else:
-                raise ValueError(f"Can not find node or weight {self.name} in graph.")
+                raise ValueError(f"Cannot find node or weight {self.name} in graph.")
         elif self.print_level == "model":
             # print meta info
             self.print_metadata(model)
@@ -364,7 +364,7 @@ def update_weight_or_input(
         [w.name for w in weight_tensor_list] + [i.name for i in input_tensor_list]
     )
     if missing_tensor:
-        raise ValueError(f"{missing_tensor} is not found in model.")
+        raise ValueError(f"{missing_tensor} is not found in the model.")
 
     for weight_tensor in weight_tensor_list:
         tensor_name = weight_tensor.name
@@ -472,7 +472,7 @@ def get_synthetic_data(
     def check_shape(name, shape):
         for dim in shape:
             if not isinstance(dim, int):
-                raise ValueError("f{name} contain invalid dim: {dim}.")
+                raise ValueError("f{name} contains an invalid dim: {dim}.")
 
     feed_dicts = {}
     for meta_info in inputs_meta.items():
@@ -483,7 +483,7 @@ def get_synthetic_data(
         func_name = input_func[meta_info[0]]
         if input_func.get(meta_info[0]) is None:
             raise ValueError(
-                f"Input data is missing for {meta_info[0]}. Please specify the input by --input_data option."
+                f"Input data is missing for {meta_info[0]}. Please specify the input with the `--input_data` option."
             )
         if func_name in ['rand']:
             data = np.random.rand(*shape)
@@ -535,10 +535,10 @@ def check_precision(
     :param src_sess: The source inference session.
     :param dst_sess: The destination inference session.
     :param input_func: A dictionary mapping input tensor names to the type of synthetic data to generate. Defaults to {}.
-    :param compare_method: The method or methods to use for comparing the model outputs. Defaults to 'mse'.
-    :param name_mapping: A dictionary mapping input and output tensor names between the two models. Defaults to None.
-    :param dump_data: Whether to dump the input and output data for each tensor. Defaults to False.
-    :param dump_dir: The directory to save the dumped data to. Defaults to 'compare_output'.
+    :param compare_method: The method or methods to use for comparing the model outputs. Default: 'mse'.
+    :param name_mapping: A dictionary mapping input and output tensor names between the two models. Default: None.
+    :param dump_data: If True, dumps the input and output data for each tensor. Default: False.
+    :param dump_dir: The directory to save the dumped data to. Default: 'compare_output'.
     """
     src_inputs_info, src_outputs_info = src_sess.get_io_info()
     dst_inputs_info, dst_outputs_info = dst_sess.get_io_info()
@@ -610,7 +610,7 @@ def load(model_path: str, backend: str = 'onnx') -> Union[onnx.ModelProto, Any]:
     """Load an ONNX or TensorFlow model.
 
     :param model_path: The path to the model file.
-    :param backend: The backend to use for loading the model. Defaults to 'onnx'.
+    :param backend: The backend to use for loading the model. Default: 'onnx'.
 
     :return: The loaded model.
     """
@@ -623,7 +623,7 @@ def load(model_path: str, backend: str = 'onnx') -> Union[onnx.ModelProto, Any]:
             return graph_def
     else:
         raise ValueError(
-            f"Unsupported backend: {backend} used. Only support onnxruntime, poprt and tensorflow."
+            f"Unsupported backend: {backend} used. Only `onnxruntime`, `poprt` and `tensorflow` are supported."
         )
 
 
@@ -652,7 +652,7 @@ def compare_precision(args) -> None:
             mark_outputs = [o.strip() for o in args.mark_outputs.split(',')]
             for output in mark_outputs:
                 if output not in common_tensor:
-                    raise ValueError(f"{output} is not exists in both model.")
+                    raise ValueError(f"{output} does not exist in both models.")
                 else:
                     dump_outputs.append(output)
     elif args.mark_io_mapping is not None:
@@ -673,7 +673,7 @@ def compare_precision(args) -> None:
                 & set([o.name for o in dst_model.graph.output])
             )
             if not common_outputs:
-                raise ValueError(f"no common outputs between both model.")
+                raise ValueError(f"No common outputs between both models.")
 
     src_sess = create_session_with_outputs(src_model, src_backend, dump_outputs)
     dst_sess = create_session_with_outputs(dst_model, dst_backend, dump_outputs)
@@ -710,13 +710,13 @@ if __name__ == '__main__':
         '--src_model',
         '--model',
         type=str,
-        help='Specify the source input model. In compare subcommand, use --dst_model to specify the second model for precision comparing.',
+        help='Specify the source input model. In the `compare` subcommand, use `--dst_model` to specify the second model for comparing precision.',
     )
     parser = argparse.ArgumentParser(description='Numerical debugging assistant')
-    subparsers = parser.add_subparsers(dest='command', help='sub-command for debugger.')
+    subparsers = parser.add_subparsers(dest='command', help='Sub-command for debugger.')
     compare = subparsers.add_parser(
         'compare',
-        description='compare precision between src_model and dst_model.',
+        description='Compare the precision between `src_model` and `dst_model`.',
         parents=[base_parser],
     )
     # compare
@@ -742,7 +742,7 @@ if __name__ == '__main__':
         '--compare_method',
         type=str,
         default='mse',
-        help='Specify the comparing method. Use , to split multiple methods.',
+        help='Specify the comparison method. Use commas (,) to separate multiple methods.',
     )
     compare.add_argument(
         '--input_data',
@@ -750,12 +750,12 @@ if __name__ == '__main__':
         metavar="KEY=VAL",
         nargs="+",
         action=StoreDictKeyPair,
-        help='Specify input data for each input tensor. It could be a path for numpy file or a string in [zeros, ones, rand].',
+        help='Specify input data for each input tensor. It could be a path to a NumPy file or a string in [zeros, ones, rand].',
     )
     compare.add_argument(
         '--mark_outputs',
         type=str,
-        help='Mark the tensor names for compare, use , to split between different tensors. If "all" is specified, all possible tensors are compared.',
+        help='Specify the tensor names for comparison. Use commas (,) to select multiple tensors. Use "all" to compare all tensors.',
     )
     compare.add_argument(
         '--mark_io_mapping',
@@ -763,24 +763,24 @@ if __name__ == '__main__':
         metavar="KEY=VAL",
         nargs="+",
         action=StoreDictKeyPair,
-        help='Specify inputs and outputs mapping to compare result between models have different naming. It is used when src_model and dst_model use different naming for same tensor.',
+        help='Specify input and output mapping to compare results between `src_model` and `dst_model` when they use a different name for the same tensor.',
     )
     compare.add_argument(
         '--dump_data',
         action='store_true',
-        help='Dump tensor data to local file.',
+        help='Dump tensor data to a local file.',
     )
     compare.add_argument(
         '--dump_dir',
         type=str,
         default='compare_output',
-        help='Directory to save dumped data.',
+        help='Directory to save dumped data to.',
     )
 
     # modify
     modify = subparsers.add_parser(
         'modify',
-        description='Modify input model with specified operation.',
+        description='Modify input model with the specified operation.',
         parents=[base_parser],
     )
     modify.add_argument(
@@ -789,7 +789,7 @@ if __name__ == '__main__':
         metavar="KEY=VAL",
         nargs="+",
         action=StoreDictKeyPair,
-        help='Update weights with key=value map where key is the weight name and value could be a path for numpy file or a string in [zeros, ones, rand].',
+        help='Update weights with the key=value map where key is the weight name and value could be a path to a NumPy file or a string in [zeros, ones, rand].',
     )
     modify.add_argument(
         '--extract',
@@ -797,18 +797,18 @@ if __name__ == '__main__':
         metavar="KEY=VAL",
         nargs="+",
         action=StoreDictKeyPair,
-        help='Extract subgraph to model. Use `--extract input_names=in_name output_names=out_name` to speicify the subgraph between in_name and out_name.',
+        help='Extract subgraph to model. Use `--extract input_names=in_name output_names=out_name` to specify the subgraph between `in_name` and `out_name`.',
     )
     modify.add_argument(
         '--sort',
         action='store_true',
-        help='Topological sort the model.',
+        help='Topologically sort the model.',
     )
     modify.add_argument(
         '--output_model',
         type=str,
         default=None,
-        help='Path to save modified model',
+        help='Path to save the modified model to.',
     )
 
     # print
@@ -820,13 +820,13 @@ if __name__ == '__main__':
         type=str,
         default='model',
         choices=['model', 'graph', 'node', 'tensor'],
-        help='Set print level, choices are model, graph, node and tensor.',
+        help='Set print level. Options are model, graph, node and tensor.',
     )
     printer.add_argument(
         '--name',
         type=str,
         default=None,
-        help='Match the tensor or node with specified name to print.',
+        help='Match the tensor or node with the specified name to print.',
     )
     args = parser.parse_args()
 

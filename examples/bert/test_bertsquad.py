@@ -596,7 +596,7 @@ def main():
     bert_fp32_layer_norm = poprt.optimizer.Optimizer(
         ['layer_norm_pattern', 'gelu_pattern']
     ).run(bert_fp32)
-    onnx.save(bert_fp32, bert_fp32_save_path)
+    onnx.save(bert_fp32_layer_norm, bert_fp32_save_path)
 
     if args.model_run_type == 'fp32':
         bert_save_path = bert_fp32_save_path

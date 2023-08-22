@@ -1,0 +1,4 @@
+batch_size: 1344
+gif: True
+white_bkgd: True
+use_viewdirs: True

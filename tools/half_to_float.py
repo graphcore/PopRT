@@ -21,15 +21,15 @@ def create_new_model(model):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert model from fp16 to fp32.')
-    parser.add_argument('--fp16_model', type=str, help="path of the fp16 model.")
-    parser.add_argument('--fp32_model', type=str, help="path of the fp32 model.")
+    parser.add_argument('--fp16_model', type=str, help="Path to the fp16 model.")
+    parser.add_argument('--fp32_model', type=str, help="Path to the fp32 model.")
     args = parser.parse_args()
 
     if os.path.exists(args.fp16_model):
         model = onnx.load(args.fp16_model)
     else:
         raise FileNotFoundError(
-            f"{args.fp16_model} doesn't exists, please check carefully."
+            f"{args.fp16_model} doesn't exist. Please check the model name."
         )
     new_model = create_new_model(model)
 

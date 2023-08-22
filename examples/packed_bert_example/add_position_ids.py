@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     if not os.path.exists(args.input_model):
         parser.print_usage()
-        raise FileNotFoundError(f'Unable to find model : {args.input_model}')
+        raise FileNotFoundError(f'Unable to find model: {args.input_model}')
 
     model = onnx.load(args.input_model)
 
