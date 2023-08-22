@@ -20,7 +20,7 @@ from poprt.profile import Profiler
 
 
 class Subgraph:
-    """Create a subgraph including several nodes."""
+    """Create a subgraph that includes several nodes."""
 
     def __init__(
         self,
@@ -30,35 +30,35 @@ class Subgraph:
         bytes_cost: float,
         flops_cost: int,
     ) -> None:
-        """Create a subgraph including several nodes.
+        """Create a subgraph that includes several nodes.
 
-        :param start_node: the name of the start node of the subgraph.
-        :param nodes: the list of nodes in the subgraph.
-        :param id: the id of the subgraph.
-        :param bytes_cost: the bytes cost of the subgraph.
-        :param flops_cost: the FLOPs cost of the subgraph.
+        :param start_node: The name of the start node of the subgraph.
+        :param nodes: The list of nodes in the subgraph.
+        :param id: The ID of the subgraph.
+        :param bytes_cost: The bytes cost of the subgraph.
+        :param flops_cost: The FLOPS cost of the subgraph.
         """
         self.start_node = start_node
         self.nodes = nodes
         self.id = id
         self.bytes_cost = bytes_cost
         self.flops_cost = flops_cost
-        # The parents of the current subgraph are the ids of subgraphs
+        # The parents of the current subgraph are the IDs of subgraphs
         # whose start nodes are the input nodes of the current subgraph.
         self.parents = set()
         # If the current subgraph is the parent of other subgraphs,
-        # the ids of the subgraphs will be stored in kids.
+        # the IDs of the subgraphs will be stored in kids.
         self.kids = set()
-        # The ids of the subgraphs which are able
+        # The IDs of the subgraphs which are able
         # to be travelled from the start node of the current subgraph.
         self.included_subgraphs = set()
-        # The ids of the subgraphs which are parallel to the current subgraph.
+        # The IDs of the subgraphs which are parallel to the current subgraph.
         self.parallel_subgraphs = set()
 
     def is_parallel(self, other: "Subgraph") -> bool:
-        """Check if other subgraph is parallel to the current subgraph.
+        """Check if a subgraph is parallel to the current subgraph.
 
-        :param other: the other subgraph.
+        :param other: The subgraph being checked.
         """
         if (
             other.id not in self.included_subgraphs
@@ -76,23 +76,23 @@ class Subgraph:
 class SubgraphGroup:
     """Create a group of subgraphs.
 
-    A groups of subgraphs will be allocated into one IPU.
+    A group of subgraphs will be allocated to one IPU.
     """
 
     def __init__(self):
         self.subgraphs = []
-        # The total bytes cost of the subgraphs group.
+        # The total bytes cost of the subgraph group.
         self.subgraph_bytes_cost = 0.0
-        # The total FLOPs cost of the subgraphs group.
+        # The total FLOPs cost of the subgraph group.
         self.subgraph_flops_cost = 0
-        # The start subrgraphs are the subgraphs starting with sharding nodes of the group.
+        # The start subgraphs are the subgraph starting with sharding nodes of the group.
         self.start_subgraphs = []
         self.is_last_subgraph = False
 
     def add(self, subgraph: Subgraph):
-        """Add the subgraph into group.
+        """Add a subgraph to the subgraph group.
 
-        :param subgraph: the subgraph to be added.
+        :param subgraph: The subgraph to be added.
         """
         self.subgraphs.append(subgraph)
         self.subgraph_bytes_cost += subgraph.bytes_cost
@@ -115,9 +115,9 @@ class SubgraphGroup:
                 self.start_subgraphs.append(subgraph)
 
     def remove(self, subgraph: Subgraph):
-        """Remove the subgraph into group.
+        """Remove a subgraph from the subgraph group.
 
-        :param subgraph: the subgraph to be removed.
+        :param subgraph: The subgraph to be removed.
         """
         # Update start subgraphs after removing the subgraph from the group.
         if not self.is_last_subgraph:
@@ -142,7 +142,7 @@ SKIP_OP_TYPES = ["Reshape", "Slice", "Tile", "Expand"]
 
 
 class AutoSharding:
-    """Auto shard ONNX model into devices and pipelining stages."""
+    """Auto-shard ONNX model into devices and pipelining stages."""
 
     def __init__(
         self,
@@ -152,9 +152,9 @@ class AutoSharding:
     ) -> None:
         """Construct a new AutoSharding object.
 
-        :param num_ipus: the number of ipus.
-        :param optimal_perf: If True, continue traversing to find optimal performance, else stop if find a valid solution.
-        :param num_processes: the number of processes for compilation.
+        :param num_ipus: The number of IPUs.
+        :param optimal_perf: If True, continue traversing to find optimal performance, else stop if a valid solution is found.
+        :param num_processes: The number of processes for compilation.
         """
         self._num_ipus = num_ipus
         self._optimal_perf = optimal_perf
@@ -180,9 +180,9 @@ class AutoSharding:
         self._total_flops_cost = 0
 
     def _bytes_cost_by_nodes(self, nodes: List[onnx.NodeProto]) -> float:
-        """Calculate the byte-size cost by nodes in terms of nodes' initializer inputs.
+        """Calculate the byte-size cost by node in terms of the node initializer inputs.
 
-        :param nodes: the list of nodes involved in calculation.
+        :param nodes: The list of nodes involved in the calculation.
         """
 
         bytes_cost = 0.0
@@ -198,9 +198,9 @@ class AutoSharding:
         return bytes_cost
 
     def _flops_cost_by_nodes(self, nodes: List[onnx.NodeProto]) -> int:
-        """Calculate the FLOPs cost by nodes.
+        """Calculate the FLOPS cost by node.
 
-        :param nodes: the list of nodes involved in calculation.
+        :param nodes: The list of nodes involved in the calculation.
         """
         flops_cost = 0.0
         dummy_shape = np.array([]).astype(np.int64)
@@ -231,7 +231,7 @@ class AutoSharding:
     def _is_candidate(self, node_proto: onnx.NodeProto) -> bool:
         """Check if the node is a candidate node.
 
-        :param node_proto: the node to be checked.
+        :param node_proto: The node to be checked.
         """
 
         is_candidate = False
@@ -244,9 +244,9 @@ class AutoSharding:
         return is_candidate
 
     def _init_info(self, graph_proto: onnx.GraphProto) -> None:
-        """Init the information for auto-sharding.
+        """Initialise the information for auto-sharding.
 
-        :param graph_proto: the ONNX graph.
+        :param graph_proto: The ONNX graph.
         """
         for i in graph_proto.initializer:
             # Init _name_to_initializer
@@ -288,9 +288,9 @@ class AutoSharding:
         print(f"The number of candidates: {len(self._candidates)}")
 
     def _traverse_subgraph(self, start_node: str) -> Set[str]:
-        """Traverse the subgraph nodes from the node.
+        """Traverse the subgraph nodes from the start node.
 
-        :param start_node: the name of the start node of the subgraph.
+        :param start_node: The name of the start node of the subgraph.
         """
         if start_node in self._travelled:
             return None
@@ -311,7 +311,7 @@ class AutoSharding:
         return subgraph_nodes
 
     def _raw_sharding(self) -> List[SubgraphGroup]:
-        """Shard the subgraphs into SubgraphGroups to balance bytes cost on devices."""
+        """Shard the subgraphs into subgraph groups to balance bytes cost on devices."""
 
         avg_bytes_cost = self._total_bytes_cost / self._num_ipus
 
@@ -345,9 +345,9 @@ class AutoSharding:
         return subgraph_groups
 
     def _execute(self, popef: str) -> Tuple[float, float]:
-        """Execute the PopEF.
+        """Execute the PopEF model.
 
-        :param popef: the PopEF file name.
+        :param popef: The PopEF file name.
         """
 
         # Performance
@@ -388,15 +388,15 @@ class AutoSharding:
         subgraph_groups: List[SubgraphGroup],
         balance_flops: bool = False,
     ) -> List[List[SubgraphGroup]]:
-        """Try to find the next SubgraphGroup lists from the current SubgraphGroup list.
+        """Try to find the next subgraph group list from the current subgraph group list.
 
-        :param group_idx: the index of group which is out of the memory.
-        :param subgraph_groups: the list of SubgraphGroup.
-        :param balance_flops: If True, enable to find the next SubgraphGroup lists based on FLOPs cost, else bytes cost.
+        :param group_idx: The index of the group which is out of the memory.
+        :param subgraph_groups: The list of subgraph groups.
+        :param balance_flops: If True, enable to find the next subgraph group list based on FLOPS cost, else from bytes cost.
         """
 
         def update(new_group_idx: int, s: Subgraph) -> List[SubgraphGroup]:
-            # Remove Subgraph s from group_idx and add it to new_group_idx
+            # Remove subgraphs from group_idx and add it to new_group_idx
             sg_t = copy.deepcopy(subgraph_groups)
             if balance_flops:
                 # The original new group should have less FLOPs cost than the old group
@@ -584,9 +584,9 @@ class AutoSharding:
     ) -> Tuple:
         """Try to compile the ONNX model with the sharding nodes.
 
-        :param queue: the process queue of the list of SubgraphGroup.
-        :param compile_results_queue: the process queue of the compile results.
-        :param onnx_model: the ONNX model.
+        :param queue: The process queue of the list of subgraph groups.
+        :param compile_results_queue: The process queue of the compile results.
+        :param onnx_model: The ONNX model.
         """
 
         def compile(
@@ -658,7 +658,7 @@ class AutoSharding:
     def _print_sharding_info(self, subgraph_groups: List[SubgraphGroup]) -> None:
         """Print the sharding information of the subgraph groups.
 
-        :param subgraph_groups: the list of SubgraphGroup.
+        :param subgraph_groups: The list of subgraph groups.
         """
         for i in range(len(subgraph_groups) - 1):
             print(
@@ -668,10 +668,10 @@ class AutoSharding:
     def _optimize(
         self, onnx_model: onnx.ModelProto, subgraph_groups: List[SubgraphGroup]
     ):
-        """Try to find the sharding nodes which is able to make graph compile successfully.
+        """Try to find the sharding nodes which result in successful graph compilation.
 
-        :param onnx_model: the ONNX model.
-        :param subgraph_groups: the list of SubgraphGroup.
+        :param onnx_model: The ONNX model.
+        :param subgraph_groups: The list of subgraph groups.
         """
         oom = 0
         oom_tile_id = 0
@@ -749,7 +749,7 @@ class AutoSharding:
                 # Failed:
                 # compile_result[1]: subgraph groups
                 # compile_result[2]: the index of the perf_queue
-                # compile_result[3]: OOM tile id
+                # compile_result[3]: OOM tile ID
                 # compile_result[4]: OOM size
 
                 compilable = compile_result[0]
@@ -1003,7 +1003,7 @@ class AutoSharding:
     def run(self, onnx_model: onnx.ModelProto) -> onnx.ModelProto:
         """Run auto-sharding.
 
-        :param onnx_model: The original ModelProto.
+        :param onnx_model: The original ModelProto object.
         """
         print("-------- Auto-sharding start -------")
         # Check if each node has unique name
@@ -1011,11 +1011,11 @@ class AutoSharding:
         for n in onnx_model.graph.node:
             if n.name == "":
                 raise ValueError(
-                    f"Each node need to have an unique name. The node has no name: \n{n}"
+                    f"Each node needs to have a unique name. This node has no name: \n{n}"
                 )
             if n.name in node_list:
                 raise ValueError(
-                    f"Each node need to have an unique name. The node has duplicated name: \n{n}"
+                    f"Each node needs to have a unique name. This node has a duplicate name: \n{n}"
                 )
             node_list.append(n.name)
 

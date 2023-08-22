@@ -7,10 +7,10 @@ if __name__ == '__main__':
         '-c', '--cycles', type=float, required=True, help="Specify the cycles."
     )
     parser.add_argument(
-        '-f', '--flops', type=float, required=True, help="Specify the flops."
+        '-f', '--flops', type=float, required=True, help="Specify the FLOPS."
     )
     parser.add_argument(
-        '-n', '--ipus', type=int, default=1, help="Specify number of IPUs."
+        '-n', '--ipus', type=int, default=1, help="Specify the number of IPUs."
     )
     parser.add_argument(
         '-p',
