@@ -263,7 +263,7 @@ if __name__ == '__main__':
 
     merged_inputs = []
     # (dtype, shape)
-    merged_inputs.append((onnx.TensorProto.FLOAT, (512, 1)))
+    merged_inputs.append((onnx.TensorProto.FLOAT, (512, 1), 50))
     merged_inputs.append((onnx.TensorProto.FLOAT, (512, 5)))
 
     apass = Pass.get_pass('apply_host_concat_split', merged_inputs)
