@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5.15. Auto-sharding &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.16. Model debugger" href="model_debugger.html" />
+    <link rel="prev" title="5.14. PopRT frontend" href="frontend.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.5.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">1.1. Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#architecture">1.2. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#workflow">1.3. Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#compatibility-of-poprt-with-the-poplar-sdk">2.1. Compatibility of PopRT with the Poplar SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#quick-start-with-a-docker-image">2.2. Quick start with a Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#install-poprt-on-host-server">2.3. Install PopRT on host server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#install-poplar-sdk">Install Poplar SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#enable-the-sdk">Enable the SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#install-poprt">Install PopRT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#cli-parameters">3.1. CLI parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#convert-and-run-model">3.2. Convert and run model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#download-onnx-model">3.2.1. Download ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#obtain-input-and-output-information-for-onnx-model">3.2.2. Obtain input and output information for ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#specify-input-shape">3.2.3. Specify input shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#specify-model-accuracy">3.2.4. Specify model accuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#run-model">3.2.5. Run model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#export-popef-model">3.2.6. Export PopEF model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#quick-deployment">3.3. Quick deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#run-exported-popef-model">3.3.1. Run exported PopEF model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#run-converted-onnx-model">3.3.2. Run converted ONNX model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api-example">3.4. Python API example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#Named Arguments">4.1. Named Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#Sub-commands:">4.2. Sub-commands:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#tf2onnx">4.2.1. tf2onnx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments_repeat1">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="passes.html#pass-abstract">5.1.1. Pass abstract</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#ipu-fp8-type">5.2.1. IPU FP8 type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp8-quantisation">5.2.2. FP8 quantisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#converting-an-fp32-model-to-fp8">5.2.3. Converting an FP32 model to FP8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp8-model-conversion-tool">5.2.4. FP8 model conversion tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#debugging-fp8-model-conversion-problems">5.2.5. Debugging FP8 model conversion problems</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.3. Overlap I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#principle">5.3.1. Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#configuring-i-o-tiles">5.3.2. Configuring I/O tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#debugging">5.3.3. Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#concurrent-requests">5.3.4. Concurrent requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#example">5.3.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.4. Dynamic batch size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#background">5.4.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#example">5.4.2. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#background">5.5.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#packing-and-unpacking">5.5.2. Packing and unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packing.html#how-to-use-packing">5.5.4. How to use packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#downloading-the-model">Downloading the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#converting-the-model">Converting the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packing.html#running-the-model">Running the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_packing.html">5.6. CPU packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#background">5.6.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#functional-modules">5.6.2. Functional modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#timeout-processing">Timeout processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#user-data-preprocessing">User data preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#data-accumulation">Data accumulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#post-packing-processing">Post-packing processing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#packing-algorithms">5.6.3. Packing algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#end-to-end-method">End-to-end method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#firstfit-method">FirstFit method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#nextfit-method">NextFit method</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#examples">5.6.4. Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.7. Model fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#implementing-poprt-model-fusion">5.7.1. Implementing PopRT model fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#implementing-poprt-runtime-fusion-model-inference">5.7.2. Implementing PopRT Runtime fusion model inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">5.8. Custom operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#writing-custom-operators">5.8.1. Writing custom operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#create-the-onnx-model-file-with-the-leakyrelu-op">Create the ONNX model file with the <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> op</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#using-custom-operators-in-poprt">5.8.2. Using custom operators in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">5.9. Custom passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#implementing-custom-passes">5.9.1. Implementing custom passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#using-custom-passes">5.9.2. Using custom passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#using-custom-passes-in-the-poprt-cli">Using custom passes in the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#using-custom-passes-in-the-python-api">Using custom passes in the Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.10. Custom patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#implementing-custom-popart-patterns">5.10.1. Implementing custom PopART patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#using-custom-popart-patterns-in-poprt">5.10.2. Using custom PopART patterns in PopRT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#method-1-use-patterncreator-to-enable-the-pattern-by-default">Method 1: Use <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> to enable the pattern by default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#method-2-configure-a-pattern-using-the-python-api">Method 2: Configure a pattern using the Python API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#method-3-config-the-specified-pattern-using-cli">Method 3: Config the specified pattern using CLI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.11. Custom transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#implementing-custom-popart-transforms">5.11.1. Implementing custom PopART transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#using-custom-transforms-in-poprt">5.11.2. Using custom transforms in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual_sharding.html">5.12. Manual sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#sharding-and-model-parallelism">5.12.1. Sharding and model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#pipelining-and-pipeline-parallelism">5.12.2. Pipelining and pipeline parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#manual-sharding-process">5.12.3. Manual sharding process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#configuring-manual-sharding">5.12.4. Configuring manual sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#configuring-manual-sharding-with-the-poprt-cli">Configuring manual sharding with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#configuring-manual-sharding-with-the-python-api">Configuring manual sharding with the Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#example">5.12.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html">5.13. Error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">5.14. PopRT frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#onnx-frontend">5.14.1. ONNX frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#tensorflow-frontend">5.14.2. TensorFlow frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#loading-a-tensorflow-model-with-the-poprt-cli">Loading a TensorFlow model with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#loading-a-tensorflow-model-with-python-api">Loading a TensorFlow model with Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.15. Auto-sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-parallelism">5.15.1. Model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#principle-of-auto-sharding">5.15.2. Principle of auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#alternative-nodes-strategy">Alternative nodes strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#traversal-strategy-of-sharding-scheme">Traversal strategy of sharding scheme</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#using-auto-sharding">5.15.3. Using auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#auto-sharding-tool">Auto-sharding tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_debugger.html">5.16. Model debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#model-debugger-tool">5.16.1. Model Debugger tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#examples">5.16.2. Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">8. Revision history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="auto-sharding">
+<span id="features-auto-sharding"></span><h1><span class="section-number">5.15. </span>Auto-sharding<a class="headerlink" href="#auto-sharding" title="Permalink to this headline"></a></h1>
+<p>PopRT auto-sharding supports the automatic selection of model sharding nodes to achieve model parallelism.</p>
+<section id="model-parallelism">
+<h2><span class="section-number">5.15.1. </span>Model parallelism<a class="headerlink" href="#model-parallelism" title="Permalink to this headline"></a></h2>
+<p>PopRT supports sharding the ONNX graph across different devices based on provided sharding nodes to achieve model parallelism. It is suitable for large models that exceed the memory limits of a single device and require multiple devices to run.</p>
+<p>Refer to the <a class="reference external" href="https://docs.graphcore.ai/projects/tf-model-parallelism/en/latest/sharding.html">sharding</a> section in the technical note <a class="reference external" href="https://docs.graphcore.ai/projects/tf-model-parallelism/">Model Parallelism on the IPU with TensorFlow: Sharding and Pipelining</a> for more information about sharding.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To use model parallelism, the following PopRT backend options need to be configured as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">options.virtual_graph_mode</span></code> = “manual”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">options.num_ipus</span></code> = number of devices</p></li>
+</ul>
+</div>
+</section>
+<section id="principle-of-auto-sharding">
+<h2><span class="section-number">5.15.2. </span>Principle of auto-sharding<a class="headerlink" href="#principle-of-auto-sharding" title="Permalink to this headline"></a></h2>
+<p>Auto-sharding is based on a <a class="reference internal" href="manual_sharding.html#features-manual-sharding"><span class="std std-ref">manual sharding</span></a> increasing sharding scheme traversal strategy.</p>
+<section id="alternative-nodes-strategy">
+<h3>Alternative nodes strategy<a class="headerlink" href="#alternative-nodes-strategy" title="Permalink to this headline"></a></h3>
+<p>Auto-sharding selects the alternative sharding nodes from the ONNX graph. The selection strategy selects a node in the ONNX graph that has multiple intermediate inputs, which does not include model inputs and constant inputs.</p>
+<p>The list of alternative nodes satisfies topological sorting, and the subgraph corresponding to the alternative node is found by traversing the path from each alternative node to its input direction.</p>
+<p>Each alternative node corresponds to a subgraph, and each subgraph records the corresponding <strong>memory (bytes_cost)</strong> and <strong>computation (FLOPs_cost)</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>memory (bytes_cost)</strong>: sum of initialiser input sizes for all nodes in the subgraph.</p></li>
+<li><p><strong>computation (FLOPs_cost)</strong>: sum of FLOPs of all nodes in the subgraph. The corresponding FLOPs of each node is obtained through <code class="xref py py-func docutils literal notranslate"><span class="pre">poprt.profile.Profiler.get_profiler()</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Merge the alternative nodes that have less memory or computation, so as to reduce the number of alternative nodes and improve the traversal efficiency of the sharding scheme.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The traversal strategy of the sharding scheme is to traverse the <strong>subgraph</strong> corresponding to the alternative node as the minimum unit. The list of subgraphs still satisfies the topological sorting.</p>
+</div>
+<p>As shown in the following figure, the alternative nodes are Op1, Op2, Op7. The subgraph corresponding to Op1 is [Op1, Op0, Op4], the subgraph corresponding to Op2 is [Op2, Op5, Op6], and the subgraph corresponding to Op7 is [Op7, Op3, Op8]. Traverse from the left image to the right image.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_subgraph.png"><img alt="../_images/auto_sharding_subgraph.png" src="../_images/auto_sharding_subgraph.png" style="width: 90%;" /></a>
+</figure>
+</section>
+<section id="traversal-strategy-of-sharding-scheme">
+<h3>Traversal strategy of sharding scheme<a class="headerlink" href="#traversal-strategy-of-sharding-scheme" title="Permalink to this headline"></a></h3>
+<p>Auto-sharding will select the sharding scheme from the alternative nodes:</p>
+<ol class="arabic simple">
+<li><p>Initial sharding: The list of subgraphs satisfies the topological sorting. The list of subgraphs is directly divided by subgraph <strong>memory (bytes_cost)</strong> to ensure memory balance. As shown below, divide the list of subgraphs into four <strong>subgraph groups</strong>, with each <strong>subgraph group</strong> corresponding to one IPU.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">| subgraph, subgraph, … | subgraph, subgraph, subgraph … | subgraph … | subgraph, subgraph… |</span>
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p>Traversal strategy:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Start traversal from the initial scheme.</p></li>
+<li><p>If Out Of Memory (OOM) occurs, adjust the <strong>subgraph group</strong> corresponding to the IPU that went OOM according to the memory, and try to put the removable subgraphs in this <strong>subgraph group</strong> into the adjacent or parallel <strong>subgraph group</strong> respectively for compilation.</p></li>
+<li><p>If the sharding scheme with better performance is selected, balance the  <strong>subgraph group</strong> according to the computation, try to put the removable subgraphs in the <strong>subgraph group</strong> with the largest computation into the adjacent or parallel <strong>subgraph group</strong> respectively, and search for a more computationally balanced sharding scheme for compilation.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p>The update of the <strong>subgraph group</strong> has the following situations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The starting subgraph of each <strong>subgraph group</strong> can be moved into the corresponding <strong>parent subgraph group</strong>. As shown below, subgraph 0 can be moved into the parent subgraph group, subgraph group 0, and subgraph 2 can be moved into parent subgraph group, subgraph group 1.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_update1.png"><img alt="../_images/auto_sharding_update1.png" src="../_images/auto_sharding_update1.png" style="width: 50%;" /></a>
+</figure>
+<ul class="simple">
+<li><p>The ending subgraph of each <strong>subgraph group</strong> can be moved into the corresponding <strong>child subgraph group</strong> . As shown below, subgraph 3 can be moved into child subgraph group, subgraph group 0, and subgraph 4 can be moved into child subgraph group, subgraph group 1.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_update2.png"><img alt="../_images/auto_sharding_update2.png" src="../_images/auto_sharding_update2.png" style="width: 50%;" /></a>
+</figure>
+<ul class="simple">
+<li><p>The starting subgraph or ending subgraph of each <strong>subgraph group</strong> can be moved into the corresponding <strong>parallel subgraph group</strong>. As shown below, subgraphs 0, 1, 3 and 4 can be moved into parallel subgraph group subgraph group 0.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/auto_sharding_update3.png"><img alt="../_images/auto_sharding_update3.png" src="../_images/auto_sharding_update3.png" style="width: 50%;" /></a>
+</figure>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Adjustment of available memory promotion: If an OOM occurs in each sharding scheme in the traversal strategy, select the sharding scheme with the smallest OOM size, and try to reduce the available memory proportion to 0.3 and 0.1 for compilation.</p></li>
+</ol>
+</section>
+</section>
+<section id="using-auto-sharding">
+<h2><span class="section-number">5.15.3. </span>Using auto-sharding<a class="headerlink" href="#using-auto-sharding" title="Permalink to this headline"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Auto-sharding requires that the input ONNX model be converted in PopRT (<a class="reference internal" href="../quick_start.html#quick-start"><span class="std std-ref">Quick start</span></a>).</p></li>
+<li><p>Regarding the compilation options, if the input ONNX model is FP16, <code class="docutils literal notranslate"><span class="pre">partials_type</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">half</span></code>. <code class="docutils literal notranslate"><span class="pre">available_memory_proportion</span></code> performs the sharding strategy traversal based on the default values. If all the sharding strategies in the traversal are OOM, adjust the value for <code class="docutils literal notranslate"><span class="pre">available_memory_proportion</span></code> according to the aforementioned method and re-try the compilation. Apart from that, do not consider other compilation options. You can manually adjust compilation options based on the auto-sharding sharding scheme.</p></li>
+<li><p>Since the actual performance of the sharding scheme Profiling is not considered for adjustment, the sharding scheme found by auto-sharding attempting to traverse the compilation strategy may be a locally effective solution, but not necessarily a globally optimal solution. You can use <a class="reference internal" href="manual_sharding.html#features-manual-sharding"><span class="std std-ref">Manual Sharding</span></a> to manually adjust the sharding nodes based on the sharding scheme selected by auto-sharding.</p></li>
+<li><p>The time taken for auto-sharding is proportional to the graph compilation time. This time can be very long.</p></li>
+</ul>
+</div>
+<section id="auto-sharding-tool">
+<h3>Auto-sharding tool<a class="headerlink" href="#auto-sharding-tool" title="Permalink to this headline"></a></h3>
+<p>You can download the auto-sharding tool from GitHub: <a class="reference external" href="https://github.com/graphcore/PopRT/blob/main/tools/auto_sharding.py">auto_sharding.py</a> .</p>
+<p>The parameters are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--input_model</span> <span class="pre">${INPUT_MODEL}</span></code>: The input ONNX model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num_ipus</span> <span class="pre">${NUM_IPUS}</span></code>: Specify the number of IPUs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output_model</span> <span class="pre">${OUTPUT_MODEL}</span></code>: The output ONNX model. If not set, this will default to <code class="docutils literal notranslate"><span class="pre">${input_model}.auto_sharded.onnx</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--optimal_perf</span></code>: Indicates whether to enable performance optimisation. If not enabled, the traversal will stop after finding the first successfully compiled sharding scheme. If enabled, the best performing sharding scheme will be selected after traversing all sharding schemes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num_processes</span> <span class="pre">${NUM_PROCESSES}</span></code>: The number of processes for parallel compilation. Default: 2.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h3>
+<ol class="arabic simple">
+<li><p>Performance optimisation is not enabled. Shard the model across two IPUs. All the traversal sharding schemes are OOM. Select the sharding scheme with the smallest OOM size, try <code class="docutils literal notranslate"><span class="pre">available_memory_proportion=0.3</span></code>, and the compilation is successful.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python auto_sharding.py --input_model ../debug/deberta.onnx.optimized.onnx --num_ipus 2</span>
+<span class="go">...</span>
+<span class="go">[Success] Compile successfully available_memory_proportion 0.3 and solution:</span>
+<span class="go">Sharding nodes: Device 0 - [&#39;Add_938&#39;]</span>
+<span class="go">[Success] The latency 336.2899446487427 ms, tput 2.9736244449548064</span>
+<span class="go">[Success] Save the sharded model to ../debug/deberta.onnx.optimized.onnx.auto_sharded.onnx</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Performance optimisation is enabled. Shard the model across two IPUs, and the optimal solution is returned after traversal.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python auto_sharding.py --input_model=vit_l_16_16.onnx.optimized.onnx --num_ipus=2 --optimal_perf</span>
+<span class="go">...</span>
+<span class="go">[Success] The optimal solution:</span>
+<span class="go">Sharding nodes: Device 0 - [&#39;/encoder/layers/encoder_layer_11/Add_1&#39;]</span>
+<span class="go">[Success] The optimal latency 2.712721824645996 ms, tput 368.6334481164495</span>
+<span class="go">[Success] Save the sharded model to vit_l_16_16.onnx.optimized.onnx.auto_sharded.onnx</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="frontend.html" class="btn btn-neutral float-left" title="5.14. PopRT frontend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model_debugger.html" class="btn btn-neutral float-right" title="5.16. Model debugger" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5.5. Packing &mdash; Title</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/js/graphcore.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5.6. CPU packing" href="cpu_packing.html" />
+    <link rel="prev" title="5.4. Dynamic batch size" href="dynamic_batch_size.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="../_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="../index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.5.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">1.1. Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#architecture">1.2. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#workflow">1.3. Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#compatibility-of-poprt-with-the-poplar-sdk">2.1. Compatibility of PopRT with the Poplar SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#quick-start-with-a-docker-image">2.2. Quick start with a Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#install-poprt-on-host-server">2.3. Install PopRT on host server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#install-poplar-sdk">Install Poplar SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#enable-the-sdk">Enable the SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#install-poprt">Install PopRT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">3. Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#cli-parameters">3.1. CLI parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#convert-and-run-model">3.2. Convert and run model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#download-onnx-model">3.2.1. Download ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#obtain-input-and-output-information-for-onnx-model">3.2.2. Obtain input and output information for ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#specify-input-shape">3.2.3. Specify input shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#specify-model-accuracy">3.2.4. Specify model accuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#run-model">3.2.5. Run model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#export-popef-model">3.2.6. Export PopEF model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#quick-deployment">3.3. Quick deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#run-exported-popef-model">3.3.1. Run exported PopEF model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../quick_start.html#run-converted-onnx-model">3.3.2. Run converted ONNX model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quick_start.html#python-api-example">3.4. Python API example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instructions.html">4. Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#Named Arguments">4.1. Named Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instructions.html#Sub-commands:">4.2. Sub-commands:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../instructions.html#tf2onnx">4.2.1. tf2onnx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instructions.html#Named Arguments_repeat1">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="passes.html#pass-abstract">5.1.1. Pass abstract</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#ipu-fp8-type">5.2.1. IPU FP8 type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp8-quantisation">5.2.2. FP8 quantisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#converting-an-fp32-model-to-fp8">5.2.3. Converting an FP32 model to FP8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#fp8-model-conversion-tool">5.2.4. FP8 model conversion tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fp8.html#debugging-fp8-model-conversion-problems">5.2.5. Debugging FP8 model conversion problems</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overlap_io.html">5.3. Overlap I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#principle">5.3.1. Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#configuring-i-o-tiles">5.3.2. Configuring I/O tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#debugging">5.3.3. Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#concurrent-requests">5.3.4. Concurrent requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="overlap_io.html#example">5.3.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dynamic_batch_size.html">5.4. Dynamic batch size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#background">5.4.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic_batch_size.html#example">5.4.2. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#background">5.5.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#packing-and-unpacking">5.5.2. Packing and unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformer-based-nlp-models">5.5.3. Transformer-based NLP models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use-packing">5.5.4. How to use packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#downloading-the-model">Downloading the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#converting-the-model">Converting the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-model">Running the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_packing.html">5.6. CPU packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#background">5.6.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#functional-modules">5.6.2. Functional modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#timeout-processing">Timeout processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#user-data-preprocessing">User data preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#data-accumulation">Data accumulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#post-packing-processing">Post-packing processing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#packing-algorithms">5.6.3. Packing algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#end-to-end-method">End-to-end method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#firstfit-method">FirstFit method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cpu_packing.html#nextfit-method">NextFit method</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_packing.html#examples">5.6.4. Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_fusion.html">5.7. Model fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#implementing-poprt-model-fusion">5.7.1. Implementing PopRT model fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_fusion.html#implementing-poprt-runtime-fusion-model-inference">5.7.2. Implementing PopRT Runtime fusion model inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_ops.html">5.8. Custom operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#writing-custom-operators">5.8.1. Writing custom operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_ops.html#create-the-onnx-model-file-with-the-leakyrelu-op">Create the ONNX model file with the <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> op</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="custom_ops.html#using-custom-operators-in-poprt">5.8.2. Using custom operators in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_onnx_pass.html">5.9. Custom passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#implementing-custom-passes">5.9.1. Implementing custom passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_onnx_pass.html#using-custom-passes">5.9.2. Using custom passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#using-custom-passes-in-the-poprt-cli">Using custom passes in the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_onnx_pass.html#using-custom-passes-in-the-python-api">Using custom passes in the Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_pattern.html">5.10. Custom patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#implementing-custom-popart-patterns">5.10.1. Implementing custom PopART patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_pattern.html#using-custom-popart-patterns-in-poprt">5.10.2. Using custom PopART patterns in PopRT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#method-1-use-patterncreator-to-enable-the-pattern-by-default">Method 1: Use <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> to enable the pattern by default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#method-2-configure-a-pattern-using-the-python-api">Method 2: Configure a pattern using the Python API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="custom_pattern.html#method-3-config-the-specified-pattern-using-cli">Method 3: Config the specified pattern using CLI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_transform.html">5.11. Custom transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#implementing-custom-popart-transforms">5.11.1. Implementing custom PopART transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_transform.html#using-custom-transforms-in-poprt">5.11.2. Using custom transforms in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manual_sharding.html">5.12. Manual sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#sharding-and-model-parallelism">5.12.1. Sharding and model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#pipelining-and-pipeline-parallelism">5.12.2. Pipelining and pipeline parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#manual-sharding-process">5.12.3. Manual sharding process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#configuring-manual-sharding">5.12.4. Configuring manual sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#configuring-manual-sharding-with-the-poprt-cli">Configuring manual sharding with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual_sharding.html#configuring-manual-sharding-with-the-python-api">Configuring manual sharding with the Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manual_sharding.html#example">5.12.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html">5.13. Error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontend.html">5.14. PopRT frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#onnx-frontend">5.14.1. ONNX frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frontend.html#tensorflow-frontend">5.14.2. TensorFlow frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#loading-a-tensorflow-model-with-the-poprt-cli">Loading a TensorFlow model with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frontend.html#loading-a-tensorflow-model-with-python-api">Loading a TensorFlow model with Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="auto_sharding.html">5.15. Auto-sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#model-parallelism">5.15.1. Model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#principle-of-auto-sharding">5.15.2. Principle of auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#alternative-nodes-strategy">Alternative nodes strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#traversal-strategy-of-sharding-scheme">Traversal strategy of sharding scheme</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="auto_sharding.html#using-auto-sharding">5.15.3. Using auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#auto-sharding-tool">Auto-sharding tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="auto_sharding.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model_debugger.html">5.16. Model debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#model-debugger-tool">5.16.1. Model Debugger tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model_debugger.html#examples">5.16.2. Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">8. Revision history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="packing">
+<span id="features-packing"></span><h1><span class="section-number">5.5. </span>Packing<a class="headerlink" href="#packing" title="Permalink to this headline"></a></h1>
+<section id="background">
+<h2><span class="section-number">5.5.1. </span>Background<a class="headerlink" href="#background" title="Permalink to this headline"></a></h2>
+<p>Currently, the IPU only supports static graphs. The input shape of the model needs to be fixed, since the dynamic shape will cause the model to recompile. However, in practical applications, especially those in natural language processing, the input sequence length of the model is often dynamic.
+In this case, the conventional processing method is to pad the variable length data to the max sequence length and then input it into the model. However, this method will lead to a lot of invalid computing, resulting in a low utilisation rate of the IPU.
+In this case, you can use packing to support dynamic sequence length and improve IPU utilisation.</p>
+</section>
+<section id="packing-and-unpacking">
+<h2><span class="section-number">5.5.2. </span>Packing and unpacking<a class="headerlink" href="#packing-and-unpacking" title="Permalink to this headline"></a></h2>
+<p><a class="reference internal" href="#fig-packing"><span class="std std-numref">Fig. 5.6</span></a> shows an example to illustrate packing and unpacking. Assume that the maximum input length of the model is 8 and the batch size is 4. Currently, there are 7 requests of batch size 1 of different lengths. The length ranges from 1 to 7, and 0 indicates that the pad has invalid data.</p>
+<figure class="align-center" id="fig-packing">
+<a class="reference internal image-reference" href="../_images/packing_unpacking.png"><img alt="../_images/packing_unpacking.png" src="../_images/packing_unpacking.png" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.6 </span><span class="caption-text">Packing and unpacking</span><a class="headerlink" href="#fig-packing" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="transformer-based-nlp-models">
+<h2><span class="section-number">5.5.3. </span>Transformer-based NLP models<a class="headerlink" href="#transformer-based-nlp-models" title="Permalink to this headline"></a></h2>
+<p>Since its introduction in 2017, the application fields of transformer structures have grown considerably, from NLP in the beginning to ASR, CV, DLRM and other fields today. Transformers contain encoders and decoders.
+This section only focuses on encoders. The structure of a transformer encoder is shown in <a class="reference internal" href="#fig-encoder"><span class="std std-numref">Fig. 5.7</span></a>.</p>
+<figure class="align-center" id="fig-encoder">
+<a class="reference internal image-reference" href="../_images/transformer_encoder.png"><img alt="../_images/transformer_encoder.png" src="../_images/transformer_encoder.png" style="width: 30%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.7 </span><span class="caption-text">Transformer encoder</span><a class="headerlink" href="#fig-encoder" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Taking BERT as an example, the input shape of the encoder is usually [<code class="docutils literal notranslate"><span class="pre">batch_size</span></code>, <code class="docutils literal notranslate"><span class="pre">seq_len</span></code>, <code class="docutils literal notranslate"><span class="pre">hidden_size</span></code>]. In the encoder, except for the Multi-head Attention module, the computing of other modules is only performed in the last dimension. Therefore, for these modules, packing can be used to reduce invalid computing.  For the Multi-head Attention module, since the correlation between tokens needs to be computed, the computing must be performed after unpacking without modifying the mask. Then, re-packing after the computing of Multi-head Attention is completed. The computing process can be represented by the following pseudocode:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">packed_input from host</span>
+<span class="go">activation = packed_input</span>
+<span class="go">for encoer in encoders:</span>
+<span class="go">    Unpacking</span>
+<span class="go">    Attention</span>
+<span class="go">    Packing</span>
+<span class="go">    Add &amp; LayerNorm</span>
+<span class="go">    Feed-Forward</span>
+<span class="go">    Add &amp; LayerNorm</span>
+<span class="go">    Update activation</span>
+<span class="go">Unpacking</span>
+<span class="go">unpacked_output to host</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-use-packing">
+<h2><span class="section-number">5.5.4. </span>How to use packing<a class="headerlink" href="#how-to-use-packing" title="Permalink to this headline"></a></h2>
+<p>This section takes the Bert-Base-Squad model as an example. To run this example, you will need Ubuntu 20.04 and Python 3.8.15.</p>
+<p>The complete code for this example is:</p>
+<div class="literal-block-wrapper docutils container" id="packed-bert-example-py">
+<div class="code-block-caption"><span class="caption-number">Listing 5.3 </span><span class="caption-text">packed_bert_example.py</span><a class="headerlink" href="#packed-bert-example-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1"># Copyright (c) 2023 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">csv</span>
+<span class="linenos">  4</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos">  5</span><span class="kn">import</span> <span class="nn">queue</span>
+<span class="linenos">  6</span><span class="kn">import</span> <span class="nn">random</span>
+<span class="linenos">  7</span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="linenos">  8</span><span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="linenos">  9</span><span class="kn">import</span> <span class="nn">threading</span>
+<span class="linenos"> 10</span><span class="kn">import</span> <span class="nn">time</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="kn">import</span> <span class="n">ThreadPool</span>
+<span class="linenos"> 13</span><span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+<span class="linenos"> 14</span>
+<span class="linenos"> 15</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 16</span><span class="kn">import</span> <span class="nn">packing_utils</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+<span class="linenos"> 19</span>
+<span class="linenos"> 20</span><span class="kn">from</span> <span class="nn">poprt</span> <span class="kn">import</span> <span class="n">runtime</span>
+<span class="linenos"> 21</span><span class="kn">from</span> <span class="nn">poprt.backend</span> <span class="kn">import</span> <span class="n">get_session</span>
+<span class="linenos"> 22</span>
+<span class="linenos"> 23</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2023</span><span class="p">)</span>
+<span class="linenos"> 24</span><span class="n">INPUT_IDS</span> <span class="o">=</span> <span class="s2">&quot;input_ids&quot;</span>
+<span class="linenos"> 25</span><span class="n">POSITION_IDS</span> <span class="o">=</span> <span class="s2">&quot;position_ids&quot;</span>
+<span class="linenos"> 26</span><span class="n">ATTENTION_MASK</span> <span class="o">=</span> <span class="s2">&quot;attention_mask&quot;</span>
+<span class="linenos"> 27</span><span class="n">TOKEN_TYPE_IDS</span> <span class="o">=</span> <span class="s2">&quot;token_type_ids&quot;</span>
+<span class="linenos"> 28</span><span class="n">UNPACK_INFO</span> <span class="o">=</span> <span class="s2">&quot;unpack_info&quot;</span>
+<span class="linenos"> 29</span><span class="n">OUTPUT2</span> <span class="o">=</span> <span class="s2">&quot;start_logits&quot;</span>
+<span class="linenos"> 30</span><span class="n">OUTPUT1</span> <span class="o">=</span> <span class="s2">&quot;end_logits&quot;</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="k">class</span> <span class="nc">BertInputs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="linenos"> 34</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="linenos"> 35</span>        <span class="bp">self</span><span class="p">,</span>
+<span class="linenos"> 36</span>        <span class="n">input_ids</span><span class="p">,</span>
+<span class="linenos"> 37</span>        <span class="n">attention_mask</span><span class="p">,</span>
+<span class="linenos"> 38</span>        <span class="n">token_type_ids</span><span class="p">,</span>
+<span class="linenos"> 39</span>        <span class="n">position_ids</span><span class="p">,</span>
+<span class="linenos"> 40</span>        <span class="n">unpack_info</span><span class="p">,</span>
+<span class="linenos"> 41</span>        <span class="n">input_len</span><span class="p">,</span>
+<span class="linenos"> 42</span>    <span class="p">):</span>
+<span class="linenos"> 43</span>        <span class="bp">self</span><span class="o">.</span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span>
+<span class="linenos"> 44</span>        <span class="bp">self</span><span class="o">.</span><span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span>
+<span class="linenos"> 45</span>        <span class="bp">self</span><span class="o">.</span><span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span>
+<span class="linenos"> 46</span>        <span class="bp">self</span><span class="o">.</span><span class="n">position_ids</span> <span class="o">=</span> <span class="n">position_ids</span>
+<span class="linenos"> 47</span>        <span class="bp">self</span><span class="o">.</span><span class="n">input_len</span> <span class="o">=</span> <span class="n">input_len</span>
+<span class="linenos"> 48</span>        <span class="bp">self</span><span class="o">.</span><span class="n">unpack_info</span> <span class="o">=</span> <span class="n">unpack_info</span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="k">def</span> <span class="nf">get_synthetic_data</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="linenos"> 52</span>    <span class="n">input_len</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
+<span class="linenos"> 53</span>        <span class="n">args</span><span class="o">.</span><span class="n">avg_seq_len</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">avg_seq_len</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span>
+<span class="linenos"> 54</span>    <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="linenos"> 55</span>    <span class="n">input_len</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">input_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">)</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span>    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 58</span>    <span class="k">for</span> <span class="n">s_len</span> <span class="ow">in</span> <span class="n">input_len</span><span class="p">:</span>
+<span class="linenos"> 59</span>        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">emb_size</span><span class="p">,</span> <span class="p">(</span><span class="n">s_len</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="linenos"> 60</span>
+<span class="linenos"> 61</span>        <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s_len</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="linenos"> 62</span>        <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">s_len</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="linenos"> 63</span>
+<span class="linenos"> 64</span>        <span class="n">position_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">s_len</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="linenos"> 65</span>        <span class="n">unpack_info</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">max_valid_num</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span>        <span class="n">feature</span> <span class="o">=</span> <span class="n">BertInputs</span><span class="p">(</span>
+<span class="linenos"> 68</span>            <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="p">,</span> <span class="n">position_ids</span><span class="p">,</span> <span class="n">unpack_info</span><span class="p">,</span> <span class="n">s_len</span>
+<span class="linenos"> 69</span>        <span class="p">)</span>
+<span class="linenos"> 70</span>        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span>    <span class="k">return</span> <span class="n">datasets</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span><span class="k">def</span> <span class="nf">dump_results</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+<span class="linenos"> 76</span>    <span class="n">fieldnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">OUTPUT1</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">]</span>
+<span class="linenos"> 77</span>    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">model_name</span><span class="p">)[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;csv&#39;</span>
+<span class="linenos"> 78</span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos"> 79</span>        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">fieldnames</span><span class="p">)</span>
+<span class="linenos"> 80</span>        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+<span class="linenos"> 81</span>            <span class="n">dict_name2list</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 82</span>                <span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="n">OUTPUT1</span><span class="p">],</span>
+<span class="linenos"> 83</span>                <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="n">OUTPUT2</span><span class="p">],</span>
+<span class="linenos"> 84</span>            <span class="p">}</span>
+<span class="linenos"> 85</span>            <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">dict_name2list</span><span class="p">)</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span><span class="c1">## create batched inputs and pad samples to max_seq_len</span>
+<span class="linenos"> 89</span><span class="k">def</span> <span class="nf">padding_data</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="linenos"> 90</span>    <span class="n">feed_dicts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos"> 91</span>    <span class="n">feed_dicts</span><span class="p">[</span><span class="n">INPUT_IDS</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+<span class="linenos"> 92</span>        <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+<span class="linenos"> 93</span>    <span class="p">)</span>
+<span class="linenos"> 94</span>    <span class="n">feed_dicts</span><span class="p">[</span><span class="n">ATTENTION_MASK</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+<span class="linenos"> 95</span>        <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+<span class="linenos"> 96</span>    <span class="p">)</span>
+<span class="linenos"> 97</span>    <span class="n">feed_dicts</span><span class="p">[</span><span class="n">POSITION_IDS</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+<span class="linenos"> 98</span>        <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+<span class="linenos"> 99</span>    <span class="p">)</span>
+<span class="linenos">100</span>    <span class="n">feed_dicts</span><span class="p">[</span><span class="n">TOKEN_TYPE_IDS</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+<span class="linenos">101</span>        <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+<span class="linenos">102</span>    <span class="p">)</span>
+<span class="linenos">103</span>
+<span class="linenos">104</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">):</span>
+<span class="linenos">105</span>        <span class="n">input_len</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">input_len</span>
+<span class="linenos">106</span>        <span class="n">feed_dicts</span><span class="p">[</span><span class="n">INPUT_IDS</span><span class="p">][</span><span class="n">i</span><span class="p">][:</span><span class="n">input_len</span><span class="p">]</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="linenos">107</span>        <span class="n">feed_dicts</span><span class="p">[</span><span class="n">ATTENTION_MASK</span><span class="p">][</span><span class="n">i</span><span class="p">][:</span><span class="n">input_len</span><span class="p">]</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">attention_mask</span>
+<span class="linenos">108</span>        <span class="n">feed_dicts</span><span class="p">[</span><span class="n">POSITION_IDS</span><span class="p">][</span><span class="n">i</span><span class="p">][:</span><span class="n">input_len</span><span class="p">]</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">position_ids</span>
+<span class="linenos">109</span>        <span class="n">feed_dicts</span><span class="p">[</span><span class="n">TOKEN_TYPE_IDS</span><span class="p">][</span><span class="n">i</span><span class="p">][:</span><span class="n">input_len</span><span class="p">]</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">token_type_ids</span>
+<span class="linenos">110</span>        <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="linenos">111</span>    <span class="k">return</span> <span class="n">feed_dicts</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span><span class="c1"># online pack, samples feeded to IPU can reach to maximum num of batches in each running turn</span>
+<span class="linenos">115</span><span class="k">def</span> <span class="nf">run_packing_model_with_pack_runner_unpack_repack</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">):</span>
+<span class="linenos">116</span>    <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span>
+<span class="linenos">117</span>    <span class="c1"># export popef for PackRunner</span>
+<span class="linenos">118</span>    <span class="n">get_session</span><span class="p">(</span>
+<span class="linenos">119</span>        <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_unpack_repack</span><span class="p">,</span>
+<span class="linenos">120</span>        <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">121</span>        <span class="s2">&quot;poprt&quot;</span><span class="p">,</span>
+<span class="linenos">122</span>        <span class="n">output_dir</span><span class="o">=</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="linenos">123</span>        <span class="n">export_popef</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">124</span>    <span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="linenos">125</span>    <span class="n">config</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackRunnerConfig</span><span class="p">(</span>
+<span class="linenos">126</span>        <span class="n">timeout_microseconds</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">timeout_microseconds</span><span class="p">,</span>
+<span class="linenos">127</span>        <span class="c1"># max_valid_num=args.max_valid_num,</span>
+<span class="linenos">128</span>        <span class="c1"># dynamic_input_name=args.dynamic_input_name,</span>
+<span class="linenos">129</span>    <span class="p">)</span>
+<span class="linenos">130</span>
+<span class="linenos">131</span>    <span class="n">popef_path</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;/executable.popef&#39;</span>
+<span class="linenos">132</span>    <span class="c1"># popef_path = &quot;/popconverter/examples/packed_bert_example/executable.popef&quot;</span>
+<span class="linenos">133</span>    <span class="n">pack_runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="n">popef_path</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="linenos">134</span>
+<span class="linenos">135</span>    <span class="n">result_queue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+<span class="linenos">136</span>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">137</span>    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">138</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span><span class="p">):</span>
+<span class="linenos">139</span>        <span class="n">feed_dicts</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">140</span>            <span class="n">INPUT_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">input_ids</span><span class="p">,</span>
+<span class="linenos">141</span>            <span class="n">ATTENTION_MASK</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">attention_mask</span><span class="p">,</span>
+<span class="linenos">142</span>            <span class="n">TOKEN_TYPE_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">token_type_ids</span><span class="p">,</span>
+<span class="linenos">143</span>            <span class="n">POSITION_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">position_ids</span><span class="p">,</span>
+<span class="linenos">144</span>            <span class="c1"># unpack_info should be hidden from user in the future</span>
+<span class="linenos">145</span>            <span class="n">UNPACK_INFO</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">max_valid_num</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+<span class="linenos">146</span>        <span class="p">}</span>
+<span class="linenos">147</span>        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">148</span>            <span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">),</span>
+<span class="linenos">149</span>            <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">),</span>
+<span class="linenos">150</span>        <span class="p">}</span>
+<span class="linenos">151</span>        <span class="n">future</span> <span class="o">=</span> <span class="n">pack_runner</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">out_dict</span><span class="p">)</span>
+<span class="linenos">152</span>        <span class="n">result_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">future</span><span class="p">,</span> <span class="n">out_dict</span><span class="p">))</span>
+<span class="linenos">153</span>    <span class="n">result_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="linenos">154</span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">155</span>        <span class="n">future</span><span class="p">,</span> <span class="n">out_dict</span> <span class="o">=</span> <span class="n">result_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="linenos">156</span>        <span class="k">if</span> <span class="n">future</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">157</span>            <span class="k">break</span>
+<span class="linenos">158</span>        <span class="n">future</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="linenos">159</span>        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_dict</span><span class="p">)</span>
+<span class="linenos">160</span>    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">161</span>
+<span class="linenos">162</span>    <span class="n">tput</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span> <span class="o">/</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+<span class="linenos">163</span>    <span class="n">latency_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">/</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span>
+<span class="linenos">164</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">165</span>        <span class="sa">f</span><span class="s2">&quot;[Pack Online Unpack Repack] Throughput: </span><span class="si">{</span><span class="n">tput</span><span class="si">}</span><span class="s2"> samples/s, Latency : </span><span class="si">{</span><span class="n">latency_ms</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">}</span><span class="s2"> ms&quot;</span>
+<span class="linenos">166</span>    <span class="p">)</span>
+<span class="linenos">167</span>
+<span class="linenos">168</span>    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dump_results</span><span class="p">:</span>
+<span class="linenos">169</span>        <span class="n">dump_results</span><span class="p">(</span>
+<span class="linenos">170</span>            <span class="s2">&quot;online_unpack_repack&quot;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_unpack_repack</span><span class="p">,</span> <span class="n">results</span>
+<span class="linenos">171</span>        <span class="p">)</span>
+<span class="linenos">172</span>
+<span class="linenos">173</span>    <span class="n">tmpdir</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+<span class="linenos">174</span>    <span class="k">return</span> <span class="n">results</span>
+<span class="linenos">175</span>
+<span class="linenos">176</span>
+<span class="linenos">177</span><span class="c1"># offline pack, samples feeded to IPU can reach to maximum num of batches in each running turn</span>
+<span class="linenos">178</span><span class="c1"># model with pack / unpack ops</span>
+<span class="linenos">179</span><span class="k">def</span> <span class="nf">run_packing_model_with_model_runner</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">across_rows</span><span class="p">):</span>
+<span class="linenos">180</span>    <span class="n">run_queue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+<span class="linenos">181</span>    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">182</span>    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">183</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span><span class="p">):</span>
+<span class="linenos">184</span>        <span class="n">transfer</span> <span class="o">=</span> <span class="n">packing_utils</span><span class="o">.</span><span class="n">pack_data</span><span class="p">(</span>
+<span class="linenos">185</span>            <span class="n">datasets</span><span class="p">,</span>
+<span class="linenos">186</span>            <span class="n">index</span><span class="p">,</span>
+<span class="linenos">187</span>            <span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+<span class="linenos">188</span>            <span class="n">seq_len</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+<span class="linenos">189</span>            <span class="n">max_valid_num</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_valid_num</span><span class="p">,</span>
+<span class="linenos">190</span>            <span class="n">segment_num</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="linenos">191</span>            <span class="n">across_rows</span><span class="o">=</span><span class="n">across_rows</span><span class="p">,</span>
+<span class="linenos">192</span>        <span class="p">)</span>
+<span class="linenos">193</span>
+<span class="linenos">194</span>        <span class="n">run_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">transfer</span><span class="p">)</span>
+<span class="linenos">195</span>        <span class="n">index</span> <span class="o">=</span> <span class="n">transfer</span><span class="o">.</span><span class="n">count</span>
+<span class="linenos">196</span>        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span><span class="p">:</span>
+<span class="linenos">197</span>            <span class="k">break</span>
+<span class="linenos">198</span>    <span class="n">run_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="linenos">199</span>    <span class="n">duration_of_packing</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="linenos">200</span>    <span class="n">mean_latency_of_padding_us</span> <span class="o">=</span> <span class="n">duration_of_packing</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="o">/</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span>
+<span class="linenos">201</span>
+<span class="linenos">202</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean latency of packing data: </span><span class="si">{</span><span class="n">mean_latency_of_padding_us</span><span class="si">}</span><span class="s2"> us/sam&quot;</span><span class="p">)</span>
+<span class="linenos">203</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total latency of packing data: </span><span class="si">{</span><span class="n">duration_of_packing</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+<span class="linenos">204</span>
+<span class="linenos">205</span>    <span class="n">sess</span> <span class="o">=</span> <span class="n">get_session</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;poprt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="linenos">206</span>
+<span class="linenos">207</span>    <span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">208</span>
+<span class="linenos">209</span>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">valid_num</span><span class="p">):</span>
+<span class="linenos">210</span>        <span class="n">outputs</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">OUTPUT1</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">],</span> <span class="n">feed_dicts</span><span class="p">)</span>
+<span class="linenos">211</span>        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">212</span>        <span class="k">if</span> <span class="n">across_rows</span><span class="p">:</span>
+<span class="linenos">213</span>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">valid_num</span><span class="p">):</span>
+<span class="linenos">214</span>                <span class="n">res1</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="linenos">215</span>                <span class="n">res2</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="linenos">216</span>                <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">res1</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">res2</span><span class="p">})</span>
+<span class="linenos">217</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">218</span>            <span class="n">outlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="linenos">219</span>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">[</span><span class="n">ATTENTION_MASK</span><span class="p">])):</span>
+<span class="linenos">220</span>                <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos">221</span>                <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">[</span><span class="n">ATTENTION_MASK</span><span class="p">][</span><span class="n">index</span><span class="p">])</span>
+<span class="linenos">222</span>                <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">outlen</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="linenos">223</span>                    <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="linenos">224</span>                    <span class="n">zero_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="linenos">225</span>                    <span class="n">out1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">outlen</span>
+<span class="linenos">226</span>                    <span class="n">out2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">outlen</span>
+<span class="linenos">227</span>                    <span class="n">out1</span><span class="p">[:</span><span class="n">zero_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">index</span><span class="p">][</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">zero_num</span><span class="p">]</span>
+<span class="linenos">228</span>                    <span class="n">out2</span><span class="p">[:</span><span class="n">zero_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">index</span><span class="p">][</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">zero_num</span><span class="p">]</span>
+<span class="linenos">229</span>                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">out1</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">out2</span><span class="p">})</span>
+<span class="linenos">230</span>                    <span class="n">start</span> <span class="o">+=</span> <span class="n">zero_num</span>
+<span class="linenos">231</span>        <span class="k">return</span> <span class="n">res</span>
+<span class="linenos">232</span>
+<span class="linenos">233</span>    <span class="n">asy_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">234</span>
+<span class="linenos">235</span>    <span class="n">total_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">236</span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">237</span>        <span class="n">input_data</span> <span class="o">=</span> <span class="n">run_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="linenos">238</span>        <span class="k">if</span> <span class="n">input_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">239</span>            <span class="k">break</span>
+<span class="linenos">240</span>
+<span class="linenos">241</span>        <span class="n">feed_dicts</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">242</span>            <span class="n">INPUT_IDS</span><span class="p">:</span> <span class="n">input_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">INPUT_IDS</span><span class="p">],</span>
+<span class="linenos">243</span>            <span class="n">ATTENTION_MASK</span><span class="p">:</span> <span class="n">input_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ATTENTION_MASK</span><span class="p">],</span>
+<span class="linenos">244</span>            <span class="n">TOKEN_TYPE_IDS</span><span class="p">:</span> <span class="n">input_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">TOKEN_TYPE_IDS</span><span class="p">],</span>
+<span class="linenos">245</span>            <span class="n">POSITION_IDS</span><span class="p">:</span> <span class="n">input_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">POSITION_IDS</span><span class="p">],</span>
+<span class="linenos">246</span>            <span class="c1"># unpack_info should be hidden from user in the future</span>
+<span class="linenos">247</span>            <span class="n">UNPACK_INFO</span><span class="p">:</span> <span class="n">input_data</span><span class="o">.</span><span class="n">unpack_info</span><span class="p">,</span>
+<span class="linenos">248</span>        <span class="p">}</span>
+<span class="linenos">249</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">across_rows</span><span class="p">:</span>
+<span class="linenos">250</span>            <span class="n">feed_dicts</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">UNPACK_INFO</span><span class="p">)</span>
+<span class="linenos">251</span>
+<span class="linenos">252</span>        <span class="n">valid_num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_data</span><span class="o">.</span><span class="n">specs</span><span class="p">)</span>
+<span class="linenos">253</span>        <span class="n">async_result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">execute</span><span class="p">,</span> <span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">valid_num</span><span class="p">))</span>
+<span class="linenos">254</span>        <span class="n">asy_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">async_result</span><span class="p">)</span>
+<span class="linenos">255</span>
+<span class="linenos">256</span>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">257</span>    <span class="k">for</span> <span class="n">asy</span> <span class="ow">in</span> <span class="n">asy_results</span><span class="p">:</span>
+<span class="linenos">258</span>        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">asy</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+<span class="linenos">259</span>            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="linenos">260</span>    <span class="n">total_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">261</span>
+<span class="linenos">262</span>    <span class="n">tput</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_end_time</span> <span class="o">-</span> <span class="n">total_start_time</span><span class="p">)</span>
+<span class="linenos">263</span>    <span class="n">latency</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_end_time</span> <span class="o">-</span> <span class="n">total_start_time</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="linenos">264</span>    <span class="k">if</span> <span class="n">across_rows</span><span class="p">:</span>
+<span class="linenos">265</span>        <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">266</span>            <span class="sa">f</span><span class="s2">&quot;[Pack Offline Unpack Repack] Throughput: </span><span class="si">{</span><span class="n">tput</span><span class="si">}</span><span class="s2"> samples/s, Latency: </span><span class="si">{</span><span class="n">latency</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> ms&quot;</span>
+<span class="linenos">267</span>        <span class="p">)</span>
+<span class="linenos">268</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos">269</span>        <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">270</span>            <span class="sa">f</span><span class="s2">&quot;[Pack Offline AttentionMask] Throughput: </span><span class="si">{</span><span class="n">tput</span><span class="si">}</span><span class="s2"> samples/s, Latency: </span><span class="si">{</span><span class="n">latency</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> ms&quot;</span>
+<span class="linenos">271</span>        <span class="p">)</span>
+<span class="linenos">272</span>
+<span class="linenos">273</span>    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dump_results</span><span class="p">:</span>
+<span class="linenos">274</span>        <span class="n">dump_results</span><span class="p">(</span><span class="s2">&quot;offline_&quot;</span> <span class="o">+</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+<span class="linenos">275</span>
+<span class="linenos">276</span>    <span class="k">return</span> <span class="n">results</span>
+<span class="linenos">277</span>
+<span class="linenos">278</span>
+<span class="linenos">279</span><span class="c1"># online pack, samples feeded to IPU can reach to maximum num of batches in each running turn</span>
+<span class="linenos">280</span><span class="c1"># model only add AttentionMask op in this mode</span>
+<span class="linenos">281</span><span class="k">def</span> <span class="nf">run_packing_model_with_pack_runner_attention_mask</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">algo</span><span class="p">):</span>
+<span class="linenos">282</span>    <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span>
+<span class="linenos">283</span>    <span class="c1"># export popef for PackRunner</span>
+<span class="linenos">284</span>    <span class="n">get_session</span><span class="p">(</span>
+<span class="linenos">285</span>        <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_attention_mask</span><span class="p">,</span>
+<span class="linenos">286</span>        <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">287</span>        <span class="s2">&quot;poprt&quot;</span><span class="p">,</span>
+<span class="linenos">288</span>        <span class="n">output_dir</span><span class="o">=</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="linenos">289</span>        <span class="n">export_popef</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">290</span>    <span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="linenos">291</span>    <span class="n">config</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackRunnerConfig</span><span class="p">(</span>
+<span class="linenos">292</span>        <span class="n">timeout_microseconds</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">timeout_microseconds</span><span class="p">,</span>
+<span class="linenos">293</span>        <span class="n">max_valid_num</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_valid_num</span><span class="p">,</span>
+<span class="linenos">294</span>        <span class="n">dynamic_input_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">dynamic_input_name</span><span class="p">,</span>
+<span class="linenos">295</span>    <span class="p">)</span>
+<span class="linenos">296</span>
+<span class="linenos">297</span>    <span class="k">if</span> <span class="n">algo</span> <span class="o">==</span> <span class="s2">&quot;next_fit&quot;</span><span class="p">:</span>
+<span class="linenos">298</span>        <span class="n">config</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackAlgorithm</span><span class="o">.</span><span class="n">next_fit</span>
+<span class="linenos">299</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos">300</span>        <span class="n">config</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackAlgorithm</span><span class="o">.</span><span class="n">first_fit</span>
+<span class="linenos">301</span>
+<span class="linenos">302</span>    <span class="n">config</span><span class="o">.</span><span class="n">enable_input_single_row_mode</span><span class="p">(</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">)</span>
+<span class="linenos">303</span>    <span class="n">popef_path</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;/executable.popef&#39;</span>
+<span class="linenos">304</span>    <span class="c1"># popef_path = &quot;/popconverter/examples/packed_bert_example/executable.popef&quot;</span>
+<span class="linenos">305</span>    <span class="n">pack_runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="n">popef_path</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="linenos">306</span>
+<span class="linenos">307</span>    <span class="n">result_queue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+<span class="linenos">308</span>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">309</span>    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">310</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span><span class="p">):</span>
+<span class="linenos">311</span>        <span class="n">feed_dicts</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">312</span>            <span class="n">INPUT_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">input_ids</span><span class="p">,</span>
+<span class="linenos">313</span>            <span class="n">ATTENTION_MASK</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">attention_mask</span><span class="p">,</span>
+<span class="linenos">314</span>            <span class="n">TOKEN_TYPE_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">token_type_ids</span><span class="p">,</span>
+<span class="linenos">315</span>            <span class="n">POSITION_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">position_ids</span><span class="p">,</span>
+<span class="linenos">316</span>        <span class="p">}</span>
+<span class="linenos">317</span>        <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">318</span>            <span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">),</span>
+<span class="linenos">319</span>            <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">),</span>
+<span class="linenos">320</span>        <span class="p">}</span>
+<span class="linenos">321</span>        <span class="n">future</span> <span class="o">=</span> <span class="n">pack_runner</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">out_dict</span><span class="p">)</span>
+<span class="linenos">322</span>        <span class="n">result_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">future</span><span class="p">,</span> <span class="n">out_dict</span><span class="p">))</span>
+<span class="linenos">323</span>    <span class="n">result_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="linenos">324</span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">325</span>        <span class="n">future</span><span class="p">,</span> <span class="n">out_dict</span> <span class="o">=</span> <span class="n">result_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="linenos">326</span>        <span class="k">if</span> <span class="n">future</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">327</span>            <span class="k">break</span>
+<span class="linenos">328</span>        <span class="n">future</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="linenos">329</span>        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_dict</span><span class="p">)</span>
+<span class="linenos">330</span>    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">331</span>
+<span class="linenos">332</span>    <span class="n">tput</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span> <span class="o">/</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+<span class="linenos">333</span>    <span class="n">latency_ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">/</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span>
+<span class="linenos">334</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">335</span>        <span class="sa">f</span><span class="s2">&quot;[Pack Online AttentionMask(</span><span class="si">{</span><span class="n">algo</span><span class="si">}</span><span class="s2">)] Throughput: </span><span class="si">{</span><span class="n">tput</span><span class="si">}</span><span class="s2"> samples/s, Latency : </span><span class="si">{</span><span class="n">latency_ms</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">}</span><span class="s2"> ms&quot;</span>
+<span class="linenos">336</span>    <span class="p">)</span>
+<span class="linenos">337</span>
+<span class="linenos">338</span>    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dump_results</span><span class="p">:</span>
+<span class="linenos">339</span>        <span class="n">dump_results</span><span class="p">(</span>
+<span class="linenos">340</span>            <span class="s2">&quot;online_attention_mask_&quot;</span>
+<span class="linenos">341</span>            <span class="o">+</span> <span class="n">algo</span>
+<span class="linenos">342</span>            <span class="o">+</span> <span class="s2">&quot;_&quot;</span>
+<span class="linenos">343</span>            <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_attention_mask</span><span class="p">,</span>
+<span class="linenos">344</span>            <span class="n">results</span><span class="p">,</span>
+<span class="linenos">345</span>        <span class="p">)</span>
+<span class="linenos">346</span>
+<span class="linenos">347</span>    <span class="n">tmpdir</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+<span class="linenos">348</span>    <span class="k">return</span> <span class="n">results</span>
+<span class="linenos">349</span>
+<span class="linenos">350</span>
+<span class="linenos">351</span><span class="k">def</span> <span class="nf">latency_distribuion_with_pack_runner_attention_mask</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">algo</span><span class="p">):</span>
+<span class="linenos">352</span>    <span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span>
+<span class="linenos">353</span>    <span class="c1"># export popef for PackRunner</span>
+<span class="linenos">354</span>    <span class="n">get_session</span><span class="p">(</span>
+<span class="linenos">355</span>        <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_attention_mask</span><span class="p">,</span>
+<span class="linenos">356</span>        <span class="mi">1</span><span class="p">,</span>
+<span class="linenos">357</span>        <span class="s2">&quot;poprt&quot;</span><span class="p">,</span>
+<span class="linenos">358</span>        <span class="n">output_dir</span><span class="o">=</span><span class="n">tmpdir</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="linenos">359</span>        <span class="n">export_popef</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">360</span>    <span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="linenos">361</span>    <span class="n">config</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackRunnerConfig</span><span class="p">(</span>
+<span class="linenos">362</span>        <span class="n">timeout_microseconds</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">timeout_microseconds</span><span class="p">,</span>
+<span class="linenos">363</span>        <span class="n">max_valid_num</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_valid_num</span><span class="p">,</span>
+<span class="linenos">364</span>        <span class="n">dynamic_input_name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">dynamic_input_name</span><span class="p">,</span>
+<span class="linenos">365</span>    <span class="p">)</span>
+<span class="linenos">366</span>
+<span class="linenos">367</span>    <span class="k">if</span> <span class="n">algo</span> <span class="o">==</span> <span class="s2">&quot;next_fit&quot;</span><span class="p">:</span>
+<span class="linenos">368</span>        <span class="n">config</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackAlgorithm</span><span class="o">.</span><span class="n">next_fit</span>
+<span class="linenos">369</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos">370</span>        <span class="n">config</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">PackAlgorithm</span><span class="o">.</span><span class="n">first_fit</span>
+<span class="linenos">371</span>
+<span class="linenos">372</span>    <span class="n">config</span><span class="o">.</span><span class="n">enable_input_single_row_mode</span><span class="p">(</span><span class="s2">&quot;attention_mask&quot;</span><span class="p">)</span>
+<span class="linenos">373</span>    <span class="n">popef_path</span> <span class="o">=</span> <span class="n">tmpdir</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;/executable.popef&#39;</span>
+<span class="linenos">374</span>    <span class="c1"># popef_path = &quot;/popconverter/examples/packed_bert_example/executable.popef&quot;</span>
+<span class="linenos">375</span>    <span class="n">pack_runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="n">popef_path</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+<span class="linenos">376</span>
+<span class="linenos">377</span>    <span class="n">sample_num</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">iterations</span>
+<span class="linenos">378</span>    <span class="n">clients</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">*</span> <span class="mf">3.5</span><span class="p">)</span>
+<span class="linenos">379</span>    <span class="n">count_percent</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="linenos">380</span>
+<span class="linenos">381</span>    <span class="n">q</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="linenos">382</span>
+<span class="linenos">383</span>    <span class="k">def</span> <span class="nf">perf_count</span><span class="p">(</span><span class="n">model_runner</span><span class="p">,</span> <span class="n">iteration</span><span class="p">):</span>
+<span class="linenos">384</span>        <span class="n">durations</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">385</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_num</span><span class="p">):</span>
+<span class="linenos">386</span>            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">387</span>            <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sample_num</span><span class="p">)</span>
+<span class="linenos">388</span>            <span class="n">feed_dicts</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">389</span>                <span class="n">INPUT_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">input_ids</span><span class="p">,</span>
+<span class="linenos">390</span>                <span class="n">ATTENTION_MASK</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">attention_mask</span><span class="p">,</span>
+<span class="linenos">391</span>                <span class="n">TOKEN_TYPE_IDS</span><span class="p">:</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">token_type_ids</span><span class="p">,</span>
+<span class="linenos">392</span>            <span class="p">}</span>
+<span class="linenos">393</span>            <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">394</span>                <span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">),</span>
+<span class="linenos">395</span>                <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">args</span><span class="o">.</span><span class="n">max_seq_len</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">),</span>
+<span class="linenos">396</span>            <span class="p">}</span>
+<span class="linenos">397</span>            <span class="n">pack_runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">out_dict</span><span class="p">)</span>
+<span class="linenos">398</span>            <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">399</span>            <span class="n">durations</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">))</span>
+<span class="linenos">400</span>        <span class="c1"># remove first and last example&#39;s time counter</span>
+<span class="linenos">401</span>        <span class="n">ignored_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sample_num</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">count_percent</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">402</span>        <span class="n">durations</span> <span class="o">=</span> <span class="n">durations</span><span class="p">[</span><span class="n">ignored_samples</span><span class="p">:</span><span class="o">-</span><span class="n">ignored_samples</span><span class="p">]</span>
+<span class="linenos">403</span>        <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">durations</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="linenos">404</span>
+<span class="linenos">405</span>    <span class="n">thp</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">406</span>        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">perf_count</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">pack_runner</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">iterations</span><span class="p">))</span>
+<span class="linenos">407</span>        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">clients</span><span class="p">)</span>
+<span class="linenos">408</span>    <span class="p">]</span>
+<span class="linenos">409</span>    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">thp</span><span class="p">:</span>
+<span class="linenos">410</span>        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="linenos">411</span>    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">thp</span><span class="p">:</span>
+<span class="linenos">412</span>        <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="linenos">413</span>
+<span class="linenos">414</span>    <span class="n">durations_from_th</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">415</span>    <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+<span class="linenos">416</span>        <span class="n">durations_from_th</span> <span class="o">+=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="linenos">417</span>    <span class="n">max_timestamp</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">durations_from_th</span><span class="p">)</span>
+<span class="linenos">418</span>    <span class="n">min_timestamp</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">durations_from_th</span><span class="p">)</span>
+<span class="linenos">419</span>    <span class="n">clients</span> <span class="o">*</span> <span class="p">(</span><span class="n">sample_num</span> <span class="o">*</span> <span class="n">count_percent</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_timestamp</span> <span class="o">-</span> <span class="n">min_timestamp</span><span class="p">)</span>
+<span class="linenos">420</span>    <span class="n">times_range</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">durations_from_th</span><span class="p">]</span>
+<span class="linenos">421</span>
+<span class="linenos">422</span>    <span class="n">times_range</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="linenos">423</span>    <span class="n">tail_latency</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">times_range</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times_range</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.99</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">424</span>    <span class="n">avg_latency</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">times_range</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">times_range</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">425</span>
+<span class="linenos">426</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average Latency: </span><span class="si">{</span><span class="n">avg_latency</span><span class="si">}</span><span class="s2">ms, P99 latency: </span><span class="si">{</span><span class="n">tail_latency</span><span class="si">}</span><span class="s2">ms.&quot;</span><span class="p">)</span>
+<span class="linenos">427</span>    <span class="k">return</span> <span class="n">tail_latency</span><span class="p">,</span> <span class="n">avg_latency</span>
+<span class="linenos">428</span>
+<span class="linenos">429</span>
+<span class="linenos">430</span><span class="c1"># no pack, padding each line with 0 if input length is not long enough.</span>
+<span class="linenos">431</span><span class="c1"># samples num equals to batch at every running turn</span>
+<span class="linenos">432</span><span class="k">def</span> <span class="nf">run_original_model_with_model_runner</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">):</span>
+<span class="linenos">433</span>    <span class="n">run_queue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+<span class="linenos">434</span>    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">435</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">):</span>
+<span class="linenos">436</span>        <span class="n">feed_dicts</span> <span class="o">=</span> <span class="n">padding_data</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="linenos">437</span>        <span class="n">run_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">feed_dicts</span><span class="p">))</span>
+<span class="linenos">438</span>    <span class="n">run_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="linenos">439</span>    <span class="n">duration_of_padding_s</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="linenos">440</span>
+<span class="linenos">441</span>    <span class="n">mean_latency_of_padding_us</span> <span class="o">=</span> <span class="n">duration_of_padding_s</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="o">/</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span>
+<span class="linenos">442</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean latency of padding data: </span><span class="si">{</span><span class="n">mean_latency_of_padding_us</span><span class="si">}</span><span class="s2"> us/sam&quot;</span><span class="p">)</span>
+<span class="linenos">443</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total latency of padding data: </span><span class="si">{</span><span class="n">duration_of_padding_s</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+<span class="linenos">444</span>
+<span class="linenos">445</span>    <span class="n">sess</span> <span class="o">=</span> <span class="n">get_session</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_without_packing</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;poprt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="linenos">446</span>
+<span class="linenos">447</span>    <span class="n">asy_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">448</span>
+<span class="linenos">449</span>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">valid_num</span><span class="p">):</span>
+<span class="linenos">450</span>        <span class="n">outputs</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">OUTPUT1</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">],</span> <span class="n">feed_dicts</span><span class="p">)</span>
+<span class="linenos">451</span>        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">452</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">valid_num</span><span class="p">):</span>
+<span class="linenos">453</span>            <span class="n">res1</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="linenos">454</span>            <span class="n">res2</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="linenos">455</span>            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">OUTPUT1</span><span class="p">:</span> <span class="n">res1</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">:</span> <span class="n">res2</span><span class="p">})</span>
+<span class="linenos">456</span>        <span class="k">return</span> <span class="n">res</span>
+<span class="linenos">457</span>
+<span class="linenos">458</span>    <span class="c1"># execute</span>
+<span class="linenos">459</span>    <span class="n">pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">460</span>    <span class="n">total_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">461</span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="linenos">462</span>        <span class="n">valid_num</span><span class="p">,</span> <span class="n">feed_dicts</span> <span class="o">=</span> <span class="n">run_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="linenos">463</span>        <span class="k">if</span> <span class="n">feed_dicts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos">464</span>            <span class="k">break</span>
+<span class="linenos">465</span>        <span class="n">async_result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">execute</span><span class="p">,</span> <span class="p">(</span><span class="n">feed_dicts</span><span class="p">,</span> <span class="n">valid_num</span><span class="p">))</span>
+<span class="linenos">466</span>        <span class="n">asy_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">async_result</span><span class="p">)</span>
+<span class="linenos">467</span>    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">468</span>    <span class="k">for</span> <span class="n">asy</span> <span class="ow">in</span> <span class="n">asy_results</span><span class="p">:</span>
+<span class="linenos">469</span>        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">asy</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+<span class="linenos">470</span>            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="linenos">471</span>    <span class="n">total_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos">472</span>
+<span class="linenos">473</span>    <span class="n">tput</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_end_time</span> <span class="o">-</span> <span class="n">total_start_time</span><span class="p">)</span>
+<span class="linenos">474</span>    <span class="n">latency</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_end_time</span> <span class="o">-</span> <span class="n">total_start_time</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="linenos">475</span>
+<span class="linenos">476</span>    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dump_results</span><span class="p">:</span>
+<span class="linenos">477</span>        <span class="n">dump_results</span><span class="p">(</span><span class="s2">&quot;original_&quot;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">model_without_packing</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+<span class="linenos">478</span>
+<span class="linenos">479</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Original] Throughput: </span><span class="si">{</span><span class="n">tput</span><span class="si">}</span><span class="s2"> samples/s, Latency: </span><span class="si">{</span><span class="n">latency</span><span class="w"> </span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> ms&quot;</span><span class="p">)</span>
+<span class="linenos">480</span>
+<span class="linenos">481</span>    <span class="k">return</span> <span class="n">results</span>
+<span class="linenos">482</span>
+<span class="linenos">483</span>
+<span class="linenos">484</span><span class="k">def</span> <span class="nf">calculate_mae</span><span class="p">(</span><span class="n">expected_results</span><span class="p">,</span> <span class="n">output_results</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">enable_debug</span><span class="p">):</span>
+<span class="linenos">485</span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_results</span><span class="p">)</span>
+<span class="linenos">486</span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_results</span><span class="p">)</span>
+<span class="linenos">487</span>    <span class="n">maes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">488</span>    <span class="n">zipped_data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">expected_results</span><span class="p">,</span> <span class="n">output_results</span><span class="p">)</span>
+<span class="linenos">489</span>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zipped_data</span><span class="p">):</span>
+<span class="linenos">490</span>        <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expected</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+<span class="linenos">491</span>        <span class="n">input_len</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">input_len</span>
+<span class="linenos">492</span>        <span class="n">output_1_mae</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span>
+<span class="linenos">493</span>            <span class="n">expected</span><span class="p">[</span><span class="n">OUTPUT1</span><span class="p">][:</span><span class="n">input_len</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="n">OUTPUT1</span><span class="p">][:</span><span class="n">input_len</span><span class="p">]</span>
+<span class="linenos">494</span>        <span class="p">)</span>
+<span class="linenos">495</span>        <span class="n">output_2_mae</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span>
+<span class="linenos">496</span>            <span class="n">expected</span><span class="p">[</span><span class="n">OUTPUT2</span><span class="p">][:</span><span class="n">input_len</span><span class="p">],</span> <span class="n">output</span><span class="p">[</span><span class="n">OUTPUT2</span><span class="p">][:</span><span class="n">input_len</span><span class="p">]</span>
+<span class="linenos">497</span>        <span class="p">)</span>
+<span class="linenos">498</span>        <span class="n">maes</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">output_1_mae</span><span class="p">,</span> <span class="n">output_2_mae</span><span class="p">])</span>
+<span class="linenos">499</span>
+<span class="linenos">500</span>    <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+<span class="linenos">501</span>
+<span class="linenos">502</span>    <span class="k">def</span> <span class="nf">print_topk</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">out_name</span><span class="p">,</span> <span class="n">out_index</span><span class="p">):</span>
+<span class="linenos">503</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="linenos">504</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample: </span><span class="si">{</span><span class="n">maes</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">out_name</span><span class="si">}</span><span class="s2"> mae : </span><span class="si">{</span><span class="n">maes</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">][</span><span class="n">out_index</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">505</span>
+<span class="linenos">506</span>    <span class="k">if</span> <span class="n">enable_debug</span><span class="p">:</span>
+<span class="linenos">507</span>        <span class="n">maes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="linenos">508</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">***** Top </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> mae of output: </span><span class="si">{</span><span class="n">OUTPUT1</span><span class="si">}</span><span class="s2"> *****&quot;</span><span class="p">)</span>
+<span class="linenos">509</span>        <span class="n">print_topk</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">OUTPUT1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">510</span>
+<span class="linenos">511</span>        <span class="n">maes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="linenos">512</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">***** Top </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> mae of output: </span><span class="si">{</span><span class="n">OUTPUT2</span><span class="si">}</span><span class="s2"> *****&quot;</span><span class="p">)</span>
+<span class="linenos">513</span>        <span class="n">print_topk</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">OUTPUT2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">514</span>
+<span class="linenos">515</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT1</span><span class="si">}</span><span class="s2"> average mae: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">maes</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">516</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OUTPUT2</span><span class="si">}</span><span class="s2"> average mae: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">maes</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">517</span>
+<span class="linenos">518</span>
+<span class="linenos">519</span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="linenos">520</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;packed bert-base-squad&#39;</span><span class="p">)</span>
+<span class="linenos">521</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">522</span>        <span class="s1">&#39;--avg_seq_len&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;average sequence length of input&#39;</span>
+<span class="linenos">523</span>    <span class="p">)</span>
+<span class="linenos">524</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">525</span>        <span class="s1">&#39;--batch_size&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;batch size of model&#39;</span>
+<span class="linenos">526</span>    <span class="p">)</span>
+<span class="linenos">527</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--dump_results&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;dump results&#39;</span><span class="p">)</span>
+<span class="linenos">528</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">529</span>        <span class="s1">&#39;--dynamic_input_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">INPUT_IDS</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;dynamic input name&#39;</span>
+<span class="linenos">530</span>    <span class="p">)</span>
+<span class="linenos">531</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">532</span>        <span class="s1">&#39;--emb_size&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30522</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;word embedding table size&#39;</span>
+<span class="linenos">533</span>    <span class="p">)</span>
+<span class="linenos">534</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">535</span>        <span class="s1">&#39;--enable_debug&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;enable output debug info&#39;</span>
+<span class="linenos">536</span>    <span class="p">)</span>
+<span class="linenos">537</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">538</span>        <span class="s1">&#39;--iterations&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of batches to run&#39;</span>
+<span class="linenos">539</span>    <span class="p">)</span>
+<span class="linenos">540</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">541</span>        <span class="s1">&#39;--max_seq_len&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;max sequence length of input&#39;</span>
+<span class="linenos">542</span>    <span class="p">)</span>
+<span class="linenos">543</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">544</span>        <span class="s1">&#39;--max_valid_num&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;max valid num for pack&#39;</span>
+<span class="linenos">545</span>    <span class="p">)</span>
+<span class="linenos">546</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">547</span>        <span class="s1">&#39;--model_without_packing&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;model without pack, unpack, repack op&#39;</span>
+<span class="linenos">548</span>    <span class="p">)</span>
+<span class="linenos">549</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">550</span>        <span class="s1">&#39;--model_with_packing_unpack_repack&#39;</span><span class="p">,</span>
+<span class="linenos">551</span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;model with pack, unpack, repack op converted by PopRT&#39;</span><span class="p">,</span>
+<span class="linenos">552</span>    <span class="p">)</span>
+<span class="linenos">553</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">554</span>        <span class="s1">&#39;--model_with_packing_attention_mask&#39;</span><span class="p">,</span>
+<span class="linenos">555</span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;model with AttentionMask op converted by PopRT&#39;</span><span class="p">,</span>
+<span class="linenos">556</span>    <span class="p">)</span>
+<span class="linenos">557</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">558</span>        <span class="s1">&#39;--timeout_microseconds&#39;</span><span class="p">,</span>
+<span class="linenos">559</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="linenos">560</span>        <span class="n">default</span><span class="o">=</span><span class="mi">15000</span><span class="p">,</span>
+<span class="linenos">561</span>        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;timeout in microseconds&#39;</span><span class="p">,</span>
+<span class="linenos">562</span>    <span class="p">)</span>
+<span class="linenos">563</span>
+<span class="linenos">564</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos">565</span>    <span class="n">args</span><span class="o">.</span><span class="n">dataset_size</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">iterations</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">batch_size</span>
+<span class="linenos">566</span>
+<span class="linenos">567</span>    <span class="c1"># generate synthetic dataset</span>
+<span class="linenos">568</span>    <span class="n">datasets</span> <span class="o">=</span> <span class="n">get_synthetic_data</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="linenos">569</span>    <span class="n">original_result</span> <span class="o">=</span> <span class="n">run_original_model_with_model_runner</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">)</span>
+<span class="linenos">570</span>
+<span class="linenos">571</span>    <span class="n">offline_pack_result_unpack_repack</span> <span class="o">=</span> <span class="n">run_packing_model_with_model_runner</span><span class="p">(</span>
+<span class="linenos">572</span>        <span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_unpack_repack</span><span class="p">,</span> <span class="kc">True</span>
+<span class="linenos">573</span>    <span class="p">)</span>
+<span class="linenos">574</span>    <span class="n">online_pack_result_unpack_repack</span> <span class="o">=</span> <span class="n">run_packing_model_with_pack_runner_unpack_repack</span><span class="p">(</span>
+<span class="linenos">575</span>        <span class="n">args</span><span class="p">,</span> <span class="n">datasets</span>
+<span class="linenos">576</span>    <span class="p">)</span>
+<span class="linenos">577</span>
+<span class="linenos">578</span>    <span class="n">offline_pack_result_attention_mask</span> <span class="o">=</span> <span class="n">run_packing_model_with_model_runner</span><span class="p">(</span>
+<span class="linenos">579</span>        <span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">model_with_packing_attention_mask</span><span class="p">,</span> <span class="kc">False</span>
+<span class="linenos">580</span>    <span class="p">)</span>
+<span class="linenos">581</span>    <span class="n">online_pack_result_attention_mask_first_fit</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">582</span>        <span class="n">run_packing_model_with_pack_runner_attention_mask</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;first_fit&quot;</span><span class="p">)</span>
+<span class="linenos">583</span>    <span class="p">)</span>
+<span class="linenos">584</span>    <span class="n">online_pack_result_attention_mask_next_fit</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">585</span>        <span class="n">run_packing_model_with_pack_runner_attention_mask</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;next_fit&quot;</span><span class="p">)</span>
+<span class="linenos">586</span>    <span class="p">)</span>
+<span class="linenos">587</span>    <span class="n">latency_distribuion_with_pack_runner_attention_mask</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;first_fit&quot;</span><span class="p">)</span>
+<span class="linenos">588</span>
+<span class="linenos">589</span>    <span class="c1"># compare the results</span>
+<span class="linenos">590</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Compare results between original and online pack(with unpack repack)&quot;</span><span class="p">)</span>
+<span class="linenos">591</span>    <span class="n">calculate_mae</span><span class="p">(</span>
+<span class="linenos">592</span>        <span class="n">original_result</span><span class="p">,</span> <span class="n">online_pack_result_unpack_repack</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">enable_debug</span>
+<span class="linenos">593</span>    <span class="p">)</span>
+<span class="linenos">594</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Compare results between offline and online pack with unpack repack op&quot;</span><span class="p">)</span>
+<span class="linenos">595</span>    <span class="n">calculate_mae</span><span class="p">(</span>
+<span class="linenos">596</span>        <span class="n">offline_pack_result_unpack_repack</span><span class="p">,</span>
+<span class="linenos">597</span>        <span class="n">online_pack_result_unpack_repack</span><span class="p">,</span>
+<span class="linenos">598</span>        <span class="n">datasets</span><span class="p">,</span>
+<span class="linenos">599</span>        <span class="n">args</span><span class="o">.</span><span class="n">enable_debug</span><span class="p">,</span>
+<span class="linenos">600</span>    <span class="p">)</span>
+<span class="linenos">601</span>
+<span class="linenos">602</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">603</span>        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Compare results between original and online_first_fit pack with attention_mask op&quot;</span>
+<span class="linenos">604</span>    <span class="p">)</span>
+<span class="linenos">605</span>    <span class="n">calculate_mae</span><span class="p">(</span>
+<span class="linenos">606</span>        <span class="n">original_result</span><span class="p">,</span>
+<span class="linenos">607</span>        <span class="n">online_pack_result_attention_mask_first_fit</span><span class="p">,</span>
+<span class="linenos">608</span>        <span class="n">datasets</span><span class="p">,</span>
+<span class="linenos">609</span>        <span class="n">args</span><span class="o">.</span><span class="n">enable_debug</span><span class="p">,</span>
+<span class="linenos">610</span>    <span class="p">)</span>
+<span class="linenos">611</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">612</span>        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Compare results between original and online_next_fit pack with attention_mask op&quot;</span>
+<span class="linenos">613</span>    <span class="p">)</span>
+<span class="linenos">614</span>    <span class="n">calculate_mae</span><span class="p">(</span>
+<span class="linenos">615</span>        <span class="n">original_result</span><span class="p">,</span>
+<span class="linenos">616</span>        <span class="n">online_pack_result_attention_mask_next_fit</span><span class="p">,</span>
+<span class="linenos">617</span>        <span class="n">datasets</span><span class="p">,</span>
+<span class="linenos">618</span>        <span class="n">args</span><span class="o">.</span><span class="n">enable_debug</span><span class="p">,</span>
+<span class="linenos">619</span>    <span class="p">)</span>
+<span class="linenos">620</span>
+<span class="linenos">621</span>    <span class="nb">print</span><span class="p">(</span>
+<span class="linenos">622</span>        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Compare results between offline and online_next_fit pack with attenttion_mask op&quot;</span>
+<span class="linenos">623</span>    <span class="p">)</span>
+<span class="linenos">624</span>    <span class="n">calculate_mae</span><span class="p">(</span>
+<span class="linenos">625</span>        <span class="n">offline_pack_result_attention_mask</span><span class="p">,</span>
+<span class="linenos">626</span>        <span class="n">online_pack_result_attention_mask_next_fit</span><span class="p">,</span>
+<span class="linenos">627</span>        <span class="n">datasets</span><span class="p">,</span>
+<span class="linenos">628</span>        <span class="n">args</span><span class="o">.</span><span class="n">enable_debug</span><span class="p">,</span>
+<span class="linenos">629</span>    <span class="p">)</span>
+<span class="linenos">630</span>
+<span class="linenos">631</span>
+<span class="linenos">632</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">633</span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/c0fb8e652f4850a2ab3ef6ea1ce16300/packed_bert_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">add_position_ids.py</span></code></a></p>
+<section id="downloading-the-model">
+<h3>Downloading the model<a class="headerlink" href="#downloading-the-model" title="Permalink to this headline"></a></h3>
+<p>Before downloading the model, you need to install the dependencies:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install torch==1.10.0</span>
+<span class="go">pip install transformers[onnx]==4.25.1</span>
+</pre></div>
+</div>
+<p>Download the model:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m transformers.onnx --model=csarron/bert-base-uncased-squad-v1 . --feature question-answering</span>
+</pre></div>
+</div>
+</section>
+<section id="converting-the-model">
+<h3>Converting the model<a class="headerlink" href="#converting-the-model" title="Permalink to this headline"></a></h3>
+<p>The downloaded model does not contain <code class="docutils literal notranslate"><span class="pre">position_ids</span></code> in the input. To use packing on the IPU, you need to pack the input on the host first.
+Therefore, you need to add <code class="docutils literal notranslate"><span class="pre">position_ids</span></code> to the input of the model. The code is as follows:</p>
+<div class="literal-block-wrapper docutils container" id="add-position-ids-py">
+<div class="code-block-caption"><span class="caption-number">Listing 5.4 </span><span class="caption-text">add_position_ids.py</span><a class="headerlink" href="#add-position-ids-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Copyright (c) 2023 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># Download model from huggingface</span>
+<span class="linenos"> 9</span><span class="c1"># - python -m transformers.onnx --model=csarron/bert-base-uncased-squad-v1 . --feature question-answering</span>
+<span class="linenos">10</span><span class="c1"># reference: https://huggingface.co/csarron/bert-base-uncased-squad-v1</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">14</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Preprocess Bert-Squad Model&#39;</span><span class="p">)</span>
+<span class="linenos">15</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">16</span>        <span class="s1">&#39;--input_model&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path of input model&#39;</span>
+<span class="linenos">17</span>    <span class="p">)</span>
+<span class="linenos">18</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_model</span><span class="p">):</span>
+<span class="linenos">21</span>        <span class="n">parser</span><span class="o">.</span><span class="n">print_usage</span><span class="p">()</span>
+<span class="linenos">22</span>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unable to find model: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">input_model</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_model</span><span class="p">)</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span>    <span class="c1"># for packed bert, we need to export position_ids to model&#39;s input</span>
+<span class="linenos">27</span>    <span class="c1"># step 1: remove unneed node</span>
+<span class="linenos">28</span>    <span class="n">rm_node_names</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">29</span>        <span class="s1">&#39;Shape_7&#39;</span><span class="p">,</span>
+<span class="linenos">30</span>        <span class="s1">&#39;Gather_9&#39;</span><span class="p">,</span>
+<span class="linenos">31</span>        <span class="s1">&#39;Add_11&#39;</span><span class="p">,</span>
+<span class="linenos">32</span>        <span class="s1">&#39;Unsqueeze_12&#39;</span><span class="p">,</span>
+<span class="linenos">33</span>        <span class="s1">&#39;Slice_14&#39;</span><span class="p">,</span>
+<span class="linenos">34</span>        <span class="s1">&#39;Constant_8&#39;</span><span class="p">,</span>
+<span class="linenos">35</span>        <span class="s1">&#39;Constant_10&#39;</span><span class="p">,</span>
+<span class="linenos">36</span>        <span class="s1">&#39;Constant_13&#39;</span><span class="p">,</span>
+<span class="linenos">37</span>    <span class="p">]</span>
+<span class="linenos">38</span>    <span class="n">rm_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">39</span>    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
+<span class="linenos">40</span>        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">rm_node_names</span><span class="p">:</span>
+<span class="linenos">41</span>            <span class="n">rm_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">rm_node_names</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">rm_nodes</span><span class="p">)</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">rm_nodes</span><span class="p">:</span>
+<span class="linenos">46</span>        <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span>    <span class="c1"># step 2: add position_ids to model&#39;s input</span>
+<span class="linenos">49</span>    <span class="n">position_ids</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="linenos">50</span>    <span class="n">position_ids</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;position_ids&#39;</span>
+<span class="linenos">51</span>    <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">position_ids</span><span class="p">)</span>
+<span class="linenos">52</span>
+<span class="linenos">53</span>    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">:</span>
+<span class="linenos">54</span>        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op_type</span> <span class="o">==</span> <span class="s1">&#39;Gather&#39;</span> <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;Gather_18&#39;</span><span class="p">:</span>
+<span class="linenos">55</span>            <span class="n">node</span><span class="o">.</span><span class="n">input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">position_ids</span><span class="o">.</span><span class="n">name</span>
+<span class="linenos">56</span>
+<span class="linenos">57</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Save preprocessed model to bert_base_squad_pos.onnx&#39;</span><span class="p">)</span>
+<span class="linenos">58</span>    <span class="n">onnx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;bert_base_squad_pos.onnx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/728a9ddfb6fa3effe56dbcbe5580103b/add_position_ids.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">add_position_ids.py</span></code></a></p>
+<p>To generate the model without packing, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model squad_bert_base_pos.onnx \</span>
+<span class="go">    --output_model squad_bert_base_bs16_sl256.onnx \</span>
+<span class="go">    --precision fp16 \</span>
+<span class="go">    --input_shape input_ids=16,256 attention_mask=16,256 token_type_ids=16,256 position_ids=16,256</span>
+</pre></div>
+</div>
+<p>To generate model with packing, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model squad_bert_base_pos.onnx \</span>
+<span class="go">    --output_model squad_bert_base_bs16_sl256_pack.onnx \</span>
+<span class="go">    --precision fp16 \</span>
+<span class="go">    --input_shape input_ids=16,256 attention_mask=16,256 token_type_ids=16,256 position_ids=16,256 \</span>
+<span class="go">    --pack_args max_valid_num=40 segment_max_size=256</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">max_valid_num</span></code> is used to specify the maximum batch size after unpacking, and <code class="docutils literal notranslate"><span class="pre">segment_max_size</span></code> indicates the maximum length.</p>
+</section>
+<section id="running-the-model">
+<h3>Running the model<a class="headerlink" href="#running-the-model" title="Permalink to this headline"></a></h3>
+<p>Run the model:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python packed_bert_example.py \</span>
+<span class="go">    --model_with_packing squad_bert_base_bs16_sl256_pack.onnx \</span>
+<span class="go">    --model_without_packing squad_bert_base_bs16_sl256.onnx</span>
+</pre></div>
+</div>
+<p>When the example has run, you should see the an output similar to the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[Original] Throughput: 1860.9792005501781 samples/s, Latency: 0.5373515188694 ms</span>
+<span class="go">....</span>
+<span class="go">[Pack Offline] Throughput: 2830.8140869025283 samples/s, Latency: 0.3532552719116211 ms</span>
+<span class="go">....</span>
+<span class="go">[Pack Online] Throughput: 2782.587696947809 samples/s, Latency : 0.3593777120113373 ms</span>
+<span class="go">....</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dynamic_batch_size.html" class="btn btn-neutral float-left" title="5.4. Dynamic batch size" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cpu_packing.html" class="btn btn-neutral float-right" title="5.6. CPU packing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

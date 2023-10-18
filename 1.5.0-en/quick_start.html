@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3. Quick start &mdash; Title</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/table_styling.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom_rtd.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/js/graphcore.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Command line interface" href="instructions.html" />
+    <link rel="prev" title="2. Installation" href="installation.html" />
+     
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1074732,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PX5BPGW');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+  
+  <a href="https://docs.graphcore.ai/" class="icon icon-home" title="Back to Documents Home"><img src="_static/graphcorelogo-html.png" class="logo" alt="Logo"/></a>
+
+
+<div class="homelink"><a href="index.html">POPRT USER GUIDE</a></div>
+
+
+  
+  
+    <div class="version">
+      Version: 1.5.0
+    </div>
+  
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#background">1.1. Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#architecture">1.2. Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#workflow">1.3. Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compatibility-of-poprt-with-the-poplar-sdk">2.1. Compatibility of PopRT with the Poplar SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#quick-start-with-a-docker-image">2.2. Quick start with a Docker image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-poprt-on-host-server">2.3. Install PopRT on host server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#for-ubuntu-20-04">2.3.1. For Ubuntu 20.04</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#install-poplar-sdk">Install Poplar SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#enable-the-sdk">Enable the SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#install-poprt">Install PopRT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Quick start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cli-parameters">3.1. CLI parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convert-and-run-model">3.2. Convert and run model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-onnx-model">3.2.1. Download ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#obtain-input-and-output-information-for-onnx-model">3.2.2. Obtain input and output information for ONNX model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specify-input-shape">3.2.3. Specify input shape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specify-model-accuracy">3.2.4. Specify model accuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-model">3.2.5. Run model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#export-popef-model">3.2.6. Export PopEF model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-deployment">3.3. Quick deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#run-exported-popef-model">3.3.1. Run exported PopEF model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-converted-onnx-model">3.3.2. Run converted ONNX model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python-api-example">3.4. Python API example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="instructions.html">4. Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#Named Arguments">4.1. Named Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instructions.html#Sub-commands:">4.2. Sub-commands:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instructions.html#tf2onnx">4.2.1. tf2onnx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instructions.html#Named Arguments_repeat1">Named Arguments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features/index.html">5. Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="features/passes.html">5.1. Passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/passes.html#pass-abstract">5.1.1. Pass abstract</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/fp8.html">5.2. FP8</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#ipu-fp8-type">5.2.1. IPU FP8 type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp8-quantisation">5.2.2. FP8 quantisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#converting-an-fp32-model-to-fp8">5.2.3. Converting an FP32 model to FP8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#fp8-model-conversion-tool">5.2.4. FP8 model conversion tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/fp8.html#debugging-fp8-model-conversion-problems">5.2.5. Debugging FP8 model conversion problems</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/overlap_io.html">5.3. Overlap I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#principle">5.3.1. Principle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#configuring-i-o-tiles">5.3.2. Configuring I/O tiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#debugging">5.3.3. Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#concurrent-requests">5.3.4. Concurrent requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/overlap_io.html#example">5.3.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/dynamic_batch_size.html">5.4. Dynamic batch size</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#background">5.4.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/dynamic_batch_size.html#example">5.4.2. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/packing.html">5.5. Packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#background">5.5.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#packing-and-unpacking">5.5.2. Packing and unpacking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#transformer-based-nlp-models">5.5.3. Transformer-based NLP models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/packing.html#how-to-use-packing">5.5.4. How to use packing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#downloading-the-model">Downloading the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#converting-the-model">Converting the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/packing.html#running-the-model">Running the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/cpu_packing.html">5.6. CPU packing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#background">5.6.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#functional-modules">5.6.2. Functional modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#timeout-processing">Timeout processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#user-data-preprocessing">User data preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#data-accumulation">Data accumulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#post-packing-processing">Post-packing processing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#packing-algorithms">5.6.3. Packing algorithms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#end-to-end-method">End-to-end method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#firstfit-method">FirstFit method</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/cpu_packing.html#nextfit-method">NextFit method</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/cpu_packing.html#examples">5.6.4. Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_fusion.html">5.7. Model fusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#implementing-poprt-model-fusion">5.7.1. Implementing PopRT model fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_fusion.html#implementing-poprt-runtime-fusion-model-inference">5.7.2. Implementing PopRT Runtime fusion model inference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_ops.html">5.8. Custom operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#writing-custom-operators">5.8.1. Writing custom operators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_ops.html#create-the-onnx-model-file-with-the-leakyrelu-op">Create the ONNX model file with the <code class="docutils literal notranslate"><span class="pre">LeakyRelu</span></code> op</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_ops.html#using-custom-operators-in-poprt">5.8.2. Using custom operators in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_onnx_pass.html">5.9. Custom passes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#implementing-custom-passes">5.9.1. Implementing custom passes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes">5.9.2. Using custom passes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes-in-the-poprt-cli">Using custom passes in the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_onnx_pass.html#using-custom-passes-in-the-python-api">Using custom passes in the Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_pattern.html">5.10. Custom patterns</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#implementing-custom-popart-patterns">5.10.1. Implementing custom PopART patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_pattern.html#using-custom-popart-patterns-in-poprt">5.10.2. Using custom PopART patterns in PopRT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-1-use-patterncreator-to-enable-the-pattern-by-default">Method 1: Use <code class="docutils literal notranslate"><span class="pre">PatternCreator</span></code> to enable the pattern by default</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-2-configure-a-pattern-using-the-python-api">Method 2: Configure a pattern using the Python API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/custom_pattern.html#method-3-config-the-specified-pattern-using-cli">Method 3: Config the specified pattern using CLI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/custom_transform.html">5.11. Custom transforms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#implementing-custom-popart-transforms">5.11.1. Implementing custom PopART transforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/custom_transform.html#using-custom-transforms-in-poprt">5.11.2. Using custom transforms in PopRT</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/manual_sharding.html">5.12. Manual sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#sharding-and-model-parallelism">5.12.1. Sharding and model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#pipelining-and-pipeline-parallelism">5.12.2. Pipelining and pipeline parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#manual-sharding-process">5.12.3. Manual sharding process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding">5.12.4. Configuring manual sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding-with-the-poprt-cli">Configuring manual sharding with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/manual_sharding.html#configuring-manual-sharding-with-the-python-api">Configuring manual sharding with the Python API</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/manual_sharding.html#example">5.12.5. Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/error_handling.html">5.13. Error handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features/frontend.html">5.14. PopRT frontend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#onnx-frontend">5.14.1. ONNX frontend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/frontend.html#tensorflow-frontend">5.14.2. TensorFlow frontend</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#loading-a-tensorflow-model-with-the-poprt-cli">Loading a TensorFlow model with the PopRT CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/frontend.html#loading-a-tensorflow-model-with-python-api">Loading a TensorFlow model with Python API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/auto_sharding.html">5.15. Auto-sharding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#model-parallelism">5.15.1. Model parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#principle-of-auto-sharding">5.15.2. Principle of auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#alternative-nodes-strategy">Alternative nodes strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#traversal-strategy-of-sharding-scheme">Traversal strategy of sharding scheme</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="features/auto_sharding.html#using-auto-sharding">5.15.3. Using auto-sharding</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#auto-sharding-tool">Auto-sharding tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="features/auto_sharding.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="features/model_debugger.html">5.16. Model debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#model-debugger-tool">5.16.1. Model Debugger tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="features/model_debugger.html#examples">5.16.2. Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api.html">6. Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-module">6.1. <code class="docutils literal notranslate"><span class="pre">poprt</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-compiler-module">6.2. <code class="docutils literal notranslate"><span class="pre">poprt.compiler</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-runtime-module">6.3. <code class="docutils literal notranslate"><span class="pre">poprt.runtime</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-frontend-module">6.4. <code class="docutils literal notranslate"><span class="pre">poprt.frontend</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-backends-module">6.5. <code class="docutils literal notranslate"><span class="pre">poprt.backends</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-quantizer-module">6.6. <code class="docutils literal notranslate"><span class="pre">poprt.quantizer</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api.html#poprt-passes-module">6.7. <code class="docutils literal notranslate"><span class="pre">poprt.passes</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_api.html#built-in-passes">6.7.1. Built-in passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cxx_api.html">7. C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-compiler">7.1. PopRT Compiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#executable">7.2. Executable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cxx_api.html#poprt-runtime">7.3. PopRT Runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cxx_api.html#devicemanager">7.3.1. DeviceManager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">8. Revision history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal.html">9. Trademarks &amp; copyright</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">POPRT USER GUIDE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start">
+<span id="id1"></span><h1><span class="section-number">3. </span>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h1>
+<p>This chapter will use an ONNX model as the example to explain how to perform model conversion and rapid deployment with PopRT.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>PopRT is required to run the examples in this chapter. If PopRT is not installed, refer to the <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installation</span></a> chapter.</p></li>
+<li><p>PopRT supports the conversion and running of ONNX models, while exporting to PopEF files for model deployment. PopEF is a unified file format provided by Poplar SDK for importing and exporting models. The PopEF file contains the binary code compiled by the Poplar compiler that can run on IPU, the input and output of the model as well as the hardware information required for the running of models. For more information, please refer to to the <a class="reference external" href="https://docs.graphcore.ai/projects/popef/en/latest/introduction.html">PopEF: User Guide</a> .</p></li>
+<li><p>The examples in this chapter use the PopRT command-line interface.</p></li>
+</ul>
+</div>
+<section id="cli-parameters">
+<h2><span class="section-number">3.1. </span>CLI parameters<a class="headerlink" href="#cli-parameters" title="Permalink to this headline"></a></h2>
+<p>PopRT is easy to use from the command line. The following are some of the CLI parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--input_model</span></code> (Required) Path to original model (for example, ONNX) and model name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--show</span></code> (Optional) Print only the input and output information of the model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> (Optional) Specify the model input shape.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output_model</span></code> (Optional) The name of the converted model. The default storage path is the current directory. If this parameter is not specified, the converted model will be saved with the default name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--precision</span></code> (Optional) Specify the accuracy of the converted model. If this parameter is not specified, the original model accuracy will be used by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--run</span></code> (Optional) Run the converted model using random input.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--export_popef</span></code> (Optional) Export the PopEF model generated by compilation. The file is saved with a default name of <code class="docutils literal notranslate"><span class="pre">executable.popef</span></code>.</p></li>
+</ul>
+<p>For full details of all CLI parameters, refer to the <a class="reference internal" href="instructions.html#instructions"><span class="std std-ref">Command line interface</span></a> chapter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>For <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code>, only the variable dimensions in the specified input shape are supported, and the size of known dimensions cannot be changed.</p></li>
+<li><p>The IPU only supports static graphs. If the input shape of the model is variable, <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> must be used to specify the input shape.</p></li>
+<li><p>For more configurations, please refer to the <a class="reference internal" href="instructions.html#instructions"><span class="std std-ref">Command line interface</span></a> chapter.</p></li>
+</ul>
+</div>
+</section>
+<section id="convert-and-run-model">
+<h2><span class="section-number">3.2. </span>Convert and run model<a class="headerlink" href="#convert-and-run-model" title="Permalink to this headline"></a></h2>
+<p>This section will use the <a class="reference external" href="https://github.com/onnx/models/raw/main/text/machine_comprehension/bert-squad/model/bertsquad-12.onnx">BERT Squad</a> model in the <a class="reference external" href="https://github.com/onnx/models">ONNX model zoo</a> as the example to explain how to perform model conversion.</p>
+<section id="download-onnx-model">
+<h3><span class="section-number">3.2.1. </span>Download ONNX model<a class="headerlink" href="#download-onnx-model" title="Permalink to this headline"></a></h3>
+<p>Download the ONNX model with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">wget https://github.com/onnx/models/raw/main/text/machine_comprehension/bert-squad/model/bertsquad-12.onnx</span>
+</pre></div>
+</div>
+</section>
+<section id="obtain-input-and-output-information-for-onnx-model">
+<h3><span class="section-number">3.2.2. </span>Obtain input and output information for ONNX model<a class="headerlink" href="#obtain-input-and-output-information-for-onnx-model" title="Permalink to this headline"></a></h3>
+<p>Obtain the input and output information for the ONNX model with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --show</span>
+
+<span class="gp"># </span>The<span class="w"> </span>Input/Output<span class="w"> </span>Information<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>Model
+<span class="go">2023-01-06 02:59:32,897 INFO cli.py:327] Input unique_ids_raw_output___9:0: dtype - int64, shape - [0]</span>
+<span class="go">2023-01-06 02:59:32,897 INFO cli.py:327] Input segment_ids:0: dtype - int64, shape - [0, 256]</span>
+<span class="go">2023-01-06 02:59:32,897 INFO cli.py:327] Input input_mask:0: dtype - int64, shape - [0, 256]</span>
+<span class="go">2023-01-06 02:59:32,898 INFO cli.py:327] Input input_ids:0: dtype - int64, shape - [0, 256]</span>
+<span class="go">2023-01-06 02:59:32,898 INFO cli.py:334] Output unstack:1: dtype - float32, shape - [0, 256]</span>
+<span class="go">2023-01-06 02:59:32,898 INFO cli.py:334] Output unstack:0: dtype - float32, shape - [0, 256]</span>
+<span class="go">2023-01-06 02:59:32,898 INFO cli.py:334] Output unique_ids:0: dtype - int64, shape - [0]</span>
+</pre></div>
+</div>
+</section>
+<section id="specify-input-shape">
+<h3><span class="section-number">3.2.3. </span>Specify input shape<a class="headerlink" href="#specify-input-shape" title="Permalink to this headline"></a></h3>
+<p>According to the input and output information of the original model, the input shape is variable. This means that <code class="docutils literal notranslate"><span class="pre">--input_shape</span></code> must be used to specify the input shape. In this example, batch size = 2 is used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The original model input is int64. Since the IPU does not support int64, the converted model input will be int32.</p></li>
+</ul>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --input_shape unique_ids_raw_output___9:0=2 segment_ids:0=2,256 input_mask:0=2,256 input_ids:0=2,256 \</span>
+<span class="go">    --output_model bertsquad-12_fp32_bs2.onnx</span>
+</pre></div>
+</div>
+</section>
+<section id="specify-model-accuracy">
+<h3><span class="section-number">3.2.4. </span>Specify model accuracy<a class="headerlink" href="#specify-model-accuracy" title="Permalink to this headline"></a></h3>
+<p>According to the input and output information of the original model, the accuracy is fp32. In this example, we will use an accuracy of fp16.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --input_shape unique_ids_raw_output___9:0=2 segment_ids:0=2,256 input_mask:0=2,256 input_ids:0=2,256 \</span>
+<span class="go">    --output_model bertsquad-12_fp16_bs2.onnx \</span>
+<span class="go">    --precision fp16</span>
+</pre></div>
+</div>
+</section>
+<section id="run-model">
+<h3><span class="section-number">3.2.5. </span>Run model<a class="headerlink" href="#run-model" title="Permalink to this headline"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--run</span></code> can be used to quickly verify whether the converted model can be compiled properly and run on an IPU.</p></li>
+<li><p>The data shown in this example does not represent optimal performance and only demonstrates the default conversion process.</p></li>
+</ul>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Convert,<span class="w"> </span>compile<span class="w"> </span>and<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>ONNX<span class="w"> </span>model<span class="w"> </span>of<span class="w"> </span>fp32
+<span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --input_shape unique_ids_raw_output___9:0=2 segment_ids:0=2,256 input_mask:0=2,256 input_ids:0=2,256 \</span>
+<span class="go">    --output_model bertsquad-12_fp32_bs2.onnx \</span>
+<span class="go">    --run</span>
+
+<span class="gp"># </span>Random<span class="w"> </span>number<span class="w"> </span>run<span class="w"> </span>results
+<span class="go">2023-01-06 05:58:14,209 INFO cli.py:452] Bs: 2</span>
+<span class="go">2023-01-06 05:58:14,209 INFO cli.py:455] Latency: 4.58ms</span>
+<span class="go">2023-01-06 05:58:14,210 INFO cli.py:456] Tput: 436</span>
+
+<span class="gp"># </span>Convert,<span class="w"> </span>compile<span class="w"> </span>and<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>ONNX<span class="w"> </span>model<span class="w"> </span>of<span class="w"> </span>fp16
+<span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --input_shape unique_ids_raw_output___9:0=2 segment_ids:0=2,256 input_mask:0=2,256 input_ids:0=2,256 \</span>
+<span class="go">    --output_model bertsquad-12_fp16_bs2.onnx \</span>
+<span class="go">    --precision fp16 \</span>
+<span class="go">    --run</span>
+
+<span class="gp"># </span>Random<span class="w"> </span>number<span class="w"> </span>run<span class="w"> </span>results
+<span class="go">2023-01-06 06:00:59,283 INFO cli.py:452] Bs: 2</span>
+<span class="go">2023-01-06 06:00:59,283 INFO cli.py:455] Latency: 2.23ms</span>
+<span class="go">2023-01-06 06:00:59,283 INFO cli.py:456] Tput: 896</span>
+</pre></div>
+</div>
+</section>
+<section id="export-popef-model">
+<h3><span class="section-number">3.2.6. </span>Export PopEF model<a class="headerlink" href="#export-popef-model" title="Permalink to this headline"></a></h3>
+<p>The exported PopEF model can be used for offline deployment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">--export_popef</span></code> parameter uses the default name <code class="docutils literal notranslate"><span class="pre">executable.popef</span></code> to save the PopEF model to a file. Note that multiple exports will overwrite the <code class="docutils literal notranslate"><span class="pre">executable.popef</span></code> file.</p></li>
+</ul>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Convert,<span class="w"> </span>compile<span class="w"> </span>and<span class="w"> </span><span class="nb">export</span><span class="w"> </span>the<span class="w"> </span>PopEF<span class="w"> </span>model<span class="w"> </span>of<span class="w"> </span>fp32
+<span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --input_shape unique_ids_raw_output___9:0=2 segment_ids:0=2,256 input_mask:0=2,256 input_ids:0=2,256 \</span>
+<span class="go">    --export_popef</span>
+
+<span class="gp"># </span>Convert,<span class="w"> </span>compile<span class="w"> </span>and<span class="w"> </span><span class="nb">export</span><span class="w"> </span>the<span class="w"> </span>PopEF<span class="w"> </span>model<span class="w"> </span>of<span class="w"> </span>fp16
+<span class="go">poprt \</span>
+<span class="go">    --input_model bertsquad-12.onnx \</span>
+<span class="go">    --input_shape unique_ids_raw_output___9:0=2 segment_ids:0=2,256 input_mask:0=2,256 input_ids:0=2,256 \</span>
+<span class="go">    --precision fp16 \</span>
+<span class="go">    --export_popef</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="quick-deployment">
+<h2><span class="section-number">3.3. </span>Quick deployment<a class="headerlink" href="#quick-deployment" title="Permalink to this headline"></a></h2>
+<p>This section will take the ONNX model and the PopEF model converted in the previous section as an example to explain how to use the PopRT Python API for quick deployment.</p>
+<section id="run-exported-popef-model">
+<h3><span class="section-number">3.3.1. </span>Run exported PopEF model<a class="headerlink" href="#run-exported-popef-model" title="Permalink to this headline"></a></h3>
+<p>To run the exported PopEF model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">poprt</span> <span class="kn">import</span> <span class="n">runtime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Create the ModelRunner instance, and load the PopEF file</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="s1">&#39;executable.popef&#39;</span><span class="p">)</span>
+
+<span class="c1"># Obtain the model output information</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">get_execute_outputs</span><span class="p">()</span>
+
+<span class="c1"># Create the input and output data</span>
+<span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;unique_ids_raw_output___9:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+    <span class="s2">&quot;segment_ids:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+    <span class="s2">&quot;input_mask:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+    <span class="s2">&quot;input_ids:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">output_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">}</span>
+
+<span class="c1"># Run PopEF</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="run-converted-onnx-model">
+<h3><span class="section-number">3.3.2. </span>Run converted ONNX model<a class="headerlink" href="#run-converted-onnx-model" title="Permalink to this headline"></a></h3>
+<p>You can directly compile the converted ONNX model with the PopRT <code class="docutils literal notranslate"><span class="pre">Compiler</span></code> class. Then, you can use the <code class="docutils literal notranslate"><span class="pre">ModelRunner</span></code> class to run the PopEF instance generated by compilation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">poprt</span> <span class="kn">import</span> <span class="n">runtime</span>
+<span class="kn">from</span> <span class="nn">poprt.compiler</span> <span class="kn">import</span> <span class="n">Compiler</span>
+
+<span class="c1"># Import the ONNX model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;bertsquad-12_fp32_bs2.onnx&quot;</span><span class="p">)</span>
+<span class="n">model_bytes</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+<span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
+
+<span class="c1"># Compile ONNX, and generate the PopEF instance</span>
+<span class="n">executable</span> <span class="o">=</span> <span class="n">Compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model_bytes</span><span class="p">,</span> <span class="n">output_names</span><span class="p">)</span>
+
+<span class="c1"># Create the ModelRunner instance, and load the PopEF instance</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="n">executable</span><span class="p">)</span>
+
+<span class="c1"># Obtain the model output information</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">get_execute_outputs</span><span class="p">()</span>
+
+<span class="c1"># Create the input and output data</span>
+<span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;unique_ids_raw_output___9:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+    <span class="s2">&quot;segment_ids:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+    <span class="s2">&quot;input_mask:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+    <span class="s2">&quot;input_ids:0&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">output_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">}</span>
+
+<span class="c1"># Run PopEF</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="python-api-example">
+<h2><span class="section-number">3.4. </span>Python API example<a class="headerlink" href="#python-api-example" title="Permalink to this headline"></a></h2>
+<p>The following is an example of converting, compiling and running the ONNX model entirely with the Python API:</p>
+<div class="literal-block-wrapper docutils container" id="convert-compile-and-run-py">
+<div class="code-block-caption"><span class="caption-number">Listing 3.1 </span><span class="caption-text">Example showing how to convert, compile and run an ONNX model using the PopRT Python API</span><a class="headerlink" href="#convert-compile-and-run-py" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1"># Copyright (c) 2022 Graphcore Ltd. All rights reserved.</span>
+<span class="linenos">  2</span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="linenos">  3</span><span class="kn">import</span> <span class="nn">time</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="linenos">  6</span>
+<span class="linenos">  7</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos">  8</span><span class="kn">import</span> <span class="nn">onnx</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="kn">from</span> <span class="nn">onnx</span> <span class="kn">import</span> <span class="n">helper</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="kn">from</span> <span class="nn">poprt</span> <span class="kn">import</span> <span class="n">Pass</span><span class="p">,</span> <span class="n">runtime</span>
+<span class="linenos"> 13</span><span class="kn">from</span> <span class="nn">poprt.compiler</span> <span class="kn">import</span> <span class="n">Compiler</span><span class="p">,</span> <span class="n">CompilerOptions</span>
+<span class="linenos"> 14</span><span class="kn">from</span> <span class="nn">poprt.converter</span> <span class="kn">import</span> <span class="n">Converter</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="n">RuntimeInput</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span>
+<span class="linenos"> 19</span><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">model_proto</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">:</span>
+<span class="linenos"> 20</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert ONNX model to a new optimized ONNX model.&quot;&quot;&quot;</span>
+<span class="linenos"> 21</span>    <span class="n">converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="n">convert_version</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="s1">&#39;fp16&#39;</span><span class="p">)</span>
+<span class="linenos"> 22</span>    <span class="n">converted_model</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">model_proto</span><span class="p">)</span>
+<span class="linenos"> 23</span>    <span class="c1"># Add other passes here</span>
+<span class="linenos"> 24</span>    <span class="n">converted_model</span> <span class="o">=</span> <span class="n">Pass</span><span class="o">.</span><span class="n">get_pass</span><span class="p">(</span><span class="s1">&#39;int64_to_int32&#39;</span><span class="p">)(</span><span class="n">converted_model</span><span class="p">)</span>
+<span class="linenos"> 25</span>    <span class="n">converted_model</span> <span class="o">=</span> <span class="n">Pass</span><span class="o">.</span><span class="n">get_pass</span><span class="p">(</span><span class="s1">&#39;gelu_pattern&#39;</span><span class="p">)(</span><span class="n">converted_model</span><span class="p">)</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span>    <span class="k">return</span> <span class="n">converted_model</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="linenos"> 31</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Compile ONNX to PopEF.&quot;&quot;&quot;</span>
+<span class="linenos"> 32</span>    <span class="n">model_bytes</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">()</span>
+<span class="linenos"> 33</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
+<span class="linenos"> 34</span>
+<span class="linenos"> 35</span>    <span class="n">options</span> <span class="o">=</span> <span class="n">CompilerOptions</span><span class="p">()</span>
+<span class="linenos"> 36</span>    <span class="n">options</span><span class="o">.</span><span class="n">num_ipus</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos"> 37</span>    <span class="n">options</span><span class="o">.</span><span class="n">ipu_version</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">DeviceManager</span><span class="p">()</span><span class="o">.</span><span class="n">ipu_hardware_version</span><span class="p">()</span>
+<span class="linenos"> 38</span>    <span class="n">options</span><span class="o">.</span><span class="n">batches_per_step</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">batches_per_step</span>
+<span class="linenos"> 39</span>    <span class="n">options</span><span class="o">.</span><span class="n">partials_type</span> <span class="o">=</span> <span class="s1">&#39;half&#39;</span>
+<span class="linenos"> 40</span>    <span class="n">executable</span> <span class="o">=</span> <span class="n">Compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model_bytes</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span>    <span class="k">return</span> <span class="n">executable</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="k">def</span> <span class="nf">run_synchronous</span><span class="p">(</span>
+<span class="linenos"> 46</span>    <span class="n">model_runner</span><span class="p">:</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">,</span>
+<span class="linenos"> 47</span>    <span class="nb">input</span><span class="p">:</span> <span class="n">RuntimeInput</span><span class="p">,</span>
+<span class="linenos"> 48</span>    <span class="n">output</span><span class="p">:</span> <span class="n">RuntimeInput</span><span class="p">,</span>
+<span class="linenos"> 49</span>    <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="linenos"> 50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 51</span>    <span class="n">deltas</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 52</span>    <span class="n">sess_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 53</span>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+<span class="linenos"> 54</span>        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 55</span>        <span class="n">model_runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="linenos"> 56</span>        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 57</span>        <span class="n">deltas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+<span class="linenos"> 58</span>    <span class="n">sess_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span>    <span class="n">latency</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="linenos"> 61</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Latency : </span><span class="si">{</span><span class="n">latency</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">ms&#39;</span><span class="p">)</span>
+<span class="linenos"> 62</span>    <span class="n">avg_sess_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">sess_end</span> <span class="o">-</span> <span class="n">sess_start</span><span class="p">)</span> <span class="o">/</span> <span class="n">iterations</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="linenos"> 63</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Synchorous avg Session Time : </span><span class="si">{</span><span class="n">avg_sess_time</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">ms&#39;</span><span class="p">)</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="k">def</span> <span class="nf">run_asynchronous</span><span class="p">(</span>
+<span class="linenos"> 67</span>    <span class="n">model_runner</span><span class="p">:</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">,</span>
+<span class="linenos"> 68</span>    <span class="nb">input</span><span class="p">:</span> <span class="n">RuntimeInput</span><span class="p">,</span>
+<span class="linenos"> 69</span>    <span class="n">output</span><span class="p">:</span> <span class="n">RuntimeInput</span><span class="p">,</span>
+<span class="linenos"> 70</span>    <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="linenos"> 71</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 72</span>    <span class="c1"># precreate multiple numbers of outputs</span>
+<span class="linenos"> 73</span>    <span class="n">async_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">input</span><span class="p">]</span> <span class="o">*</span> <span class="n">iterations</span>
+<span class="linenos"> 74</span>    <span class="n">async_outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="p">]</span> <span class="o">*</span> <span class="n">iterations</span>
+<span class="linenos"> 75</span>    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span>    <span class="n">sess_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 78</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+<span class="linenos"> 79</span>        <span class="n">f</span> <span class="o">=</span> <span class="n">model_runner</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span><span class="n">async_inputs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">async_outputs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="linenos"> 80</span>        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span>    <span class="c1"># waits all execution ends</span>
+<span class="linenos"> 83</span>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">future</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+<span class="linenos"> 84</span>        <span class="n">future</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="linenos"> 85</span>    <span class="n">sess_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span>    <span class="n">avg_sess_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">sess_end</span> <span class="o">-</span> <span class="n">sess_start</span><span class="p">)</span> <span class="o">/</span> <span class="n">iterations</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="linenos"> 88</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Asyncronous avg Session Time : </span><span class="si">{</span><span class="n">avg_sess_time</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">ms&#39;</span><span class="p">)</span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">executable</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="linenos"> 92</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run PopEF.&quot;&quot;&quot;</span>
+<span class="linenos"> 93</span>    <span class="c1"># Create model runner</span>
+<span class="linenos"> 94</span>    <span class="n">model_runner</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">Runner</span><span class="p">(</span><span class="n">executable</span><span class="p">)</span>
+<span class="linenos"> 95</span>
+<span class="linenos"> 96</span>    <span class="c1"># fix random number generation</span>
+<span class="linenos"> 97</span>    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span>    <span class="c1"># Prepare inputs and outpus</span>
+<span class="linenos">100</span>    <span class="n">inputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos">101</span>    <span class="n">inputs_info</span> <span class="o">=</span> <span class="n">model_runner</span><span class="o">.</span><span class="n">get_execute_inputs</span><span class="p">()</span>
+<span class="linenos">102</span>    <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs_info</span><span class="p">:</span>
+<span class="linenos">103</span>        <span class="n">inputs</span><span class="p">[</span><span class="nb">input</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+<span class="linenos">104</span>            <span class="nb">input</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">()</span>
+<span class="linenos">105</span>        <span class="p">)</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos">108</span>    <span class="n">outputs_info</span> <span class="o">=</span> <span class="n">model_runner</span><span class="o">.</span><span class="n">get_execute_outputs</span><span class="p">()</span>
+<span class="linenos">109</span>    <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs_info</span><span class="p">:</span>
+<span class="linenos">110</span>        <span class="n">outputs</span><span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">numpy_data_type</span><span class="p">())</span>
+<span class="linenos">111</span>
+<span class="linenos">112</span>    <span class="c1"># Run</span>
+<span class="linenos">113</span>    <span class="c1"># To correctly generate the popvision report, iteration must be a</span>
+<span class="linenos">114</span>    <span class="c1"># multiple of batches_per_step and greater than 2 * batches_per_step</span>
+<span class="linenos">115</span>    <span class="n">iteration</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">batches_per_step</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="linenos">116</span>
+<span class="linenos">117</span>    <span class="c1"># warm up device</span>
+<span class="linenos">118</span>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="linenos">119</span>        <span class="n">model_runner</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="linenos">120</span>
+<span class="linenos">121</span>    <span class="n">run_synchronous</span><span class="p">(</span><span class="n">model_runner</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">iteration</span><span class="p">)</span>
+<span class="linenos">122</span>    <span class="n">run_asynchronous</span><span class="p">(</span><span class="n">model_runner</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">iteration</span><span class="p">)</span>
+<span class="linenos">123</span>
+<span class="linenos">124</span>
+<span class="linenos">125</span><span class="k">def</span> <span class="nf">default_model</span><span class="p">():</span>
+<span class="linenos">126</span>    <span class="n">TensorProto</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">TensorProto</span>
+<span class="linenos">127</span>    <span class="n">matmul</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="s2">&quot;MatMul&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">])</span>
+<span class="linenos">128</span>    <span class="n">add</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_node</span><span class="p">(</span><span class="s2">&quot;Add&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">])</span>
+<span class="linenos">129</span>    <span class="n">graph</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_graph</span><span class="p">(</span>
+<span class="linenos">130</span>        <span class="p">[</span><span class="n">matmul</span><span class="p">,</span> <span class="n">add</span><span class="p">],</span>
+<span class="linenos">131</span>        <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="linenos">132</span>        <span class="p">[</span>
+<span class="linenos">133</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">)),</span>
+<span class="linenos">134</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">)),</span>
+<span class="linenos">135</span>            <span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)),</span>
+<span class="linenos">136</span>        <span class="p">],</span>
+<span class="linenos">137</span>        <span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">make_tensor_value_info</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">TensorProto</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))],</span>
+<span class="linenos">138</span>    <span class="p">)</span>
+<span class="linenos">139</span>    <span class="n">opset_imports</span> <span class="o">=</span> <span class="p">[</span><span class="n">helper</span><span class="o">.</span><span class="n">make_opsetid</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+<span class="linenos">140</span>    <span class="n">original_model</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">make_model</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">opset_imports</span><span class="o">=</span><span class="n">opset_imports</span><span class="p">)</span>
+<span class="linenos">141</span>    <span class="k">return</span> <span class="n">original_model</span>
+<span class="linenos">142</span>
+<span class="linenos">143</span>
+<span class="linenos">144</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">145</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+<span class="linenos">146</span>        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Convert onnx model and run it on IPU.&#39;</span>
+<span class="linenos">147</span>    <span class="p">)</span>
+<span class="linenos">148</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--onnx_model&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path of the onnx model.&quot;</span><span class="p">)</span>
+<span class="linenos">149</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">150</span>        <span class="s1">&#39;--batches_per_step&#39;</span><span class="p">,</span>
+<span class="linenos">151</span>        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="linenos">152</span>        <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="linenos">153</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of on-chip loop count.&quot;</span><span class="p">,</span>
+<span class="linenos">154</span>    <span class="p">)</span>
+<span class="linenos">155</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--popef&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full path of the popef file&quot;</span><span class="p">)</span>
+<span class="linenos">156</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos">157</span>
+<span class="linenos">158</span>    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">popef</span><span class="p">:</span>
+<span class="linenos">159</span>        <span class="n">run</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">popef</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="linenos">160</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos">161</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">onnx_model</span><span class="p">:</span>
+<span class="linenos">162</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No onnx model provided, run default model.&quot;</span><span class="p">)</span>
+<span class="linenos">163</span>            <span class="n">model</span> <span class="o">=</span> <span class="n">default_model</span><span class="p">()</span>
+<span class="linenos">164</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">165</span>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run onnx model </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">onnx_model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">166</span>            <span class="n">model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">onnx_model</span><span class="p">)</span>
+<span class="linenos">167</span>
+<span class="linenos">168</span>        <span class="n">converted_model</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="linenos">169</span>        <span class="n">executable</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">converted_model</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="linenos">170</span>        <span class="n">run</span><span class="p">(</span><span class="n">executable</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="_downloads/b4a5bffa11284e8cbde6fab61d7d3c98/convert_compile_and_run.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">convert_compile_and_run.py</span></code></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="2. Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="instructions.html" class="btn btn-neutral float-right" title="4. Command line interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+     
+    <script id="hs-script-loader" async defer src="//js.hs-scripts.com/729091.js"></script>
+    <script defer>
+        if (typeof mutationObserver !== 'undefined')
+            mutationObserver.observe(document.querySelector("div.rst-other-versions"), {childList: true, subtree: true})
+        if (typeof updateDocumentLinks !== 'undefined')
+            updateDocumentLinks()
+        let search = document.querySelector("form#rtd-search-form > input[name='q']")
+        if (document.location.pathname.startsWith("/projects/"))
+          search.placeholder = "Search this document";
+        else
+          search.placeholder = "Search all documents";
+    </script>
+
+
+</body>
+</html>

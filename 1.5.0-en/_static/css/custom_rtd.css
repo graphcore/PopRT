@@ -1,0 +1,690 @@
+/* Copyright (c) 2020 Graphcore Ltd. All rights reserved.
+   Override the sphinx-readthedocs-theme settings */
+
+/* GC FONTS */
+@font-face {
+  font-family: 'Graphik';
+  src: url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Regular-Web.eot");
+  src: url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Regular-Web.eot?#iefix") format("embedded-opentype"), url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Regular-Web.woff2") format("woff2"), url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Regular-Web.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Graphik';
+  src: url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Medium-Web.eot");
+  src: url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Medium-Web.eot?#iefix") format("embedded-opentype"), url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Medium-Web.woff2") format("woff2"), url("https://www.graphcore.ai/hubfs/assets/fonts/Graphik-Medium-Web.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GC Quantized';
+  src: url('https://www.graphcore.ai/hubfs/assets/fonts/Caslons Egyptian Pentagram Reg.eot');
+  src: url('https://www.graphcore.ai/hubfs/assets/fonts/Caslons Egyptian Pentagram Reg.eot?#iefix') format('embedded-opentype'),
+      url('https://www.graphcore.ai/hubfs/assets/fonts/Caslons Egyptian Pentagram Reg.woff2') format('woff2'),
+      url('https://www.graphcore.ai/hubfs/assets/fonts/Caslons Egyptian Pentagram Reg.woff') format('woff'),
+      url('https://www.graphcore.ai/hubfs/assets/fonts/Caslons Egyptian Pentagram Reg.ttf') format('truetype'),
+      url('https://www.graphcore.ai/hubfs/assets/fonts/Caslons Egyptian Pentagram Reg.svg#Caslons Egyptian Pentagram Reg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*  improve table layout, allowing cells to wrap */
+.rst-content table.docutils col {
+  width: auto;
+}
+.rst-content .wy-table-responsive table td,
+.rst-content .wy-table-responsive table th {
+  white-space: normal;
+  word-wrap: break-word;
+  border: solid 2px #e1e4e5;
+}
+.rst-content table.docutils tr > td {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.rst-content table.docutils.align-default {
+    margin-left: auto;
+    margin-right: auto;
+}
+th.head p {
+  margin-bottom: 0;
+}
+.rst-content .wy-table-responsive table td li,
+.rst-content .wy-table-responsive table td code,
+.rst-content .wy-table-responsive table td span.pre,
+.rst-content .wy-table-responsive table tr td p {
+    font-size: 0.9rem;
+
+
+}
+.rst-content .wy-table-responsive table td div,
+.rst-content .wy-table-responsive table td ul,
+.rst-content .wy-table-responsive table td ol.pre,
+.rst-content .wy-table-responsive table td code,
+.rst-content .wy-table-responsive table tr td p{
+  margin-bottom: 1em !important;
+}
+.rst-content .wy-table-responsive table td div:last-child,
+.rst-content .wy-table-responsive table td ul:last-child,
+.rst-content .wy-table-responsive table td ol.pre:last-child,
+.rst-content .wy-table-responsive table td code:last-child,
+.rst-content .wy-table-responsive table tr td p:last-child {
+  margin-bottom: 0px !important;
+}
+
+/* make image and table captions a sensible size and format */
+.wy-table-responsive table.docutils caption,
+.wy-table-responsive table.docutils caption span.caption-text,
+.rst-content div.code-block-caption,
+.rst-content figure figcaption,
+.rst-content figure figcaption span.caption-text {
+  font-size: 0.94rem;
+  color: #565656;
+  font-weight: 600;
+  font-style: normal;
+  font-family: "Graphik", "Lato", "Helvetica Neue", Arial, sans-serif;
+}
+.rst-content figure figcaption {
+  margin-top: 20px;
+}
+.rst-content figure.align-default {
+    text-align: center;
+}
+
+/* change background colour for code samples */
+
+div.highlight,
+.rst-content pre.literal-block,
+.rst-content pre.literal-block div[class^='highlight'],
+.rst-content div[class^='highlight'],
+.rst-content div[class^='highlight'] pre,
+.rst-content div[class^='highlight'] div[class^='highlight'],
+.rst-content div[class^='highlight'] td.code {
+  background-color: white ;
+  color: #292c31;
+}
+
+
+
+/* remove ugly top border from definition lists */
+.rst-content dl > dt {
+  border-top: none !important;
+}
+
+/* TABLET NAV BG */
+.wy-nav-top {
+  background: #292c31;
+}
+
+/* Style nav menu in Graphcore colours and fonts */
+
+.wy-menu-vertical li.toctree-l1 span.toctree-expand,
+.wy-menu-vertical li span.toctree-expand,
+.wy-menu-vertical li.on a span.toctree-expand,
+.wy-menu-vertical li a.current span.toctree-expand {
+  color: white;
+  visibility: visible;
+  display: inline-block;
+  mix-blend-mode: difference;
+}
+
+.fa-home:before, .icon-home:before {
+  display: none;
+}
+
+.btn {
+  font-family: "Graphik", "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+}
+
+input[type="button"], input[type="reset"], input[type="submit"],
+input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="date"], input[type="month"], input[type="time"], input[type="datetime"], input[type="datetime-local"], input[type="week"], input[type="number"], input[type="search"], input[type="tel"], input[type="color"] {
+  font-family: "Graphik", "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+}
+
+textarea {
+  font-family: "Graphik", "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+}
+
+a:link {
+  color: #ff6f79;
+}
+
+a:visited {
+  color: #ff6f79;
+}
+
+a:hover {
+  color: #fbc3aa;
+}
+
+a.icon,
+a.icon:visited,
+a.icon:hover,
+a.icon-home,
+a.icon-home:hover,
+a.icon-home:visited {
+  color: #FAF8F9;
+  font-weight: bold;
+}
+
+/* Next + Previous btns */
+a.btn.btn-neutral {
+  border: none;
+  box-shadow: none;
+  background: #FAF8F9 !important;
+  color: #292c31 !important;
+  border-radius: 0;
+  line-height: 1;
+  min-width: 150px;
+  padding: 11px;
+  text-align: left;
+  font-weight: bold;
+  border: 1px solid #eee;
+}
+a.btn.btn-neutral.float-left {
+text-align: right;
+}
+a.btn.btn-neutral > span.fa.fa-arrow-circle-right {
+display: inline-block;
+float: right;
+}
+a.btn.btn-neutral > span.fa.fa-arrow-circle-left {
+  display: inline-block;
+  float: left;
+}
+
+body {
+  font-family: "Graphik", "Lato", "Helvetica Neue", Arial, sans-serif;
+  color: #565656;
+}
+
+h1, h2, h3, h4, h5, h6, legend {
+  font-family: "Graphik", "Lato", "Helvetica Neue", Arial, sans-serif;
+  color: #292c31;
+}
+
+h1 {
+  text-transform: uppercase;
+  font-family: "GC Quantized", "Roboto Slab", "ff-tisa-web-pro", "Georgia", Arial, sans-serif;
+}
+
+/* inline code samples */
+.rst-content tt.literal, .rst-content tt.literal,
+.rst-content pre.literal-block, .rst-content .linenodiv pre,
+code, .rst-content tt, .rst-content code,
+.rst-content pre, .rst-content kbd, .rst-content samp,
+footer span.commit code, footer span.commit .rst-content tt, .rst-content footer span.commit tt {
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+  color: inherit;
+  font-size: 95%;
+  background: inherit;
+  border: none;
+}
+.rst-content code.docutils.literal:not(.download)  {
+  color: #292c31;
+  font-size: 95%;
+  white-space:normal;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.rst-content code.docutils.literal > span.pre {
+  font-weight: normal;
+}
+.rst-content kbd {
+  border: thin solid #edf0f2 !important;
+  border-radius: 6px;
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+}
+
+.rst-content code.docutils.literal.xref {
+    color: #e74c3c;
+  }
+
+  .rst-content a code.docutils.literal > span.pre {
+    color: #e74c3c;
+  }
+
+/* Highlighting links in nav menu */
+.wy-menu-vertical li.toctree-l1 >p,
+.wy-menu-vertical li.toctree-l1 >a,
+.wy-menu-vertical li.toctree-l1 >a:visited,
+.wy-menu-vertical .local-toc ul > li > a {
+  color: #FAF8F9;
+}
+
+.wy-menu-vertical div.local-toc > ul > li.current > a,
+.wy-menu-vertical div.local-toc > ul > li > a.current,
+.wy-menu-vertical div.local-toc > ul > li > a.reference.internal.current,
+.wy-menu-vertical li.toctree-l1.current a,
+.wy-menu-vertical li a,
+.wy-menu-vertical li p {
+    color: #292c31;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    line-height: 1.2;
+}
+
+.wy-menu-vertical li.current,
+.wy-menu-vertical li.current > ul > li > a,
+.wy-menu-vertical li > a.current {
+  color: #292c31;
+  background: #faf8f9;
+}
+
+.toctree-l1.current > a.reference.internal {
+  border-color: transparent;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: 5px solid #ff6f79;
+  padding-left: 19px;
+}
+
+.wy-menu-vertical li.current a {
+  border-right: none;
+}
+.wy-menu-vertical p,
+.wy-menu-vertical a {
+padding: 12px 14px;
+padding-left: 24px;
+}
+
+.wy-menu-vertical p {
+  font-size: 90%;
+  margin: 0;
+}
+
+.wy-menu-vertical li p,
+.wy-menu-vertical .local-toc ul > li:only-child > a {
+  color: #FAF8F9;
+}
+
+.wy-menu-vertical a:hover {
+  background: #ff6f79 !important;
+  color: #fff  !important;
+}
+
+/* Hide nav menu if there is only a single item */
+.wy-menu-vertical > .local-toc > ul:only-child > li:only-child > a:only-child  {
+  display: none !important;
+}
+
+.wy-menu-vertical li.toctree-l2.current li.toctree-l3>a,
+.wy-menu-vertical li.toctree-l3.current li.toctree-l4>a {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.wy-menu,
+.wy-menu-vertical,
+.wy-nav-side,
+.wy-side-nav-search {
+  background-color: #292c31;
+}
+
+.wy-side-nav-search {
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.wy-side-nav-search>a {
+  padding: 18px 40px;
+  text-align: left;
+  display: block;
+  margin-bottom: 0;
+}
+
+.wy-side-nav-search > a > img {
+  padding: 5px 0;
+}
+
+.wy-side-nav-search>div.version {
+  color: #FAF8F9;
+  text-align: center;
+  padding: 3px 10px 15px;
+  font-size: smaller;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-transform: capitalize;
+  background: rgb(250 248 249 / 4%);
+}
+
+.wy-side-nav-search .wy-dropdown>a.icon img.logo, .wy-side-nav-search>a.icon img.logo {
+    margin-top: 0;
+}
+
+form#rtd-search-form {
+  padding: 0;
+  /* padding-left: 10px;
+  padding-right: 10px; */
+  position: relative;
+}
+
+form#rtd-search-form > input:first-child{
+  border-radius: 0;
+  border-color: #eee;
+  height: 42px;
+  font-size: 15px;
+  padding-left: 53px;
+  box-shadow: none;
+}
+form#rtd-search-form::before {
+  content: '';
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56.53 55.83'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23ffffff;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EAsset 1%3C/title%3E%3Cg id='Layer_2' data-name='Layer 2'%3E%3Cg id='Layer_1-2' data-name='Layer 1'%3E%3Cpath class='cls-1' d='M23.92,6.52l7.2,7.2v10.2l-7.2,7.2H13.72l-7.2-7.2V13.72l7.2-7.2h10.2M26.62,0H11L0,11v15.6l11,11h15.6l11-11V11l-11-11Z'/%3E%3Crect class='cls-1' x='37.72' y='29.81' width='11.36' height='25.77' transform='translate(-17.48 43.2) rotate(-45)'/%3E%3Cpolygon class='cls-1' points='23.07 8.56 14.57 8.56 29.08 23.07 29.08 14.57 23.07 8.56'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 22px auto;
+  background-position: center;
+  background-color: #ff6f79;
+  width: 42px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+form#rtd-search-form > input:first-child:focus {
+    border: 1px solid #ff6f79;
+}
+/* ::placeholder {color: #ff6f79;} */
+.rst-content .sidebar .sidebar-title {
+  font-family: "GC Quantized", "Roboto Slab", "ff-tisa-web-pro", "Georgia", Arial, sans-serif;
+}
+
+.rst-content .footnote-reference, .rst-content .citation-reference {
+  vertical-align: super;
+}
+
+.rst-content table.docutils.citation, .rst-content table.docutils.footnote {
+  color: #999;
+}
+
+div#version-selector,
+.wy-breadcrumbs {
+  display: none;
+}
+
+/* Adds vertical space after a numbered list item */
+.rst-content .section ol li > p {
+  line-height: 20px;
+}
+
+/* Adds vertical space between numbered list items */
+.rst-content .section > ol > li {
+  margin-bottom: 4px;
+}
+
+.rst-content .section ol li > p:last-child,
+.rst-content .section p {
+  margin-bottom: 16px;
+}
+.rst-content .section ol li > p:first-child {
+  margin-bottom: 0px;
+}
+
+.rst-content .section ul li > p {
+  line-height: 20px;
+}
+
+/* Adds vertical space between bulleted list items */
+.rst-content .section > ul > li {
+  margin-bottom: 4px;
+}
+
+.rst-content .section ul li > p:last-child,
+.rst-content .section p {
+  margin-bottom: 16px;
+}
+.rst-content .section ul li > p:first-child {
+  margin-bottom: 0px;
+}
+
+footer {
+  margin-top: 60px;
+}
+footer p {
+  color: #565656;
+  font-size: 15px;
+}
+
+@media screen and (min-width: 1100px) {
+  .wy-nav-content {
+    min-height: 100vh;
+  }
+}
+/* Hide the link to GitHub */
+div.rst-other-versions dl:last-of-type {
+  visibility: hidden;
+}
+.rst-versions .rst-current-version {
+  color: #ff6f79;
+}
+.rst-versions.shift-up {
+  overflow-y: auto;
+}
+
+div[role="contentinfo"] {
+  display: none;
+}
+
+dl.cpp.enum,
+dl.cpp.struct,
+dl.cpp.function,
+dl.cpp.class {
+    border-left: thin solid #edf0f2;
+    /*
+    border-left: thin solid #565656;
+    border-bottom: thin solid #565656;
+    border-top: thin solid #565656;
+    */
+}
+dl.cpp > dl > dt,
+dl.cpp > dt {
+    border-top: none !important;
+}
+dl.cpp dt {
+    display: inline-block !important;
+}
+*/
+table.genindextable > tbody > tr > td > ul > li {
+  font-size: 75%;
+}
+.homelink {
+  padding: 12px 10px 5px;
+  text-align: center;
+  font-weight: bold;
+  border-top: 1px solid rgb(250 248 249 / 8%);
+  background: rgb(250 248 249 / 4%);
+}
+div.admonition {
+  padding: 12px;
+  border: thin solid #565656;
+  color: #565656 !important;
+  background-color: #FCFCFC  !important;
+}
+div.admonition > p.admonition-title {
+  margin: 0;
+  padding: 0 0 5px;
+  color: #565656  !important;
+  background-color: #FCFCFC  !important;
+}
+div.admonition > p.admonition-title::before {
+  color: #ff6f79  !important;
+}
+div.admonition.note {
+  border: thin solid #565656;
+}
+div.admonition.note > p.admonition-title::before {
+  color: #565656 !important;
+}
+div.admonition.warning {
+  border: thin solid #ff6f79;
+}
+div.admonition.warning > p.admonition-title::before {
+  color: #ff6f79 !important;
+}
+div.admonition.seealso {
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #565656;
+  background-color: inherit;
+}
+div.admonition.seealso > p.admonition-title {
+  font-size: 18px;
+  color: #565656;
+  background-color: inherit;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 16px;
+}
+div.admonition.seealso > p.admonition-title::before {
+  content:none;
+}
+div.admonition.seealso > p:not(.admonition-title) {
+  display:list-item;
+  margin-left: 24px;
+  line-height: 24px;
+  list-style-position: outside;
+  list-style-type: disc;
+}
+div.admonition.seealso > dl > dt {
+  width:fit-content;
+  margin-left: 24px;
+}
+div.admonition.seealso > dl > dd {
+  margin-left: 48px;
+}
+
+div#deprecated-functions > dl.page > dt {
+  display: none;
+}
+div#deprecated-functions > dl.page dd {
+  margin-left: 0px !important;
+}
+.strike {
+    text-decoration: line-through;
+}
+div.api-documentation h3,
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+table.nostripe td {
+  background-color: inherit !important;
+}
+dl.cpp code {
+    white-space: pre-line;
+}
+dl.cpp,
+div.section#python-api dl.py > dt,
+div.section#python-api dl.py span.pre,
+div.section#python-api dl.py a.reference.external {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+dl.py.property {
+    display: block !important;
+}
+body > div.rst-versions > span > span.fa.fa-book {
+    font-size: 16px;
+    font-weight: bold;
+}
+a.pep > strong {
+    font-weight: normal;
+}
+div.sphinx-tabs button.sphinx-tabs-tab {
+    color: #ff6f79;
+}
+div.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+}
+div.flex-box {
+    flex-basis: calc(100%/3 - 10px);
+    min-height: 150px;
+    padding: 15px;
+    background: #faf8f9;
+    border: 1px solid #eee;
+}
+div.flex-box > p {
+    font-size: 85%;
+}
+div.flex-box p:first-child {
+    font-size: 120%;
+}
+div.flex-box-folder {
+    border: 1px solid #ccc;
+}
+div.flex-box-folder p:first-child::before {
+    color: #aaa;
+    font-size: 100%;
+    margin-left: 3px;
+    display: block;
+    float: right;
+    content:"\f0a9";
+    font-family: FontAwesome;
+}
+.fa-after::after {
+    color: #b5e4eb;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    margin-left: 0.3em;
+}
+.fa-arrow-up-right-from-square-after::after {
+    content:"\f08e";
+}
+.fa-github-after::after {
+    content:"\f09b"
+}
+div.section#deprecated > dl > dd > dl > dt > span:first-child,
+div.section#deprecated > dl > dt {
+    display: none;
+    visibility: hidden;
+}
+span.guilabel {
+  background: #FAF8F9 !important;
+  white-space: nowrap;
+  border-color: grey !important;
+}
+div.toctree-wrapper > ul > li.toctree-l1 {
+  font-size: 120%;
+  list-style-type: none;
+  margin-left: 0px;
+  margin-top: 15px;
+}
+li.toctree-l1 select {
+  margin-right: 10px;
+}
+div.toctree-wrapper > ul > li.toctree-l1 > ul {
+  display: none;
+}
+span.fa-file-pdf {
+  color: #ff6f79;
+}
+l1.toctree-l1 code.docutils.literal,
+l1.toctree-l1 span.pre,
+h1 code.docutils.literal, h1 span.pre,
+h2 code.docutils.literal, h2 span.pre,
+h3 code.docutils.literal, h3 span.pre,
+h4 code.docutils.literal, h4 span.pre,
+h5 code.docutils.literal, h5 span.pre,
+h6 code.docutils.literal, h6 span.pre {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+details {
+  margin-bottom: 30px;
+}
